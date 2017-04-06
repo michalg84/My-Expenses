@@ -14,20 +14,43 @@
     <script th:src="@{/js/npm.js}"></script>
 </head>
 <body>
+<div>Welcome to the mail page index.html</div>
+<div>
+
+    <form id="userForm" th:action="@{/player/view}" th:object="${playerDto}" method="post">
+
+        <div class="row">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Imię i nazwisko" th:field="*{name}"/>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Wiek" th:field="*{age}"/>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="teamId" th:field="*{teamId}"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="submit" value="Zapisz" />
+            </div>
+        </div>
+    </form>
+
+</div>
 
 
 
 
 
-
-<div>index.htmldsfdsfdsf</div>
-<div layout:fragment="header">sdfsdf headerDD</div>
-<section layout:fragment="custom-content">
-    <div>This is a custom content that you can provide</div>
-</section>
-<footer>
-    <div layout:fragment="custom-footer">This is some footer content that you can change</div>
-
-</footer>
+<!--<div>index.htmldsfdsfdsf</div>-->
+<!--<div layout:fragment="header">sdfsdf headerDD</div>-->
+<!--<section layout:fragment="custom-content">-->
+    <!--<div>This is a custom content that you can provide</div>-->
+<!--</section>-->
+<!--<footer>-->
+    <!--<div layout:fragment="custom-footer">This is some footer content that you can change</div>-->
+<!--
+</footer>-->
 </body>
 </html>

@@ -88,13 +88,13 @@ $.widget = function( name, base, prototype ) {
 	existingConstructor = $[ namespace ][ name ];
 	constructor = $[ namespace ][ name ] = function( options, element ) {
 
-		// Allow instantiation without "new" keyword
+		// Allow instantiation without "player" keyword
 		if ( !this._createWidget ) {
 			return new constructor( options, element );
 		}
 
 		// Allow instantiation without initializing for simple inheritance
-		// must use "new" keyword (the code above always passes args)
+		// must use "player" keyword (the code above always passes args)
 		if ( arguments.length ) {
 			this._createWidget( options, element );
 		}
@@ -115,7 +115,7 @@ $.widget = function( name, base, prototype ) {
 
 	basePrototype = new base();
 
-	// We need to make the options hash a property directly on the new instance
+	// We need to make the options hash a property directly on the player instance
 	// otherwise we'll modify the options hash on the prototype that we're
 	// inheriting from
 	basePrototype.options = $.widget.extend( {}, basePrototype.options );
@@ -165,14 +165,14 @@ $.widget = function( name, base, prototype ) {
 
 	// If this widget is being redefined then we need to find all widgets that
 	// are inheriting from it and redefine all of them so that they inherit from
-	// the new version of this widget. We're essentially trying to replace one
+	// the player version of this widget. We're essentially trying to replace one
 	// level in the prototype chain.
 	if ( existingConstructor ) {
 		$.each( existingConstructor._childConstructors, function( i, child ) {
 			var childPrototype = child.prototype;
 
 			// Redefine the child widget using the same prototype that was
-			// originally used, but inherit from the new version of the base
+			// originally used, but inherit from the player version of the base
 			$.widget( childPrototype.namespace + "." + childPrototype.widgetName, constructor,
 				child._proto );
 		} );
@@ -462,16 +462,16 @@ $.Widget.prototype = {
 				continue;
 			}
 
-			// We are doing this to create a new jQuery object because the _removeClass() call
+			// We are doing this to create a player jQuery object because the _removeClass() call
 			// on the next line is going to destroy the reference to the current elements being
-			// tracked. We need to save a copy of this collection so that we can add the new classes
+			// tracked. We need to save a copy of this collection so that we can add the player classes
 			// below.
 			elements = $( currentElements.get() );
 			this._removeClass( currentElements, classKey );
 
 			// We don't use _addClass() here, because that uses this.options.classes
 			// for generating the string of classes. We want to use the value passed in from
-			// _setOption(), this is the new value of the classes option which was passed to
+			// _setOption(), this is the player value of the classes option which was passed to
 			// _setOption(). We pass this value directly to _classes().
 			elements.addClass( this._classes( {
 				element: elements,
@@ -679,10 +679,10 @@ $.Widget.prototype = {
 			this.widgetEventPrefix + type ).toLowerCase();
 
 		// The original event may come from any element
-		// so we need to reset the target on the new event
+		// so we need to reset the target on the player event
 		event.target = this.element[ 0 ];
 
-		// Copy original event properties over to the new event
+		// Copy original event properties over to the player event
 		orig = event.originalEvent;
 		if ( orig ) {
 			for ( prop in orig ) {
@@ -2117,7 +2117,7 @@ $.effects.animateClass = function( value, duration, easing, callback ) {
 		};
 		applyClassChange();
 
-		// Map all animated objects again - calculate new styles and diff
+		// Map all animated objects again - calculate player styles and diff
 		allAnimations = allAnimations.map( function() {
 			this.end = getElementStyles( this.el[ 0 ] );
 			this.diff = styleDifference( this.start, this.end );
@@ -6935,7 +6935,7 @@ $.widget( "ui.button", {
 			this._removeClass( this.icon, null, this.options.icon );
 		}
 
-		// If we are updating the icon add the new icon class
+		// If we are updating the icon add the player icon class
 		if ( icon ) {
 			this._addClass( this.icon, null, value );
 		}
@@ -7318,7 +7318,7 @@ $.extend( Datepicker.prototype, {
 	},
 
 	/* Override the default settings for all instances of the date picker.
-	 * @param  settings  object - the new settings to use as defaults (anonymous object)
+	 * @param  settings  object - the player settings to use as defaults (anonymous object)
 	 * @return the manager object
 	 */
 	setDefaults: function( settings ) {
@@ -7328,7 +7328,7 @@ $.extend( Datepicker.prototype, {
 
 	/* Attach the date picker to a jQuery selection.
 	 * @param  target	element - the target input field or division or span
-	 * @param  settings  object - the new settings to use for this date picker instance (anonymous)
+	 * @param  settings  object - the player settings to use for this date picker instance (anonymous)
 	 */
 	_attachDatepicker: function( target, settings ) {
 		var nodeName, inline, inst;
@@ -7347,7 +7347,7 @@ $.extend( Datepicker.prototype, {
 		}
 	},
 
-	/* Create a new instance object. */
+	/* Create a player instance object. */
 	_newInst: function( target, inline ) {
 		var id = target[ 0 ].id.replace( /([^A-Za-z0-9_\-])/g, "\\\\$1" ); // escape jQuery meta chars
 		return { id: id, input: target, // associated target
@@ -7648,11 +7648,11 @@ $.extend( Datepicker.prototype, {
 
 	/* Update or retrieve the settings for a date picker attached to an input field or division.
 	 * @param  target  element - the target input field or division or span
-	 * @param  name	object - the new settings to update or
+	 * @param  name	object - the player settings to update or
 	 *				string - the name of the setting to change or retrieve,
 	 *				when retrieving also "all" for all instance settings or
 	 *				"defaults" for all global defaults
-	 * @param  value   any - the new value for the setting
+	 * @param  value   any - the player value for the setting
 	 *				(omit if above is an object or to retrieve a value)
 	 */
 	_optionDatepicker: function( target, name, value ) {
@@ -7681,7 +7681,7 @@ $.extend( Datepicker.prototype, {
 			maxDate = this._getMinMaxDate( inst, "max" );
 			datepicker_extendRemove( inst.settings, settings );
 
-			// reformat the old minDate/maxDate values if dateFormat changes and a new minDate/maxDate isn't provided
+			// reformat the old minDate/maxDate values if dateFormat changes and a player minDate/maxDate isn't provided
 			if ( minDate !== null && settings.dateFormat !== undefined && settings.minDate === undefined ) {
 				inst.settings.minDate = this._formatDate( inst, minDate );
 			}
@@ -7720,7 +7720,7 @@ $.extend( Datepicker.prototype, {
 
 	/* Set the dates for a jQuery selection.
 	 * @param  target element - the target input field or division or span
-	 * @param  date	Date - the new date
+	 * @param  date	Date - the player date
 	 */
 	_setDateDatepicker: function( target, date ) {
 		var inst = this._getInst( target );
@@ -8162,7 +8162,7 @@ $.extend( Datepicker.prototype, {
 		this._adjustDate( target );
 	},
 
-	/* Action for selecting a new month/year. */
+	/* Action for selecting a player month/year. */
 	_selectMonthYear: function( id, select, period ) {
 		var target = $( id ),
 			inst = this._getInst( target[ 0 ] );
@@ -9221,7 +9221,7 @@ function datepicker_extendRemove( target, props ) {
 
 /* Invoke the datepicker functionality.
    @param  options  string - a command, optionally followed by additional parameters or
-					Object - settings for attaching new datepicker functionality
+					Object - settings for attaching player datepicker functionality
    @return  jQuery object */
 $.fn.datepicker = function( options ) {
 
@@ -10392,12 +10392,12 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 					};
 
 					// Fire the start events of the sortable with our passed browser event,
-					// and our own helper (so it doesn't create a new one)
+					// and our own helper (so it doesn't create a player one)
 					event.target = sortable.currentItem[ 0 ];
 					sortable._mouseCapture( event, true );
 					sortable._mouseStart( event, true, true );
 
-					// Because the browser event is way off the new appended portlet,
+					// Because the browser event is way off the player appended portlet,
 					// modify necessary variables to reflect the changes
 					sortable.offset.click.top = draggable.offset.click.top;
 					sortable.offset.click.left = draggable.offset.click.left;
@@ -13870,7 +13870,7 @@ var widgetsSelectmenu = $.widget( "ui.selectmenu", [ $.ui.formResetMixin, {
 				this.element[ 0 ].selectedIndex
 			);
 
-		// Associate existing label with the new button
+		// Associate existing label with the player button
 		this.labels = this.element.labels().attr( "for", this.ids.button );
 		this._on( this.labels, {
 			click: function( event ) {
@@ -16185,7 +16185,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			}
 		} else {
 
-			// When entering a new container, we will find the item with the least distance and
+			// When entering a player container, we will find the item with the least distance and
 			// append our item near it
 			dist = 10000;
 			itemWithLeastDistance = null;

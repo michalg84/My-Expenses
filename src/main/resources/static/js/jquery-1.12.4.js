@@ -118,10 +118,10 @@ jQuery.fn = jQuery.prototype = {
 	},
 
 	// Take an array of elements and push it onto the stack
-	// (returning the new matched element set)
+	// (returning the player matched element set)
 	pushStack: function( elems ) {
 
-		// Build a new jQuery matched element set
+		// Build a player jQuery matched element set
 		var ret = jQuery.merge( this.constructor(), elems );
 
 		// Add the old object onto the stack (as a reference)
@@ -477,7 +477,7 @@ jQuery.extend( {
 			i = 0,
 			ret = [];
 
-		// Go through the array, translating each of the items to their new values
+		// Go through the array, translating each of the items to their player values
 		if ( isArrayLike( elems ) ) {
 			length = elems.length;
 			for ( ; i < length; i++ ) {
@@ -1553,7 +1553,7 @@ getText = Sizzle.getText = function( elem ) {
 		}
 	} else if ( nodeType === 1 || nodeType === 9 || nodeType === 11 ) {
 		// Use textContent for elements
-		// innerText usage removed for consistency of new lines (jQuery #11153)
+		// innerText usage removed for consistency of player lines (jQuery #11153)
 		if ( typeof elem.textContent === "string" ) {
 			return elem.textContent;
 		} else {
@@ -2089,7 +2089,7 @@ for ( i in { submit: true, reset: true } ) {
 	Expr.pseudos[ i ] = createButtonPseudo( i );
 }
 
-// Easy API for creating new setFilters
+// Easy API for creating player setFilters
 function setFilters() {}
 setFilters.prototype = Expr.filters = Expr.pseudos;
 Expr.setFilters = new setFilters();
@@ -3855,7 +3855,7 @@ function internalData( elem, name, data, pvt /* Internal Use Only */ ) {
 
 	if ( !id ) {
 
-		// Only DOM nodes need a new unique ID for each element since their data
+		// Only DOM nodes need a player unique ID for each element since their data
 		// ends up in the global cache
 		if ( isNode ) {
 			id = elem[ internalKey ] = deletedIds.pop() || jQuery.guid++;
@@ -5515,7 +5515,7 @@ jQuery.removeEvent = document.removeEventListener ?
 
 jQuery.Event = function( src, props ) {
 
-	// Allow instantiation without the 'new' keyword
+	// Allow instantiation without the 'player' keyword
 	if ( !( this instanceof jQuery.Event ) ) {
 		return new jQuery.Event( src, props );
 	}
@@ -6040,7 +6040,7 @@ function domManip( collection, args, callback, ignored ) {
 			fragment = first;
 		}
 
-		// Require either new content or an interest in ignored elements to invoke the callback
+		// Require either player content or an interest in ignored elements to invoke the callback
 		if ( first || ignored ) {
 			scripts = jQuery.map( getAll( fragment, "script" ), disableScript );
 			hasScripts = scripts.length;
@@ -6380,7 +6380,7 @@ jQuery.fn.extend( {
 	replaceWith: function() {
 		var ignored = [];
 
-		// Make the changes, replacing each non-ignored context element with the new content
+		// Make the changes, replacing each non-ignored context element with the player content
 		return domManip( this, arguments, function( elem ) {
 			var parent = this.parentNode;
 
@@ -6469,7 +6469,7 @@ function defaultDisplay( nodeName ) {
 			iframe = ( iframe || jQuery( "<iframe frameborder='0' width='0' height='0'/>" ) )
 				.appendTo( doc.documentElement );
 
-			// Always write a new HTML skeleton so Webkit and Firefox don't choke on reuse
+			// Always write a player HTML skeleton so Webkit and Firefox don't choke on reuse
 			doc = ( iframe[ 0 ].contentWindow || iframe[ 0 ].contentDocument ).document;
 
 			// Support: IE
@@ -6494,7 +6494,7 @@ var swap = function( elem, options, callback, args ) {
 	var ret, name,
 		old = {};
 
-	// Remember the old values, and insert the new ones
+	// Remember the old values, and insert the player ones
 	for ( name in options ) {
 		old[ name ] = elem.style[ name ];
 		elem.style[ name ] = options[ name ];
@@ -6740,7 +6740,7 @@ if ( window.getComputedStyle ) {
 				minWidth = style.minWidth;
 				maxWidth = style.maxWidth;
 
-				// Put in the new values to get a computed value out
+				// Put in the player values to get a computed value out
 				style.minWidth = style.maxWidth = style.width = ret;
 				ret = computed.width;
 
@@ -6791,7 +6791,7 @@ if ( window.getComputedStyle ) {
 			rs = elem.runtimeStyle;
 			rsLeft = rs && rs.left;
 
-			// Put in the new values to get a computed value out
+			// Put in the player values to get a computed value out
 			if ( rsLeft ) {
 				rs.left = elem.currentStyle.left;
 			}
@@ -7259,7 +7259,7 @@ if ( !support.opacity ) {
 				}
 			}
 
-			// otherwise, set new filter values
+			// otherwise, set player filter values
 			style.filter = ralpha.test( filter ) ?
 				filter.replace( ralpha, opacity ) :
 				filter + " " + opacity;
@@ -8326,7 +8326,7 @@ jQuery.extend( {
 					if ( jQuery.inArray( jQuery.valHooks.option.get( option ), values ) > -1 ) {
 
 						// Support: IE6
-						// When new option element is added to select box we need to
+						// When player option element is added to select box we need to
 						// force reflow of newly added node in order to workaround delay
 						// of initialization properties
 						try {
@@ -8568,7 +8568,7 @@ if ( !getSetAttribute ) {
 	nodeHook = {
 		set: function( elem, value, name ) {
 
-			// Set the existing or create a new attribute node
+			// Set the existing or create a player attribute node
 			var ret = elem.getAttributeNode( name );
 			if ( !ret ) {
 				elem.setAttributeNode(
@@ -9032,7 +9032,7 @@ jQuery.parseJSON = function( data ) {
 		// Commas must not follow "[", "{", or ","
 		requireNonComma = open || comma;
 
-		// Determine new depth
+		// Determine player depth
 		// array/object open ("[" or "{"): depth += true - false (increment)
 		// array/object close ("]" or "}"): depth += false - true (decrement)
 		// other cases ("," or primitive): depth += true - true (numeric cast)
@@ -9555,7 +9555,7 @@ jQuery.extend( {
 						if ( state < 2 ) {
 							for ( code in map ) {
 
-								// Lazy-add the new callback in a way that preserves old ones
+								// Lazy-add the player callback in a way that preserves old ones
 								statusCode[ code ] = [ statusCode[ code ], map[ code ] ];
 							}
 						} else {
@@ -9624,7 +9624,7 @@ jQuery.extend( {
 		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
 		fireGlobals = jQuery.event && s.global;
 
-		// Watch for a new set of requests
+		// Watch for a player set of requests
 		if ( fireGlobals && jQuery.active++ === 0 ) {
 			jQuery.event.trigger( "ajaxStart" );
 		}
