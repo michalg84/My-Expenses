@@ -1,56 +1,43 @@
 <!DOCTYPE html>
-<html lang="pl"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="templates/layout.html">
-<meta charset="UTF-8"/>
+      layout:decorator="layout">
 <head>
-    <title>Home</title>
-    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-    <link th:rel="stylesheet" th:href="@{/css/bootstrap-theme.css}"/>
-    <script th:src="@{/js/jquery-1.12.4.js}"></script>
-    <script src="@{/js/jquery-ui.js}"></script>
-    <script th:src="@{/js/bootstrap.js}"></script>
-    <script th:src="@{/js/npm.js}"></script>
+    <title>Dodawanie użytkownika</title>
+
 </head>
 <body>
-<div>Welcome to the mail page index.html</div>
-<div>
+<div class="container">
 
-    <form id="userForm" th:action="@{/player/view}" th:object="${playerDto}" method="post">
+    <h1 layout:fragment="header">Dodawanie użytkownika</h1>
 
-        <div class="row">
-            <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Imię i nazwisko" th:field="*{name}"/>
+    <div layout:fragment="content" class="container">
+
+        <form th:action="@{addUser}" th:object="${userDto}" method="post">
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Imię" th:field="*{firstName}"/>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Nazwisko" th:field="*{lastName}"/>
+                </div>
             </div>
-            <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="Wiek" th:field="*{age}"/>
+            <div class="row">
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="Login" th:field="*{login}"/>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control" placeholder="E-mail" th:field="*{mail}"/>
+                </div>
             </div>
-            <div class="col-md-4">
-                <input type="text" class="form-control" placeholder="teamId" th:field="*{teamId}"/>
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="submit" value="Zapisz"/>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <input type="submit" value="Zapisz" />
-            </div>
-        </div>
-    </form>
+        </form>
+    </div> <!--content container-->
+</div> <!-- container-->
 
-</div>
-
-
-
-
-
-<!--<div>index.htmldsfdsfdsf</div>-->
-<!--<div layout:fragment="header">sdfsdf headerDD</div>-->
-<!--<section layout:fragment="custom-content">-->
-    <!--<div>This is a custom content that you can provide</div>-->
-<!--</section>-->
-<!--<footer>-->
-    <!--<div layout:fragment="custom-footer">This is some footer content that you can change</div>-->
-<!--
-</footer>-->
 </body>
 </html>
