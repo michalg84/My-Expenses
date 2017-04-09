@@ -20,15 +20,18 @@ public class User {
     private String login;
     @Column
     private String mail;
+    @Column
+    private String password;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String login, String mail) {
+    public User(String firstName, String lastName, String login, String mail, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.mail = mail;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -69,6 +72,14 @@ public class User {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
 

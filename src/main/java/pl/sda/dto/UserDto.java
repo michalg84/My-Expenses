@@ -10,16 +10,18 @@ public class UserDto {
     private String lastName;
     private String login;
     private String mail;
+    private String password;
 
     public UserDto() {
     }
 
-    public UserDto(Integer id, String firstName, String lastName, String login, String mail) {
+    public UserDto(Integer id, String firstName, String lastName, String login, String mail, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.mail = mail;
+        this.password = password;
     }
 
     public Integer getId() {
@@ -62,6 +64,14 @@ public class UserDto {
         this.mail = mail;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" +
@@ -70,6 +80,7 @@ public class UserDto {
                 ", lastName='" + lastName + '\'' +
                 ", login='" + login + '\'' +
                 ", mail='" + mail + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }

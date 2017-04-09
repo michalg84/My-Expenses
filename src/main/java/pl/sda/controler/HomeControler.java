@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.UserService.UserService;
+import pl.sda.service.UserService;
 import pl.sda.dto.UserDto;
 
 /**
@@ -18,26 +18,42 @@ public class HomeControler {
     @Autowired
     private UserService userService;
 
+
     /**
-     * Main page view.
-     * @param modelMap main page model
-     * @return model and view of main page.
+     * Opens Sign In page.
+     * @param modelMap
+     * @return
      */
     @GetMapping()
     public ModelAndView index(ModelMap modelMap) {
         modelMap.addAttribute("userDto", new UserDto());
         return new ModelAndView("home/index", modelMap);
-        //todo przerobić index.html na dodaj użytkownika
     }
 
-    @PostMapping("/addUser")
-    public ModelAndView view(@ModelAttribute("name = userDto") UserDto userDto) {
-        System.out.println(userDto);
-        userService.save(userDto);
-        ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute(userDto);
 
-        return new ModelAndView("/user/view", modelMap);
+    /**
+     * Checks password and loggs in.
+     * @param modelMap main page model
+     * @return model and view of main page.
+     */
+    @PostMapping("signIn")
+    public ModelAndView signIn(@ModelAttribute(name = "userDto") UserDto userDto, ModelMap modelMap){
+
+
+        return new ModelAndView("/user/userAccount", modelMap);
     }
+
+    /**
+     * redirects to page to add new user.
+     * @param modelMap
+     * @return
+     */
+    @RequestMapping("regiser")
+    public ModelAndView regiser(ModelMap modelMap){
+        modelMap.addAttribute("userDto", new UserDto());
+        return new ModelAndView("/user/addUser", modelMap);
+    }
+
+
 
 }
