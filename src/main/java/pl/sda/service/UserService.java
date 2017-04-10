@@ -1,5 +1,6 @@
 package pl.sda.service;
 
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.UserDto;
@@ -15,10 +16,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void save(UserDto userDto) {
-        User user = convertUserDtoToUser(userDto);
-        //todo: sprawdzić czy istnieje już taki login lub mail
-        userRepository.save(user);
+    public boolean save(UserDto userDto) {
+        if(getUserByLoginOrMail(userDto) != null) {
+            System.out.println("Taki użytkownik już istnieje");
+            return false;
+        }
+        else {
+
+            User user = convertUserDtoToUser(userDto);
+            user.setPassword(PasswordService.hashPassword(user.getPassword()));
+            userRepository.save(user);
+            System.out.println("Nie ma takiego użytkownika w bazie. Dodano użytkownika do bazy.");
+            return true;
+        }
     }
 
     public User getUserById(Integer id) {

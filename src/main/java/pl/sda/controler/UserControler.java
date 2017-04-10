@@ -35,7 +35,7 @@ public class UserControler {
             //TODO: wyświetlić komunikat o błędnym haśle.
             return new ModelAndView("user/userAccount", modelMap);
         } else {
-            userService.save(userDto);
+            Integer id = userService.save(userDto);
             userDto = userService.getUserByLoginOrMail(userDto);
 
             modelMap.addAttribute(userDto);
