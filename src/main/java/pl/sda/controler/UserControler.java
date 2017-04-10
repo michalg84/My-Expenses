@@ -20,22 +20,19 @@ public class UserControler {
     @Autowired
     private UserService userService;
 
-
-
-
-
     /**
      * Adds user to DB
+     *
      * @param userDto
      * @return user acount view page.
      */
     @PostMapping("/addUser")
-    public ModelAndView view(@ModelAttribute(name = "userDto") UserDto userDto) {
+    public ModelAndView addUser(@ModelAttribute(name = "userDto") UserDto userDto) {
         System.out.println(userDto);
-        userService.save(userDto);
         ModelMap modelMap = new ModelMap();
         modelMap.addAttribute(userDto);
 
-        return new ModelAndView("TODO", modelMap);
+        userService.save(userDto);
+        return new ModelAndView("user/userAccount", modelMap);
     }
 }

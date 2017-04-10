@@ -11,17 +11,19 @@ public class UserDto {
     private String login;
     private String mail;
     private String password;
+    private String confirmPassword;
 
     public UserDto() {
     }
 
-    public UserDto(Integer id, String firstName, String lastName, String login, String mail, String password) {
+    public UserDto(Integer id, String firstName, String lastName, String login, String mail, String password, String confirmPassword) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.mail = mail;
         this.password = password;
+        this.confirmPassword = confirmPassword;
     }
 
     public Integer getId() {
@@ -72,6 +74,14 @@ public class UserDto {
         this.password = password;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     @Override
     public String toString() {
         return "UserDto{" +
@@ -81,6 +91,7 @@ public class UserDto {
                 ", login='" + login + '\'' +
                 ", mail='" + mail + '\'' +
                 ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
                 '}';
     }
 }

@@ -21,6 +21,7 @@ public class HomeControler {
 
     /**
      * Opens Sign In page.
+     *
      * @param modelMap
      * @return
      */
@@ -33,27 +34,27 @@ public class HomeControler {
 
     /**
      * Checks password and loggs in.
+     *
      * @param modelMap main page model
      * @return model and view of main page.
      */
     @PostMapping("signIn")
-    public ModelAndView signIn(@ModelAttribute(name = "userDto") UserDto userDto, ModelMap modelMap){
+    public ModelAndView signIn(@ModelAttribute(name = "userDto") UserDto userDto, ModelMap modelMap) {
 
-
+//TODO: dodać sprawdzanie z bazą danych i pobranie danych użytkownika z bazy.
         return new ModelAndView("/user/userAccount", modelMap);
     }
 
     /**
-     * redirects to page to add new user.
-     * @param modelMap
-     * @return
+     * Redirects to page to add new user.
+     * @return regiser page with userDto object.
      */
     @RequestMapping("regiser")
-    public ModelAndView regiser(ModelMap modelMap){
+    public ModelAndView regiser() {
+        ModelMap modelMap = new ModelMap();
         modelMap.addAttribute("userDto", new UserDto());
         return new ModelAndView("/user/addUser", modelMap);
     }
-
 
 
 }
