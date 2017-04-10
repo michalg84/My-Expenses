@@ -23,16 +23,23 @@ public class UserControler {
     /**
      * Adds user to DB
      *
-     * @param userDto
+     * @param userDto is taken form addUser.html using @ModelAttribute.
      * @return user acount view page.
      */
     @PostMapping("/addUser")
     public ModelAndView addUser(@ModelAttribute(name = "userDto") UserDto userDto) {
         System.out.println(userDto);
         ModelMap modelMap = new ModelMap();
-        modelMap.addAttribute(userDto);
+        if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
+            modelMap.addAttribute(userDto);
+            //TODO: wyświetlić komunikat o błędnym haśle.
+            return new ModelAndView("user/userAccount", modelMap);
+        } else {
+            userService.save(userDto);
+            userDto = userService.getUserByLoginOrMail(userDto);
 
-        userService.save(userDto);
+            modelMap.addAttribute(userDto);
+        }
         return new ModelAndView("user/userAccount", modelMap);
     }
 }
