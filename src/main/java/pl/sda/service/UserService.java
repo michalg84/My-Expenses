@@ -1,6 +1,5 @@
 package pl.sda.service;
 
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.UserDto;
@@ -16,18 +15,23 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    /**
+     * Saves User o DB unlees such user exists.
+     *
+     * @param userDto UserDto to be save in DB.
+     * @return true if such user exists, false if does not.
+     */
     public boolean save(UserDto userDto) {
-        if(getUserByLoginOrMail(userDto) != null) {
+        if (getUserDtoByMail(userDto.getMail()) != null) {
             System.out.println("Taki użytkownik już istnieje");
-            return false;
-        }
-        else {
-
+            //todo: wiadomość że taki użytkownik już istnieje.
+            return true;
+        } else {
             User user = convertUserDtoToUser(userDto);
             user.setPassword(PasswordService.hashPassword(user.getPassword()));
             userRepository.save(user);
             System.out.println("Nie ma takiego użytkownika w bazie. Dodano użytkownika do bazy.");
-            return true;
+            return false;
         }
     }
 
@@ -35,17 +39,27 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
-    public UserDto getUserByLoginOrMail(UserDto userDto) {
-        User user = convertUserDtoToUser(userDto);
-        if (user.getLogin() != null || user.getLogin().isEmpty()) {
-            return convertUserToUserDto(userRepository.getUserByLogin(user.getLogin()));
-        } else if (user.getMail() != null || user.getMail().isEmpty()) {
-            return convertUserToUserDto(userRepository.getUserByMail(user.getMail()));
-        } else
-            throw new NullPointerException("Lola login i mail nie mogą być puste.");
-
+    public UserDto getUserDtoByMail(String mail) {
+        if (mail == null || mail.isEmpty())
+            throw new NullPointerException("Mail nie może być pusty.");
+        else
+            return convertUserToUserDto( userRepository.getUserByMail(mail));
     }
 
+
+    public boolean checkPassword(String mail, String password) {
+        User user;
+        try {
+            user = userRepository.getUserByMail(mail);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Nie ma takiego użytkownika  bazie");
+        }
+        String hashedPassword = PasswordService.hashPassword(password);
+        if (hashedPassword.equals(user.getPassword()))
+            return true;
+        return false;
+
+    }
 
     /**
      * Converts UserDto object to User object
@@ -54,6 +68,9 @@ public class UserService {
      * @return User Object.
      */
     private User convertUserDtoToUser(UserDto userDto) {
+//        if (userDto == null) {
+//            return null;
+//        }
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -72,7 +89,8 @@ public class UserService {
      */
     private UserDto convertUserToUserDto(User user) {
         UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
+        if (user == null)
+            return null;
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setLogin(user.getLogin());
@@ -80,5 +98,4 @@ public class UserService {
         userDto.setPassword(user.getPassword());
         return userDto;
     }
-
 }

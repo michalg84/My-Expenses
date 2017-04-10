@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import pl.sda.dto.MessageDto;
 import pl.sda.dto.UserDto;
 import pl.sda.service.UserService;
 
@@ -27,19 +28,33 @@ public class UserControler {
      * @return user acount view page.
      */
     @PostMapping("/addUser")
-    public ModelAndView addUser(@ModelAttribute(name = "userDto") UserDto userDto) {
+    public ModelAndView addUser(@ModelAttribute(name = "userDto") UserDto userDto,
+                                @ModelAttribute(name = "messageDto") MessageDto messageDto) {
         System.out.println(userDto);
         ModelMap modelMap = new ModelMap();
         if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
             modelMap.addAttribute(userDto);
+            messageDto.setMsg("Podano błędne hasło");
+            modelMap.addAttribute("messageDto", messageDto);
             //TODO: wyświetlić komunikat o błędnym haśle.
-            return new ModelAndView("user/userAccount", modelMap);
+            System.out.println("wpisano błędne hasło");
+            return new ModelAndView("redirect:/regiser", modelMap);
         } else {
-            Integer id = userService.save(userDto);
-            userDto = userService.getUserByLoginOrMail(userDto);
+            boolean suchUserExists = userService.save(userDto);
+            if (suchUserExists) {
+                //todo: wyświetlić komunikat że taki użytkonik już istnieje
+                System.out.println("Taki użytkownik już istnieje");
+                messageDto.setMsg("Taki login lub mail jest już zajęty");
+                modelMap.addAttribute("messageDto", messageDto);
+                modelMap.addAttribute("userDto", userDto);
+                return new ModelAndView("redirect:/regiser", modelMap);
 
-            modelMap.addAttribute(userDto);
+            } else {
+                System.out.println("Użytkownik zapisany do bazy");
+                userService.getUserDtoByMail(userDto.getMail());
+                modelMap.addAttribute(userDto);
+                return new ModelAndView("user/userAccount", modelMap);
+            }
         }
-        return new ModelAndView("user/userAccount", modelMap);
     }
 }

@@ -16,6 +16,8 @@
 <h1 layout:fragment="header" th:if="false">Brak nagłówka</h1>
 
 <div layout:fragment="content" class="container">
+    <div  th:text="${messageDto.msg}" class="form-control alert alert-danger" role="alert">alert</div>
+
     <form th:object="${userDto}" th:action="@{user/addUser}" method="post">
         <div class="row">
             <div class="col-md-3">

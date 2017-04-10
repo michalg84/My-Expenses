@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.sda.dto.MessageDto;
 import pl.sda.service.UserService;
 import pl.sda.dto.UserDto;
 
@@ -40,9 +41,12 @@ public class HomeControler {
      */
     @PostMapping("signIn")
     public ModelAndView signIn(@ModelAttribute(name = "userDto") UserDto userDto, ModelMap modelMap) {
-
-//TODO: dodać sprawdzanie z bazą danych i pobranie danych użytkownika z bazy.
-        return new ModelAndView("/user/userAccount", modelMap);
+        boolean ifPasswordIsCorrect = userService.checkPassword(userDto.getMail(), userDto.getPassword());
+        if(ifPasswordIsCorrect)
+            return new ModelAndView("/user/userAccount", modelMap);
+        else
+            modelMap.addAttribute("messageDto", new MessageDto("Podane hasło lub login jest błędny"));
+        return new ModelAndView("redirect:/", modelMap);
     }
 
     /**
@@ -50,9 +54,9 @@ public class HomeControler {
      * @return regiser page with userDto object.
      */
     @RequestMapping("regiser")
-    public ModelAndView regiser() {
-        ModelMap modelMap = new ModelMap();
+    public ModelAndView regiser(ModelMap modelMap) {
         modelMap.addAttribute("userDto", new UserDto());
+        modelMap.addAttribute("messageDto", new MessageDto(""));
         return new ModelAndView("/user/addUser", modelMap);
     }
 
