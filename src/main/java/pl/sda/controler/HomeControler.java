@@ -42,21 +42,24 @@ public class HomeControler {
     @PostMapping("signIn")
     public ModelAndView signIn(@ModelAttribute(name = "userDto") UserDto userDto, ModelMap modelMap) {
         boolean ifPasswordIsCorrect = userService.checkPassword(userDto.getMail(), userDto.getPassword());
-        if(ifPasswordIsCorrect)
-            return new ModelAndView("/user/userAccount", modelMap);
-        else
+        if (ifPasswordIsCorrect) {
+            userDto = userService.getUserDtoByMail(userDto.getMail());
+            modelMap.addAttribute("userDto", userDto);
+            return new ModelAndView("redirect:/user/userAccount", modelMap);
+        } else {
             modelMap.addAttribute("messageDto", new MessageDto("Podane hasło lub login jest błędny"));
+        }
         return new ModelAndView("redirect:/", modelMap);
     }
 
     /**
      * Redirects to page to add new user.
+     *
      * @return regiser page with userDto object.
      */
     @RequestMapping("regiser")
     public ModelAndView regiser(ModelMap modelMap) {
         modelMap.addAttribute("userDto", new UserDto());
-        modelMap.addAttribute("messageDto", new MessageDto(""));
         return new ModelAndView("/user/addUser", modelMap);
     }
 

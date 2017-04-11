@@ -4,19 +4,13 @@
       layout:decorator="layout">
 <head>
     <title>Dodawanie użytkownika</title>
-    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-    <link th:rel="stylesheet" th:href="@{/css/bootstrap-theme.css}"/>
-    <script th:src="@{/js/jquery-1.12.4.js}"></script>
-    <script th:src="@{/js/jquery-ui.js}"></script>
-    <script th:src="@{/js/bootstrap.js}"></script>
-    <script th:src="@{/js/npm.js}"></script>
+
 </head>
 <body>
 <nav layout:fragment="navbar" th:if="false">Brak paska nawigacyjnego</nav>
 <h1 layout:fragment="header" th:if="false">Brak nagłówka</h1>
 
 <div layout:fragment="content" class="container">
-    <div  th:text="${messageDto.msg}" class="form-control alert alert-danger" role="alert">alert</div>
 
     <form th:object="${userDto}" th:action="@{user/addUser}" method="post">
         <div class="row">

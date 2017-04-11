@@ -4,13 +4,9 @@
       layout:decorator="layout">
 <head>
     <title>index.html</title>
-    <link rel="stylesheet" th:href="@{/css/signin.css}"/>
-    <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-    <link th:rel="stylesheet" th:href="@{/css/bootstrap-theme.css}"/>
-    <script th:src="@{/js/jquery-1.12.4.js}"></script>
-    <script th:src="@{/js/jquery-ui.js}"></script>
-    <script th:src="@{/js/bootstrap.js}"></script>
-    <script th:src="@{/js/npm.js}"></script>
+    <link rel="stylesheet" href="../static/css/signin.css"
+          th:rel="stylesheet" th:href="@{/css/signin.css}"/>
+
 </head>
 <body>
 <nav layout:fragment="navbar" th:if="false">Brak paska nawigacyjnego</nav>

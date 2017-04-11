@@ -22,44 +22,45 @@ public class UserService {
      * @return true if such user exists, false if does not.
      */
     public boolean save(UserDto userDto) {
-        if (getUserDtoByMail(userDto.getMail()) != null) {
-            System.out.println("Taki użytkownik już istnieje");
-            //todo: wiadomość że taki użytkownik już istnieje.
-            return true;
-        } else {
-            User user = convertUserDtoToUser(userDto);
-            user.setPassword(PasswordService.hashPassword(user.getPassword()));
-            userRepository.save(user);
-            System.out.println("Nie ma takiego użytkownika w bazie. Dodano użytkownika do bazy.");
-            return false;
-        }
+        User user = convertUserDtoToUser(userDto);
+        user.setPassword(PasswordService.hashPassword(user.getPassword()));
+        userRepository.save(user);
+        System.out.println("Nie ma takiego użytkownika w bazie. Dodano użytkownika do bazy.");
+        return false;
     }
 
-    public User getUserById(Integer id) {
-        return userRepository.findOne(id);
+    /**
+     * Checks if password is equal with password in DB.
+     *
+     * @param mail     used to find user in DB.
+     * @param password give by user during loging in.
+     * @return True if password is equal, otherwise returns false.
+     */
+    public boolean checkPassword(String mail, String password) {
+        User user = userRepository.getUserByMail(mail);
+        return PasswordService.checkPassword(password, user.getPassword());
+
     }
 
+    /**
+     * Finds a User in DB by UserDto e-mail.
+     *
+     * @param mail
+     * @return UserDto from DB or NullPointerException.
+     */
     public UserDto getUserDtoByMail(String mail) {
         if (mail == null || mail.isEmpty())
             throw new NullPointerException("Mail nie może być pusty.");
-        else
-            return convertUserToUserDto( userRepository.getUserByMail(mail));
-    }
-
-
-    public boolean checkPassword(String mail, String password) {
-        User user;
-        try {
-            user = userRepository.getUserByMail(mail);
-        } catch (NullPointerException e) {
-            throw new NullPointerException("Nie ma takiego użytkownika  bazie");
+        else {
+            try {
+                UserDto userDto = convertUserToUserDto(userRepository.getUserByMail(mail));
+                return userDto;
+            } catch (NullPointerException e) {
+                throw new NullPointerException("Nie znaleziono takiego użytkownika w bazie");
+            }
         }
-        String hashedPassword = PasswordService.hashPassword(password);
-        if (hashedPassword.equals(user.getPassword()))
-            return true;
-        return false;
-
     }
+
 
     /**
      * Converts UserDto object to User object
@@ -68,9 +69,6 @@ public class UserService {
      * @return User Object.
      */
     private User convertUserDtoToUser(UserDto userDto) {
-//        if (userDto == null) {
-//            return null;
-//        }
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -88,14 +86,33 @@ public class UserService {
      * is returned as null cause it's requiered only for registration.
      */
     private UserDto convertUserToUserDto(User user) {
-        UserDto userDto = new UserDto();
         if (user == null)
             return null;
+        UserDto userDto = new UserDto();
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setLogin(user.getLogin());
         userDto.setMail(user.getMail());
         userDto.setPassword(user.getPassword());
         return userDto;
+    }
+
+    /**
+     * Checks if user with such e-mail exists in DB.
+     *
+     * @param userDto
+     * @return false if User with such e-mail doesn't exists. true is exists.
+     */
+    public boolean checkIfSuchUserExistsInDb(UserDto userDto) {
+        return getUserDtoByMail(userDto.getMail()) != null;
+    }
+
+    public UserDto findById(Integer id) {
+        try {
+            UserDto userDto = convertUserToUserDto(userRepository.getOne(id));
+            return userDto;
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Nie znaleziono takiego użytkownika po Id");
+        }
     }
 }

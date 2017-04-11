@@ -2,13 +2,13 @@ package pl.sda.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.MessageDto;
 import pl.sda.dto.UserDto;
+import pl.sda.model.User;
 import pl.sda.service.UserService;
 
 /**
@@ -21,6 +21,13 @@ public class UserControler {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/userAccount/{id}")
+    public ModelAndView userAccount(@PathVariable("id") Integer id, ModelMap modelMap) {
+        UserDto userDto = userService.findById(id);
+        modelMap.addAttribute("userDto", userDto);
+        return new ModelAndView("user/userAccount", modelMap);
+    }
+
     /**
      * Adds user to DB
      *
@@ -28,30 +35,27 @@ public class UserControler {
      * @return user acount view page.
      */
     @PostMapping("/addUser")
-    public ModelAndView addUser(@ModelAttribute(name = "userDto") UserDto userDto,
-                                @ModelAttribute(name = "messageDto") MessageDto messageDto) {
+    public ModelAndView addUser(@ModelAttribute(name = "userDto") UserDto userDto) {
         System.out.println(userDto);
         ModelMap modelMap = new ModelMap();
+        //Sprawdzenie czy hasło i potwierdznie hasła podane przy rejestracji są różne.
         if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
             modelMap.addAttribute(userDto);
-            messageDto.setMsg("Podano błędne hasło");
-            modelMap.addAttribute("messageDto", messageDto);
             //TODO: wyświetlić komunikat o błędnym haśle.
-            System.out.println("wpisano błędne hasło");
             return new ModelAndView("redirect:/regiser", modelMap);
         } else {
-            boolean suchUserExists = userService.save(userDto);
-            if (suchUserExists) {
+            //Jeśli hasła się zgadzają, sprawdzamy cyz nie istnieje już taki użytkownik w bazie.
+            if (userService.checkIfSuchUserExistsInDb(userDto)) {
                 //todo: wyświetlić komunikat że taki użytkonik już istnieje
-                System.out.println("Taki użytkownik już istnieje");
-                messageDto.setMsg("Taki login lub mail jest już zajęty");
-                modelMap.addAttribute("messageDto", messageDto);
+
                 modelMap.addAttribute("userDto", userDto);
                 return new ModelAndView("redirect:/regiser", modelMap);
 
             } else {
-                System.out.println("Użytkownik zapisany do bazy");
-                userService.getUserDtoByMail(userDto.getMail());
+                //Zapis odo Bbazy.
+                userService.save(userDto);
+                //Pobranie użytkownika z bazy wraz z jego Id.
+                userDto = userService.getUserDtoByMail(userDto.getMail());
                 modelMap.addAttribute(userDto);
                 return new ModelAndView("user/userAccount", modelMap);
             }
