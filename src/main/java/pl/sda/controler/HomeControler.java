@@ -45,9 +45,9 @@ public class HomeControler {
         if (ifPasswordIsCorrect) {
             userDto = userService.getUserDtoByMail(userDto.getMail());
             modelMap.addAttribute("userDto", userDto);
-            return new ModelAndView("redirect:/user/userAccount", modelMap);
+            return new ModelAndView("redirect:/user/userAccount/" + userDto.getId(), modelMap);
         } else {
-            modelMap.addAttribute("messageDto", new MessageDto("Podane hasło lub login jest błędny"));
+                //todo dodać wiadomość błędu
         }
         return new ModelAndView("redirect:/", modelMap);
     }

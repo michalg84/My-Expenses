@@ -57,7 +57,7 @@ public class UserControler {
                 //Pobranie użytkownika z bazy wraz z jego Id.
                 userDto = userService.getUserDtoByMail(userDto.getMail());
                 modelMap.addAttribute(userDto);
-                return new ModelAndView("user/userAccount", modelMap);
+                return new ModelAndView("user/userAccount/", modelMap);
             }
         }
     }

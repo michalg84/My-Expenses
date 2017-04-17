@@ -45,7 +45,7 @@ public class UserService {
     /**
      * Finds a User in DB by UserDto e-mail.
      *
-     * @param mail
+     * @param mail users e-mail.
      * @return UserDto from DB or NullPointerException.
      */
     public UserDto getUserDtoByMail(String mail) {
@@ -53,8 +53,7 @@ public class UserService {
             throw new NullPointerException("Mail nie może być pusty.");
         else {
             try {
-                UserDto userDto = convertUserToUserDto(userRepository.getUserByMail(mail));
-                return userDto;
+                return convertUserToUserDto(userRepository.getUserByMail(mail));
             } catch (NullPointerException e) {
                 throw new NullPointerException("Nie znaleziono takiego użytkownika w bazie");
             }
@@ -70,6 +69,7 @@ public class UserService {
      */
     private User convertUserDtoToUser(UserDto userDto) {
         User user = new User();
+        user.setId(userDto.getId());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setLogin(userDto.getLogin());
@@ -89,6 +89,7 @@ public class UserService {
         if (user == null)
             return null;
         UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setLogin(user.getLogin());
@@ -109,8 +110,7 @@ public class UserService {
 
     public UserDto findById(Integer id) {
         try {
-            UserDto userDto = convertUserToUserDto(userRepository.getOne(id));
-            return userDto;
+            return convertUserToUserDto(userRepository.getOne(id));
         } catch (NullPointerException e) {
             throw new NullPointerException("Nie znaleziono takiego użytkownika po Id");
         }
