@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<meta charset="UTF-8"/>
+<head>
+    <title>Transaction list</title>
+
+</head>
+<body>
+<div class="container">
+
+    <h1 layout:fragment="header">Transaction list</h1>
+
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-md-2">Login:</div>
+            <div class="col-md-2" th:text="${userDto.login} ">login</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">Imię i Nazwisko:</div>
+            <div class="col-md-2" th:text="${userDto.firstName} + ' ' + ${userDto.lastName}">imie i nazwisko użytkownika</div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">E-mail: </div>
+            <div class="col-md-2" th:text="${userDto.mail}">nazwisko z bazy
+            </div>
+        </div>
+
+    </div> <!--end of content-->
+
+</div> <!--end of container-->
+</body>
+</html>

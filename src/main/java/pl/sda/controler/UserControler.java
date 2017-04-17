@@ -7,9 +7,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.MessageDto;
+import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
 import pl.sda.model.User;
+import pl.sda.service.TransactionService;
 import pl.sda.service.UserService;
+
+import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-04-09.
@@ -20,6 +24,8 @@ public class UserControler {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private TransactionService transactionService;
 
     @GetMapping("/userAccount/{id}")
     public ModelAndView userAccount(@PathVariable("id") Integer id, ModelMap modelMap) {
@@ -28,13 +34,27 @@ public class UserControler {
         return new ModelAndView("user/userAccount", modelMap);
     }
 
+    @PostMapping("transactionList")
+    public ModelAndView transactionList(@PathVariable("id") Integer id, ModelMap modelMap) {
+        UserDto userDto = userService.findById(id);
+        List<TransactionDto> transactionDtoList = transactionService.getByUserId(id);
+        modelMap.addAttribute("userDto", userDto);
+        modelMap.addAttribute("transactionDtoList", transactionDtoList);
+        //TODO: zbudować strone i przekazać do niej wyniki.
+        return new ModelAndView("user/list", modelMap);
+
+    }
+
+
+
+
     /**
      * Adds user to DB
      *
      * @param userDto is taken form addUser.html using @ModelAttribute.
      * @return user acount view page.
      */
-    @PostMapping("/addUser")
+    @RequestMapping("/addUser")
     public ModelAndView addUser(@ModelAttribute(name = "userDto") UserDto userDto) {
         System.out.println(userDto);
         ModelMap modelMap = new ModelMap();

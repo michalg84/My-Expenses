@@ -1,33 +1,30 @@
-package pl.sda.model;
+package pl.sda.dto;
 
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by Michał Gałka on 2017-04-17.
  */
-@Entity
-public class Transaction {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
-    @Column
+public class TransactionDto {
+    private Integer id;
     private Integer userId;
-    @Column
     private String account; //TODO zamianić na klase
-    @Column
     private BigDecimal amount;
-    @Column
     private String fromAccount;
-    @Column
     private String toAccount;
-    @Column
-    @Temporal(TemporalType.TIMESTAMP)
     private Date transDate;
 
-    public Transaction() {
+    public TransactionDto() {
+
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getUserId() {
@@ -36,14 +33,6 @@ public class Transaction {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
-    }
-
-    public Integer getId() {
-        return Id;
-    }
-
-    public void setId(Integer id) {
-        Id = id;
     }
 
     public String getAccount() {
