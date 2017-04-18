@@ -6,6 +6,8 @@ import pl.sda.dto.TransactionDto;
 import pl.sda.model.Transaction;
 import pl.sda.repository.TransactionRepository;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,8 +20,23 @@ public class TransactionService {
 
 
     public List<TransactionDto> getByUserId(Integer id) {
-        List<Transaction> list = transactionRepository.findAllUsersTransacrions(id);
+        List<Transaction> list = transactionRepository.findAll();
+//                findAllUsersTransactions(id);
+        List<TransactionDto> listDto = new ArrayList<>();
+        for (Transaction t : list) {
+            TransactionDto transactionDto = new TransactionDto();
+            transactionDto.setAccount(t.getAccount());
+            transactionDto.setAmount(t.getAmount());
+            transactionDto.setFromAccount(t.getFromAccount());
+            transactionDto.setId(t.getId());
+            transactionDto.setToAccount(t.getToAccount());
+            transactionDto.setTransDate(new Date());
+            transactionDto.setUserId(t.getUserId());
+            listDto.add(transactionDto);
+        }
+
 //        TODO:konwersja trans... na transDto w liście
-        return null;
+
+        return listDto;
     }
 }

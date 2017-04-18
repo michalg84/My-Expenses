@@ -13,22 +13,28 @@
     <h1 layout:fragment="header">Transaction list</h1>
 
     <div layout:fragment="content">
-        <div class="row">
-            <div class="col-md-2">Login:</div>
-            <div class="col-md-2" th:text="${userDto.login} ">login</div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-2">Imię i Nazwisko:</div>
-            <div class="col-md-2" th:text="${userDto.firstName} + ' ' + ${userDto.lastName}">imie i nazwisko użytkownika</div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">E-mail: </div>
-            <div class="col-md-2" th:text="${userDto.mail}">nazwisko z bazy
-            </div>
-        </div>
+        <table class="table table-bordered table-striped">
+            <thead>
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            </thead>
+            <tbody>
+            <!--<tr th:if="${searchDto.resultList.empty}">-->
+                <!--<td colspan="3">Brak wyników</td>-->
+            <!--</tr>-->
+            <tr th:each="transactionDto  : ${transactionDtoList}">
+                <td th:text="${transactionDto.amount}">1</td>
+                <td th:text="${transactionDto.toAccount}"> The summary </td>
+                <td th:text="${transactionDto.fromAccount}"> The summary </td>
+            </tr>
+            </tbody>
+        </table>
 
     </div> <!--end of content-->
+
 
 </div> <!--end of container-->
 </body>

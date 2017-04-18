@@ -34,19 +34,15 @@ public class UserControler {
         return new ModelAndView("user/userAccount", modelMap);
     }
 
-    @PostMapping("transactionList")
-    public ModelAndView transactionList(@PathVariable("id") Integer id, ModelMap modelMap) {
-        UserDto userDto = userService.findById(id);
-        List<TransactionDto> transactionDtoList = transactionService.getByUserId(id);
+    @GetMapping("/transactionList")
+    public ModelAndView transactionList(ModelMap modelMap) {
+        UserDto userDto = userService.findById(20);
+        List<TransactionDto> transactionDtoList = transactionService.getByUserId(userDto.getId());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("transactionDtoList", transactionDtoList);
         //TODO: zbudować strone i przekazać do niej wyniki.
         return new ModelAndView("user/list", modelMap);
-
     }
-
-
-
 
     /**
      * Adds user to DB
@@ -64,7 +60,7 @@ public class UserControler {
             //TODO: wyświetlić komunikat o błędnym haśle.
             return new ModelAndView("redirect:/regiser", modelMap);
         } else {
-            //Jeśli hasła się zgadzają, sprawdzamy cyz nie istnieje już taki użytkownik w bazie.
+            //Jeśli hasła się zgadzają, sprawdzamy czy nie istnieje już taki użytkownik w bazie.
             if (userService.checkIfSuchUserExistsInDb(userDto)) {
                 //todo: wyświetlić komunikat że taki użytkonik już istnieje
 
@@ -72,7 +68,7 @@ public class UserControler {
                 return new ModelAndView("redirect:/regiser", modelMap);
 
             } else {
-                //Zapis odo Bbazy.
+                //Zapis do bazy.
                 userService.save(userDto);
                 //Pobranie użytkownika z bazy wraz z jego Id.
                 userDto = userService.getUserDtoByMail(userDto.getMail());
