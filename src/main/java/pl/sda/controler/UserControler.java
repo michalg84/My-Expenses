@@ -27,16 +27,17 @@ public class UserControler {
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping("/userAccount/{id}")
-    public ModelAndView userAccount(@PathVariable("id") Integer id, ModelMap modelMap) {
+    @RequestMapping("/userAccount/{id}")
+    public ModelAndView userAccount(@PathVariable Integer id, ModelMap modelMap) {
+
         UserDto userDto = userService.findById(id);
         modelMap.addAttribute("userDto", userDto);
         return new ModelAndView("user/userAccount", modelMap);
     }
 
-    @GetMapping("/transactionList")
-    public ModelAndView transactionList(ModelMap modelMap) {
-        UserDto userDto = userService.findById(20);
+    @GetMapping("/transactionList/{id}")
+    public ModelAndView transactionList(@PathVariable Integer id, ModelMap modelMap) {
+        UserDto userDto = userService.findById(id);
         List<TransactionDto> transactionDtoList = transactionService.getByUserId(userDto.getId());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("transactionDtoList", transactionDtoList);
@@ -73,7 +74,7 @@ public class UserControler {
                 //Pobranie użytkownika z bazy wraz z jego Id.
                 userDto = userService.getUserDtoByMail(userDto.getMail());
                 modelMap.addAttribute(userDto);
-                return new ModelAndView("user/userAccount/", modelMap);
+                return new ModelAndView("redirect:/user/userAccount/" + userDto.getId(), modelMap);
             }
         }
     }
