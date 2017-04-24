@@ -8,6 +8,7 @@ import java.util.Date;
  * Created by Michał Gałka on 2017-04-17.
  */
 @Entity
+@Table(name = "transaction")
 public class Transaction {
 
     @Id
