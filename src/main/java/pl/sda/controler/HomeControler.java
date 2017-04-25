@@ -5,9 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.MessageDto;
 import pl.sda.service.UserService;
 import pl.sda.dto.UserDto;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Michał Gałka on 2017-04-06.
@@ -18,6 +19,8 @@ public class HomeControler {
 
     @Autowired
     private UserService userService;
+    private CopyOnWriteArrayList<UserDto> users;
+    private String companyName;
 
 
     /**
@@ -62,6 +65,22 @@ public class HomeControler {
         modelMap.addAttribute("userDto", new UserDto());
         return new ModelAndView("/user/addUser", modelMap);
     }
+//
+//    @RequestMapping(name = "addUser", method = RequestMethod.GET)
+//    public ModelAndView addUser(@PathVariable("id") Integer id, ModelMap modelMap) {
+//        UserDto userDto = userService.getUserById(id);
+//        users.add(userDto);
+//        modelMap.addAttribute(userDto);
+//        return new ModelAndView("user/userAccount/", modelMap);
+//    }
+
+
+
+
+
+
+    
+
 
 
 }

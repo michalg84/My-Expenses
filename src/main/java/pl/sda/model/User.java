@@ -1,6 +1,7 @@
 package pl.sda.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -11,6 +12,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Integer id;
     @Column
     private String firstName;
@@ -22,16 +24,19 @@ public class User {
     private String mail;
     @Column
     private String password;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Transaction> transactionList;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String login, String mail, String password) {
+    public User(String firstName, String lastName, String login, String mail, String password, List<Transaction> transactionList) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.mail = mail;
         this.password = password;
+        this.transactionList = transactionList;
     }
 
     public Integer getId() {
@@ -81,6 +86,15 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
 }
+
 
 

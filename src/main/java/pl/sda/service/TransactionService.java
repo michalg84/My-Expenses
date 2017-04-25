@@ -21,7 +21,7 @@ public class TransactionService {
 
     public List<TransactionDto> getByUserId(Integer id) {
         List<Transaction> list = transactionRepository.findAll();
-//                findAllUsersTransactions(id);
+//        List<Transaction> list = transactionRepository.findAllUsersTransactions(id);
         List<TransactionDto> listDto = new ArrayList<>();
         for (Transaction t : list) {
             TransactionDto transactionDto = new TransactionDto();
@@ -31,7 +31,7 @@ public class TransactionService {
             transactionDto.setId(t.getId());
             transactionDto.setToAccount(t.getToAccount());
             transactionDto.setTransDate(new Date());
-            transactionDto.setUserId(t.getUserId());
+            transactionDto.setUserId(t.getId());
             listDto.add(transactionDto);
         }
 

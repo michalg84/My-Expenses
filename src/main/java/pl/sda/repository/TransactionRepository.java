@@ -13,8 +13,8 @@ import java.util.List;
  */
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-//
-//    @Query("from Transaction t where t.userId := id")
+
+//    @Query("from Transaction t where t.userId = id")
 //    List<Transaction> findAllUsersTransactions(@Param("id") Integer id);
 
 

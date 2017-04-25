@@ -115,4 +115,8 @@ public class UserService {
             throw new NullPointerException("Nie znaleziono takiego użytkownika po Id");
         }
     }
+
+    public UserDto getUserById(Integer id) {
+        return null;
+    }
 }

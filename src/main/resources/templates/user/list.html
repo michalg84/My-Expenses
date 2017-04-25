@@ -16,9 +16,11 @@
         <table class="table table-bordered table-striped">
             <thead>
             <tr>
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
+                <td>Amount</td>
+                <td>ToAccount</td>
+                <td>FromAccount</td>
+                <td>Transaction Date</td>
+                <td>user</td>
             </tr>
             </thead>
             <tbody>
@@ -29,6 +31,7 @@
                 <td th:text="${transactionDto.amount}">1</td>
                 <td th:text="${transactionDto.toAccount}"> The summary </td>
                 <td th:text="${transactionDto.fromAccount}"> The summary </td>
+                <td th:text="${transactionDto.transDate}"> The summary </td>
             </tr>
             </tbody>
         </table>

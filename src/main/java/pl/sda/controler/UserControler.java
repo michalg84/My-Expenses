@@ -29,7 +29,6 @@ public class UserControler {
 
     @RequestMapping("/userAccount/{id}")
     public ModelAndView userAccount(@PathVariable Integer id, ModelMap modelMap) {
-
         UserDto userDto = userService.findById(id);
         modelMap.addAttribute("userDto", userDto);
         return new ModelAndView("user/userAccount", modelMap);
