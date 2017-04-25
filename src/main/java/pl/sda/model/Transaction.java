@@ -13,8 +13,9 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer Id;
-    @Column
+    private Integer id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private Integer userId;
     @Column
     private String account; //TODO zamianić na klase
@@ -38,13 +39,21 @@ public class Transaction {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
+    //
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        id = id;
     }
 
     public String getAccount() {
@@ -86,4 +95,6 @@ public class Transaction {
     public void setTransDate(Date transDate) {
         this.transDate = transDate;
     }
+
+
 }
