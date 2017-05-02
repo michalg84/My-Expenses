@@ -24,7 +24,7 @@ public class User {
     private String mail;
     @Column
     private String password;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactionList;
 
     public User() {
