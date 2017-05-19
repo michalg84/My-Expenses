@@ -24,13 +24,18 @@
             </tr>
             </thead>
             <tbody>
-            <!--<tr th:if="${searchDto.resultList.empty}">-->
-                <!--<td colspan="3">Brak wyników</td>-->
-            <!--</tr>-->
+            <tr th:if="${transactionDtoList.empty}">
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+            </tr>
             <tr th:each="transactionDto  : ${transactionDtoList}">
                 <td th:text="${transactionDto.amount}">1</td>
                 <td th:text="${transactionDto.toAccount}"> The summary </td>
                 <td th:text="${transactionDto.fromAccount}"> The summary </td>
+                <td th:text="${transactionDto.transDate}"> The summary </td>
                 <td th:text="${transactionDto.transDate}"> The summary </td>
             </tr>
             </tbody>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<meta charset="UTF-8"/>
+<head>
+    <title>User View</title>
+
+</head>
+<body>
+<div class="container">
+
+    <h1 layout:fragment="header">User View</h1>
+
+    <div layout:fragment="content">
+        <dl class="dl-horizontal">
+            <dt>Username:</dt>
+            <dd th:text="${userDto.username}">Username</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>E-mail:</dt>
+            <dd th:text="${userDto.mail}">e-mail</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>Total ballance</dt>
+            <dd th:text="${sum}">Ballance</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>List of accounts</dt>
+            <dd>
+                <table class="table table-bordered table-striped" th:each="account : ${accounts}">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Balance</td>
+                        <td>Creation date</td>
+                        <td>Account number</td>
+                        <td>Account type</td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="account : ${accounts}">
+                        <td class="col-md-2" th:text="${account.name}"></td>
+                        <td class="col-md-2" th:text="${account.balance} + ' PLN'"></td>
+                        <td class="col-md-2" th:text="${account.creationDate}"></td>
+                        <td class="col-md-2" th:text="${account.accountNumber}"></td>
+                        <td class="col-md-2" th:text="${account.accountType.type}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </dd>
+        </dl>
+    </div> <!--end of content-->
+
+</div> <!--end of container-->
+</body>
+</html>

@@ -2,6 +2,7 @@ package pl.sda.model;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -12,12 +13,9 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Integer id;
     @Column
-    private String firstName;
-    @Column
-    private String lastName;
+    private String username;
     @Column(unique = true)
     private String login;
     @Column(unique = true)
@@ -27,12 +25,18 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactionList;
 
+    @Column
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     public User() {
     }
 
-    public User(String firstName, String lastName, String login, String mail, String password, List<Transaction> transactionList) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String username, String login, String mail, String password, List<Transaction> transactionList) {
+        this.username = username;
         this.login = login;
         this.mail = mail;
         this.password = password;
@@ -47,21 +51,15 @@ public class User {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getLogin() {
         return login;
@@ -93,6 +91,14 @@ public class User {
 
     public void setTransactionList(List<Transaction> transactionList) {
         this.transactionList = transactionList;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
 

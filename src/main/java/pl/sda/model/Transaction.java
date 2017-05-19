@@ -14,9 +14,9 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private Integer userId;
+    private User user;
     @Column
     private String account; //TODO zamianić na klase
     @Column
@@ -32,21 +32,15 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Integer getUserId() {
-        return userId;
+
+
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
-    //
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
 
     public Integer getId() {
         return id;

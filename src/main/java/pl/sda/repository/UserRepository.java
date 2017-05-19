@@ -17,8 +17,9 @@ import javax.persistence.GenerationType;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("from User u where u.mail = :mail")
-    User getUserByMail(@Param("mail") String mail);
+    User findUserByMail(@Param("mail") String mail);
 
+    User findByUsername(String username);
 
 
 

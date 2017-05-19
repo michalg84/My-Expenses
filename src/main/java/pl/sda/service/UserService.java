@@ -1,10 +1,19 @@
 package pl.sda.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.UserDto;
+import pl.sda.model.Role;
 import pl.sda.model.User;
+import pl.sda.repository.AccountRepository;
+import pl.sda.repository.RoleRepository;
 import pl.sda.repository.UserRepository;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -15,50 +24,31 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     /**
      * Saves User o DB unlees such user exists.
      *
      * @param userDto UserDto to be save in DB.
      * @return true if such user exists, false if does not.
      */
-    public boolean save(UserDto userDto) {
-        User user = convertUserDtoToUser(userDto);
-        user.setPassword(PasswordService.hashPassword(user.getPassword()));
-        userRepository.save(user);
-        System.out.println("Nie ma takiego użytkownika w bazie. Dodano użytkownika do bazy.");
-        return false;
-    }
+//    public boolean save(UserDto userDto) {
+//        User user = convertUserDtoToUser(userDto);
+//        user.setPassword(PasswordService.hashPassword(user.getPassword()));
+//        userRepository.save(user);
+//        System.out.println("Nie ma takiego użytkownika w bazie. Dodano użytkownika do bazy.");
+//        return false;
+//    }
 
-    /**
-     * Checks if password is equal with password in DB.
-     *
-     * @param mail     used to find user in DB.
-     * @param password give by user during loging in.
-     * @return True if password is equal, otherwise returns false.
-     */
-    public boolean checkPassword(String mail, String password) {
-        User user = userRepository.getUserByMail(mail);
-        return PasswordService.checkPassword(password, user.getPassword());
 
-    }
 
-    /**
-     * Finds a User in DB by UserDto e-mail.
-     *
-     * @param mail users e-mail.
-     * @return UserDto from DB or NullPointerException.
-     */
-    public UserDto getUserDtoByMail(String mail) {
-        if (mail == null || mail.isEmpty())
-            throw new NullPointerException("Mail nie może być pusty.");
-        else {
-            try {
-                return convertUserToUserDto(userRepository.getUserByMail(mail));
-            } catch (NullPointerException e) {
-                throw new NullPointerException("Nie znaleziono takiego użytkownika w bazie");
-            }
-        }
-    }
 
 
     /**
@@ -70,8 +60,7 @@ public class UserService {
     private User convertUserDtoToUser(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
+        user.setUsername(userDto.getUsername());
         user.setLogin(userDto.getLogin());
         user.setMail(userDto.getMail());
         user.setPassword(userDto.getPassword());
@@ -90,22 +79,11 @@ public class UserService {
             return null;
         UserDto userDto = new UserDto();
         userDto.setId(user.getId());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
+        userDto.setUsername(user.getUsername());
         userDto.setLogin(user.getLogin());
         userDto.setMail(user.getMail());
         userDto.setPassword(user.getPassword());
         return userDto;
-    }
-
-    /**
-     * Checks if user with such e-mail exists in DB.
-     *
-     * @param userDto
-     * @return false if User with such e-mail doesn't exists. true is exists.
-     */
-    public boolean checkIfSuchUserExistsInDb(UserDto userDto) {
-        return getUserDtoByMail(userDto.getMail()) != null;
     }
 
     public UserDto findById(Integer id) {
@@ -118,5 +96,46 @@ public class UserService {
 
     public UserDto getUserById(Integer id) {
         return null;
+    }
+
+    public void save(UserDto userDto) {
+        User user = convertUserDtoToUser(userDto);
+        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+
+        user.setRoles(new HashSet<>());
+
+        Role userRole = roleRepository.findOne(1);
+        user.getRoles().add(userRole);
+
+        userRepository.save(user);
+    }
+
+    public List<UserDto> getAll() {
+        List<UserDto> usersDto = new ArrayList<>();
+
+        try {
+            List<User> users = userRepository.findAll();
+            for (User u : users) {
+                UserDto userDto = new UserDto();
+                userDto.setUsername(u.getUsername());
+                usersDto.add(userDto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return usersDto;
+    }
+
+    public UserDto findUserDtoByUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        return convertUserToUserDto(user);
+    }
+
+    public BigDecimal getTotalBalance(User user) {
+        return accountRepository.getTotalBallance(user );
+    }
+
+    public User findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 }

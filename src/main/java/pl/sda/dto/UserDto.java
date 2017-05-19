@@ -1,25 +1,39 @@
 package pl.sda.dto;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import pl.sda.model.Account;
+
+import javax.validation.constraints.Size;
+import java.util.Set;
+
 /**
  * Created by Michał Gałka on 2017-04-07.
  */
 public class UserDto {
 
     private Integer id;
-    private String firstName;
-    private String lastName;
+    @NotEmpty(message = "Please insert username")
+    @Size(min = 5, max = 25, message = "5 - 25 characters are requiered !")
+    private String username;
+
     private String login;
+    @NotEmpty
+    @Email
     private String mail;
+    @NotEmpty
+    @Size(min = 5, max = 25, message = "5 - 25 characters are requiered !")
     private String password;
+    @NotEmpty
+    @Size(min = 5, max = 25, message = "5 - 25 characters are requiered !")
     private String confirmPassword;
 
     public UserDto() {
     }
 
-    public UserDto(Integer id, String firstName, String lastName, String login, String mail, String password, String confirmPassword) {
+    public UserDto(Integer id, String username, String login, String mail, String password, String confirmPassword) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.username = username;
         this.login = login;
         this.mail = mail;
         this.password = password;
@@ -34,21 +48,14 @@ public class UserDto {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 
     public String getLogin() {
         return login;
@@ -86,8 +93,7 @@ public class UserDto {
     public String toString() {
         return "UserDto{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
                 ", login='" + login + '\'' +
                 ", mail='" + mail + '\'' +
                 ", password='" + password + '\'' +

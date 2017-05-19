@@ -3,6 +3,7 @@ package pl.sda.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.TransactionDto;
+import pl.sda.dto.UserDto;
 import pl.sda.model.Transaction;
 import pl.sda.repository.TransactionRepository;
 
@@ -38,5 +39,9 @@ public class TransactionService {
 //        TODO:konwersja trans... na transDto w liście
 
         return listDto;
+    }
+
+    public List<Transaction> getTransactions(UserDto userDto) {
+        return transactionRepository.findById(userDto.getId());
     }
 }

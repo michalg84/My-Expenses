@@ -4,12 +4,14 @@
 <meta charset="UTF-8"/>
 <head>
     <title>Layout</title>
+    <link rel="icon" type="image/x-icon" href="/static/my_expenses.ico"/>
     <link rel="stylesheet" href="../static/css/bootstrap.css" th:rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
-    <link rel="stylesheet" href="../static/css/boostrap-theme.css" th:rel="stylesheet" th:href="@{/css/bootstrap-theme.css}"/>
+    <link rel="stylesheet" href="../static/css/boostrap-theme.css" th:rel="stylesheet"
+          th:href="@{/css/bootstrap-theme.css}"/>
     <script src="/static/js/jquery-1.12.4.js" th:src="@{/js/jquery-1.12.4.js}"></script>
     <script src="/static/js/jquery-ui.js" th:src="@{/js/jquery-ui.js}"></script>
     <script src="/static/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
-    <script src="/static/js/npm.js" th:src="@{/js/npm.js}"></script>
+    <!--<script src="/static/js/npm.js" th:src="@{/js/npm.js}"></script>-->
 </head>
 <body>
 <div class="container">
@@ -25,21 +27,26 @@
                         class="icon-bar"></span> <span class="icon-bar"></span> <span
                         class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand">Biblioteka</a>
+                <a class="navbar-brand">MyExpenses</a>
             </div>
             <div class="collapse navbar-collapse"
                  id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown"><a href="#" class="dropdown-toggle"
-                                            data-toggle="dropdown" role="button" aria-haspopup="true"
-                                            aria-expanded="false">Użytkownicy <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a th:href="@{/regiser}">Dodaj użytkownika</a></li>
-                            <li><a th:href="@{'/user/userAccount/' + ${userDto.id}}">Konto Użytkownika</a></li>
-                            <li><a th:href="@{'/user/transactionList/' + ${userDto.id}}">Lista Transakcji</a></li>
-                        </ul>
-                    </li>
+                    <li><a th:href="@{/user/list}">Transactions list</a></li>
+                    <li><a th:href="@{/user.addTransaction}">Add transaction</a></li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a th:href="@{/user/account}">Account</a></li>
+                    <li><a th:href="@{/user/account/add}">Add account</a></li>
+                    <li><a th:href="@{/logout}">Log out</a></li>
+                </ul>
+
+                <!--<form th:action="@{/logout}" th:method="post">-->
+
+                <!--<div>-->
+                <!--<input type="submit" value="Log out"/>-->
+                <!--</div>-->
+                <!--</form>-->
 
 
             </div>
@@ -47,6 +54,7 @@
         </div>
         <!--/.container-fluid -->
     </nav>
+
 
     <h1 layout:fragment="header">Layout</h1>
 
