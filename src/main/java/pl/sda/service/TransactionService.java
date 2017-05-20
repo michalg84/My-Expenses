@@ -7,8 +7,10 @@ import pl.sda.dto.UserDto;
 import pl.sda.model.Transaction;
 import pl.sda.repository.TransactionRepository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -26,7 +28,6 @@ public class TransactionService {
         List<TransactionDto> listDto = new ArrayList<>();
         for (Transaction t : list) {
             TransactionDto transactionDto = new TransactionDto();
-            transactionDto.setAccount(t.getAccount());
             transactionDto.setAmount(t.getAmount());
             transactionDto.setFromAccount(t.getFromAccount());
             transactionDto.setId(t.getId());
@@ -44,4 +45,15 @@ public class TransactionService {
     public List<Transaction> getTransactions(UserDto userDto) {
         return transactionRepository.findById(userDto.getId());
     }
+
+    public BigDecimal getTransactionSum(List<Transaction> transactionList) {
+        Iterator<Transaction> iter = transactionList.iterator();
+        BigDecimal sum = new BigDecimal(0);
+        while (iter.hasNext()) {
+
+            sum = sum.add(iter.next().getAmount());
+        }
+        return sum;
+    }
+
 }

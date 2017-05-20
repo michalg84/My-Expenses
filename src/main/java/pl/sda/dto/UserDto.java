@@ -3,8 +3,12 @@ package pl.sda.dto;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sda.model.Account;
+import pl.sda.model.Role;
+import pl.sda.model.Transaction;
 
+import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -27,6 +31,9 @@ public class UserDto {
     @NotEmpty
     @Size(min = 5, max = 25, message = "5 - 25 characters are requiered !")
     private String confirmPassword;
+    private List<Transaction> transactionList;
+    private List<Account> accounts;
+    private Set<Role> roles;
 
     public UserDto() {
     }
@@ -89,15 +96,27 @@ public class UserDto {
         this.confirmPassword = confirmPassword;
     }
 
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", login='" + login + '\'' +
-                ", mail='" + mail + '\'' +
-                ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
-                '}';
+    public List<Transaction> getTransactionList() {
+        return transactionList;
+    }
+
+    public void setTransactionList(List<Transaction> transactionList) {
+        this.transactionList = transactionList;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

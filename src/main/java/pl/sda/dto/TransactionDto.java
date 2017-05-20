@@ -1,5 +1,7 @@
 package pl.sda.dto;
 
+import pl.sda.model.Account;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -9,9 +11,8 @@ import java.util.Date;
 public class TransactionDto {
     private Integer id;
     private Integer userId;
-    private String account; //TODO zamianić na klase
     private BigDecimal amount;
-    private String fromAccount;
+    private Account fromAccount;
     private String toAccount;
     private Date transDate;
 
@@ -35,14 +36,6 @@ public class TransactionDto {
         this.userId = userId;
     }
 
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
-
     public BigDecimal getAmount() {
         return amount;
     }
@@ -51,11 +44,11 @@ public class TransactionDto {
         this.amount = amount;
     }
 
-    public String getFromAccount() {
+    public Account getFromAccount() {
         return fromAccount;
     }
 
-    public void setFromAccount(String fromAccount) {
+    public void setFromAccount(Account fromAccount) {
         this.fromAccount = fromAccount;
     }
 

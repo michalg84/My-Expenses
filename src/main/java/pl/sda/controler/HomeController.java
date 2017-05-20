@@ -31,7 +31,6 @@ public class HomeController {
 
     /**
      * Opens Login page.
-     *
      * @param modelMap
      * @return
      */
@@ -53,7 +52,7 @@ public class HomeController {
         if (!result.hasErrors()) {
             userDto = userService.findUserDtoByUsername(userDto.getUsername());
             modelMap.addAttribute("userDto", userDto);
-            return "redirect:/user/account/" + userDto.getId();
+            return "redirect:/user/account/";
         }
         return LOGIN_PAGE;
     }

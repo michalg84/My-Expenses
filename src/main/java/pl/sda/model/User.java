@@ -24,7 +24,8 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Transaction> transactionList;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Account> accounts;
     @Column
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
@@ -35,12 +36,13 @@ public class User {
     public User() {
     }
 
-    public User(String username, String login, String mail, String password, List<Transaction> transactionList) {
+    public User(String username, String login, String mail, String password, List<Transaction> transactionList, List<Account> accounts) {
         this.username = username;
         this.login = login;
         this.mail = mail;
         this.password = password;
         this.transactionList = transactionList;
+        this.accounts = accounts;
     }
 
     public Integer getId() {
@@ -99,6 +101,14 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
     }
 }
 

@@ -24,7 +24,7 @@ public class Account {
     @ManyToOne
     @JoinColumn(name = "account_type")
     private AccountType accountType;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
     @Column

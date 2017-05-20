@@ -17,12 +17,12 @@ public class Transaction {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
-    @Column
-    private String account; //TODO zamianić na klase
+
     @Column
     private BigDecimal amount;
-    @Column
-    private String fromAccount;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account fromAccount;
     @Column
     private String toAccount;
     @Column
@@ -50,13 +50,6 @@ public class Transaction {
         id = id;
     }
 
-    public String getAccount() {
-        return account;
-    }
-
-    public void setAccount(String account) {
-        this.account = account;
-    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -66,12 +59,12 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getFromAccount() {
-        return fromAccount;
+    public void setFromAccount(Account fromAccount) {
+        this.fromAccount = fromAccount;
     }
 
-    public void setFromAccount(String fromAccount) {
-        this.fromAccount = fromAccount;
+    public Account getFromAccount() {
+        return fromAccount;
     }
 
     public String getToAccount() {

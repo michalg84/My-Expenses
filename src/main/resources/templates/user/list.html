@@ -17,29 +17,27 @@
             <thead>
             <tr>
                 <td>Amount</td>
-                <td>ToAccount</td>
                 <td>FromAccount</td>
+                <td>ToAccount</td>
                 <td>Transaction Date</td>
-                <td>user</td>
             </tr>
             </thead>
             <tbody>
-            <tr th:if="${transactionDtoList.empty}">
-                <td>---</td>
+            <tr th:if="${transactionList.empty}">
                 <td>---</td>
                 <td>---</td>
                 <td>---</td>
                 <td>---</td>
             </tr>
-            <tr th:each="transactionDto  : ${transactionDtoList}">
-                <td th:text="${transactionDto.amount}">1</td>
-                <td th:text="${transactionDto.toAccount}"> The summary </td>
-                <td th:text="${transactionDto.fromAccount}"> The summary </td>
-                <td th:text="${transactionDto.transDate}"> The summary </td>
-                <td th:text="${transactionDto.transDate}"> The summary </td>
+            <tr th:each="transaction  : ${transactionList}">
+                <td th:text="${transaction.amount} + ' PLN'">1</td>
+                <td th:text="${transaction.fromAccount.name}"> The summary </td>
+                <td th:text="${transaction.toAccount}"> The summary </td>
+                <td th:text="${transaction.transDate}"> The summary </td>
             </tr>
             </tbody>
         </table>
+        <div th:text="${sum}"></div>
 
     </div> <!--end of content-->
 

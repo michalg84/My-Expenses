@@ -1,6 +1,9 @@
 package pl.sda.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.UserDto;
@@ -34,6 +37,29 @@ public class UserService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
+     * Converts authenticated User to UserDto.
+     *
+     * @return
+     */
+    public UserDto getAcctualUserDto() {
+        if (getAcctualUser() == null)
+            return null;
+        return convertUserToUserDto(getAcctualUser());
+    }
+
+    /**
+     * Gets authenticated User username and gets his User object form DB.
+     * @return Authenticated User object.
+     */
+    public User getAcctualUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken) && authentication != null) {
+            return findUserByUsername(authentication.getName());
+        }
+        return null;
+    }
+
+    /**
      * Saves User o DB unlees such user exists.
      *
      * @param userDto UserDto to be save in DB.
@@ -57,13 +83,16 @@ public class UserService {
      * @param userDto class UserDto.
      * @return User Object.
      */
-    private User convertUserDtoToUser(UserDto userDto) {
+    public User convertUserDtoToUser(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
         user.setUsername(userDto.getUsername());
         user.setLogin(userDto.getLogin());
         user.setMail(userDto.getMail());
         user.setPassword(userDto.getPassword());
+        user.setAccounts(userDto.getAccounts());
+        user.setTransactionList(userDto.getTransactionList());
+        user.setRoles(userDto.getRoles());
         return user;
     }
 
@@ -74,7 +103,7 @@ public class UserService {
      * @return UserDto object. Note that UsedDto confirmPassword
      * is returned as null cause it's requiered only for registration.
      */
-    private UserDto convertUserToUserDto(User user) {
+    public UserDto convertUserToUserDto(User user) {
         if (user == null)
             return null;
         UserDto userDto = new UserDto();
@@ -83,6 +112,9 @@ public class UserService {
         userDto.setLogin(user.getLogin());
         userDto.setMail(user.getMail());
         userDto.setPassword(user.getPassword());
+        userDto.setAccounts(user.getAccounts());
+        userDto.setTransactionList(user.getTransactionList());
+        userDto.setRoles(user.getRoles());
         return userDto;
     }
 
@@ -131,8 +163,8 @@ public class UserService {
         return convertUserToUserDto(user);
     }
 
-    public BigDecimal getTotalBalance(User user) {
-        return accountRepository.getTotalBallance(user );
+    public BigDecimal getTotalBalance() {
+        return accountRepository.getTotalBallance(getAcctualUser());
     }
 
     public User findUserByUsername(String username) {
