@@ -49,7 +49,7 @@
         </dl>
         <dl class="dl-horizontal">
             <dt>Total ballance</dt>
-            <dd th:text="${sum}">Ballance</dd>
+            <dd th:text="${sum} + 'PLN'">Ballance</dd>
         </dl>
         <dl class="dl-horizontal">
             <dt>List of accounts</dt>
@@ -106,16 +106,12 @@
                     <dt>Account Type:</dt>
                     <dd>
                         <div class="col-md-3">
-                            <select th:field="*{accountType}" id="accountType" required="true">
+                            <select class="form-control" th:field="*{accountType}" id="accountType" required="true">
                                 <option th:each="type : ${accountTypes}" th:value="${type.id}" th:text="${type.type}">
                                     Account
                                     Types
                                 </option>
                             </select>
-                            <!--<select th:field="*{fuelType}">-->
-                            <!--<option th:each="fuel: ${fuels}" th:text="${fuel.name}" th:value="${fuel.id}"></option>-->
-                            <!--</select>-->
-
                         </div>
                     </dd>
                 </dl>

@@ -1,6 +1,7 @@
 package pl.sda.dto;
 
 import pl.sda.model.Account;
+import pl.sda.model.User;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,11 +11,12 @@ import java.util.Date;
  */
 public class TransactionDto {
     private Integer id;
-    private Integer userId;
+    private User user;
     private BigDecimal amount;
     private Account fromAccount;
     private String toAccount;
     private Date transDate;
+    private BigDecimal balance;
 
     public TransactionDto() {
 
@@ -28,12 +30,12 @@ public class TransactionDto {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public BigDecimal getAmount() {
@@ -66,5 +68,13 @@ public class TransactionDto {
 
     public void setTransDate(Date transDate) {
         this.transDate = transDate;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

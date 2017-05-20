@@ -3,6 +3,7 @@ package pl.sda.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.AccountDto;
+import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
 import pl.sda.model.Account;
 import pl.sda.model.User;
@@ -31,6 +32,11 @@ public class AccountService {
         accountRepository.save(convertAccountDtoToAccount(accountDto));
     }
 
+    protected void updateAccountBalance(TransactionDto transactionDto) {
+        Account account = accountRepository.getOne(transactionDto.getFromAccount().getId());
+        account.setBalance(account.getBalance().add(transactionDto.getAmount()));
+        accountRepository.save(account);
+    }
     /**
      * Converts AcountDto to Account.
      * @param newAccount

@@ -3,9 +3,6 @@ package pl.sda.controler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -14,9 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.AccountDto;
 import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
-import pl.sda.model.Account;
 import pl.sda.model.Transaction;
-import pl.sda.model.User;
 import pl.sda.service.AccountService;
 import pl.sda.service.AccountTypeService;
 import pl.sda.service.TransactionService;
@@ -24,7 +19,6 @@ import pl.sda.service.UserService;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.security.PublicKey;
 import java.util.List;
 
 /**
@@ -63,12 +57,13 @@ public class UserController {
         return new ModelAndView(USER_ACCOUNT, modelMap);
     }
 
-//    @GetMapping("account/add")
-//    public ModelAndView addAccountPage(ModelMap modelMap) {
-//        modelMap.addAttribute("newAccount", new AccountDto());
-//        modelMap.addAttribute("accountTypes", accountTypeService.getAccountTypes());
-//        return new ModelAndView(USER_ACCOUNT_ADD, modelMap);
-//    }
+    /**
+     * Adds new money account to database.
+     * @param accountDto
+     * @param result
+     * @param modelMap
+     * @return
+     */
     @PostMapping("account/add")
     public String addAccount(@ModelAttribute(name = "newAccount") @Valid AccountDto accountDto,
                              BindingResult result, ModelMap modelMap) {
@@ -83,9 +78,18 @@ public class UserController {
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getAcctualUserDto();
         modelMap.addAttribute("userDto", userDto);
-        modelMap.addAttribute("transactionList", userDto.getTransactionList());
-        BigDecimal sum = transactionService.getTransactionSum(userDto.getTransactionList());
-        modelMap.addAttribute("sum", sum);
+
+        List<TransactionDto> transactions = transactionService.getTransactionsWithBalance(userDto.getTransactionList());
+        modelMap.addAttribute("transactionList", transactions);
+        modelMap.addAttribute("transactionDto", new TransactionDto());
         return new ModelAndView(USER_TRANSACTIONS, modelMap);
+    }
+
+    @PostMapping("addTransaction")
+    public String addNewTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto, BindingResult result, ModelMap modelMap) {
+        transactionService.addTransaction(transactionDto);
+
+
+        return "redirect:/" + USER_TRANSACTIONS;
     }
 }

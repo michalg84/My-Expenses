@@ -118,18 +118,12 @@ public class UserService {
         return userDto;
     }
 
-    public UserDto findById(Integer id) {
-        try {
-            return convertUserToUserDto(userRepository.getOne(id));
-        } catch (NullPointerException e) {
-            throw new NullPointerException("Nie znaleziono takiego użytkownika po Id");
-        }
-    }
 
-    public UserDto getUserById(Integer id) {
-        return null;
-    }
 
+    /**
+     * Adds UserDto to Database.
+     * @param userDto User to be saved to database.
+     */
     public void save(UserDto userDto) {
         User user = convertUserDtoToUser(userDto);
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
@@ -142,6 +136,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Gets All UsersDto.
+     * @return List of all UserDto.
+     */
     public List<UserDto> getAll() {
         List<UserDto> usersDto = new ArrayList<>();
 
@@ -158,11 +156,20 @@ public class UserService {
         return usersDto;
     }
 
+    /**
+     * Finds User using username
+     * @param username Authenticated Users username.
+     * @return
+     */
     public UserDto findUserDtoByUsername(String username) {
         User user = userRepository.findByUsername(username);
         return convertUserToUserDto(user);
     }
 
+    /**
+     * Gets acctual total acount balance for acctual user.
+     * @return Users account balance from all Accounts.
+     */
     public BigDecimal getTotalBalance() {
         return accountRepository.getTotalBallance(getAcctualUser());
     }
