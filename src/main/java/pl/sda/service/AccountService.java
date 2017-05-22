@@ -17,6 +17,8 @@ import java.util.List;
 public class AccountService {
 
     @Autowired
+    private MessageService messageService;
+    @Autowired
     private AccountRepository accountRepository;
 
     @Autowired
@@ -30,6 +32,8 @@ public class AccountService {
         accountDto.setUser(userService.getAcctualUser());
         accountDto.setCreationDate(new Date());
         accountRepository.save(convertAccountDtoToAccount(accountDto));
+        messageService.addSuccessMessage("Account added !");
+
     }
 
     protected void updateAccountBalance(TransactionDto transactionDto) {

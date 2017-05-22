@@ -32,6 +32,9 @@ public class TransactionService {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private MessageService messageService;
+
     /**
      * Gets summary of all Transactions form List.
      * @param transactionList List of transactions do be added.
@@ -126,6 +129,8 @@ public class TransactionService {
                 .add(transactionDto.getAmount()));
         transactionRepository.save(convertTransactionDtoToTransaction(transactionDto));
         accountService.updateAccountBalance(transactionDto);
+        messageService.addSuccessMessage("Transaction added !");
+
     }
 
 

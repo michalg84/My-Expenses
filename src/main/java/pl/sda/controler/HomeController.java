@@ -44,8 +44,6 @@ public class HomeController {
     @RequestMapping("login?logout")
     public String logoutPage(ModelMap modelMap) {
 
-        MessageDto logoutMsg = new MessageDto("You've been succesfuly logout.");
-        modelMap.addAttribute("message", logoutMsg);
         return LOGIN_PAGE;
     }
 
@@ -53,14 +51,11 @@ public class HomeController {
 
     @RequestMapping("/login/error")
     public ModelAndView login(ModelMap modelMap) {
-        MessageDto loginError = new MessageDto("Wrong username or password");
-        modelMap.addAttribute("message", loginError);
         return new ModelAndView("/login", modelMap);
     }
 
     /**
      * Opens register page.
-     *
      * @return regiser page with userDto object.
      */
     @GetMapping("register")

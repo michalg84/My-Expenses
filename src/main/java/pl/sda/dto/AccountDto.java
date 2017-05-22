@@ -1,5 +1,6 @@
 package pl.sda.dto;
 
+import org.springframework.format.annotation.NumberFormat;
 import pl.sda.model.AccountType;
 import pl.sda.model.User;
 
@@ -22,6 +23,7 @@ public class AccountDto {
     private AccountType accountType;
     private User user;
     @NotNull(message = "Please insert ballance")
+    @NumberFormat(style = NumberFormat.Style.CURRENCY)
     private BigDecimal balance;
 
 

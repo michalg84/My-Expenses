@@ -24,7 +24,6 @@
 
         <div layout:fragment="content">
             <h2>Add new transaction</h2>
-            <span class="alert alert-warning" th:text="${message.msg}">amount </span>
             <form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">
                 <table class="table table-bordered table-striped">
                     <thead>

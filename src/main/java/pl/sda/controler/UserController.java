@@ -13,10 +13,7 @@ import pl.sda.dto.MessageDto;
 import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
 import pl.sda.model.Transaction;
-import pl.sda.service.AccountService;
-import pl.sda.service.AccountTypeService;
-import pl.sda.service.TransactionService;
-import pl.sda.service.UserService;
+import pl.sda.service.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -35,6 +32,8 @@ public class UserController {
     public static final String USER_TRANSACTIONS = "user/list";
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private UserService userService;
@@ -73,16 +72,16 @@ public class UserController {
             accountService.addAccount(accountDto);
             return "redirect:/" + USER_ACCOUNT;
         }
-        return USER_ACCOUNT_ADD;
+//        String txt = result.getFieldError().getField()
+        messageService.addErrorMessage("Error. Cannot add new account !" + result.getAllErrors());
+        return "redirect:/" + USER_ACCOUNT;
     }
 
     @GetMapping("/list")
-    public ModelAndView transactionList(ModelMap modelMap, MessageDto messageDto) {
+    public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getAcctualUserDto();
         modelMap.addAttribute("userDto", userDto);
-//            messageDto = new MessageDto("test");
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance(userDto.getTransactionList());
-        modelMap.addAttribute("message", messageDto);
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("transactionDto", new TransactionDto());
         return new ModelAndView(USER_TRANSACTIONS, modelMap);
@@ -93,9 +92,11 @@ public class UserController {
                                     BindingResult result, ModelMap modelMap) {
         if (!result.hasErrors()) {
             transactionService.addTransaction(transactionDto);
+            messageService.addSuccessMessage("Transaction added !");
             return "redirect:/" + USER_TRANSACTIONS;
         }
+        messageService.addErrorMessage("Transaction Error. Values aren't correct. Please try again.");
 //        transactionList(modelMap, new MessageDto("Bad value! = " + transactionDto.getAmount()));
-        return USER_TRANSACTIONS;
+        return "redirect:/" + USER_TRANSACTIONS;
     }
 }

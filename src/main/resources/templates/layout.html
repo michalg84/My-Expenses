@@ -9,6 +9,8 @@
     <script src="/js/jquery-1.12.4.js" th:src="@{/js/jquery-1.12.4.js}"></script>
     <script src="/js/jquery-ui.js" th:src="@{/js/jquery-ui.js}"></script>
     <script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/npm.js}"></script>
+
 </head>
 <body>
 <div class="container">
@@ -66,12 +68,24 @@
         <!--/.container-fluid -->
     </nav>
 
+    <div class="row" id="notifications"
+         th:with="notifyMessages=${session[T(pl.sda.service.MessageService).NOTIFY_MSG_SESSION_KEY]}">
+        <div th:class="${msg.type}" role="alert"
+             th:each="msg : ${notifyMessages}" th:text="${msg.text}">
+        </div>
+        <span th:if="${notifyMessages != null}" th:remove="all"
+              th:text="${session.notificationMessages.clear()}"></span>
+    </div>
 
     <h1 layout:fragment="header">Layout</h1>
 
     <div layout:fragment="content">content goes here</div>
 
     <div layout:fragment="footer">footer goes here</div>
+
+    <script>
+        $("#notifications").fadeOut(7000);
+    </script>
 </div>
 </body>
 </html>
