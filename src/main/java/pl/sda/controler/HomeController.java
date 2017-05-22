@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import pl.sda.dto.MessageDto;
 import pl.sda.dto.UserDto;
 import pl.sda.service.UserService;
 
@@ -30,39 +31,31 @@ public class HomeController {
 
 
     /**
-     * Opens Login page.
+     * Opens login page.
+     *
      * @param modelMap
      * @return
      */
     @GetMapping("login")
-    public ModelAndView loginPage(ModelMap modelMap) {
-        modelMap.addAttribute("userDto", new UserDto());
-        return new ModelAndView(LOGIN_PAGE, modelMap);
-    }
-
-
-    /**
-     * Login method.
-     *
-     * @param modelMap main page model
-     * @return model and view of main page.
-     */
-    @PostMapping(value = "login")
-    public String login(@ModelAttribute(name = "userDto") @Valid UserDto userDto, BindingResult result, ModelMap modelMap) {
-        if (!result.hasErrors()) {
-            userDto = userService.findUserDtoByUsername(userDto.getUsername());
-            modelMap.addAttribute("userDto", userDto);
-            return "redirect:/user/account/";
-        }
+    public String loginPage(ModelMap modelMap) {
         return LOGIN_PAGE;
     }
 
-    @GetMapping(value = "login/error")
-    public String login(BindingResult result, ModelMap modelMap) {
-        modelMap.addAttribute("userDto", new UserDto());
-        FieldError fieldError = new FieldError("userDto", "confirmPassword", "password doesn't match");
-        result.addError(fieldError);
+    @RequestMapping("login?logout")
+    public String logoutPage(ModelMap modelMap) {
+
+        MessageDto logoutMsg = new MessageDto("You've been succesfuly logout.");
+        modelMap.addAttribute("message", logoutMsg);
         return LOGIN_PAGE;
+    }
+
+
+
+    @RequestMapping("/login/error")
+    public ModelAndView login(ModelMap modelMap) {
+        MessageDto loginError = new MessageDto("Wrong username or password");
+        modelMap.addAttribute("message", loginError);
+        return new ModelAndView("/login", modelMap);
     }
 
     /**
@@ -91,4 +84,22 @@ public class HomeController {
         }
         return REGISTER_PAGE;
     }
+
+    /**
+     * Login method.
+     *
+     * @param modelMap main page model
+     * @return model and view of main page.
+     */
+//    @PostMapping(value = "login")
+//    public String login(@ModelAttribute(name = "userDto") @Valid UserDto userDto, BindingResult result, ModelMap modelMap) {
+//        if (!result.hasErrors()) {
+//            userDto = userService.findUserDtoByUsername(userDto.getUsername());
+//            modelMap.addAttribute("userDto", userDto);
+//            return "redirect:/user/account/";
+//        }
+//
+//        return LOGIN_PAGE;
+//    }
+
 }

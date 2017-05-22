@@ -24,13 +24,14 @@
 
         <div layout:fragment="content">
             <h2>Add new transaction</h2>
+            <span class="alert alert-warning" th:text="${message.msg}">amount </span>
             <form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <td class="col-md-2">Amount</td>
+                        <td class="col-md-2">Amount [PLN]</td>
                         <td class="col-md-2">Choose account</td>
-                        <td class="col-md-2">Destination account name</td>
+                        <td class="col-md-2">Comment</td>
                         <td class="col-md-2">Transaction Date</td>
                         <td class="col-md-2">Categories //TODO</td>
                     </tr>
@@ -38,28 +39,27 @@
                     <tbody>
                     <tr>
                         <td class="col-md-2">
-                            <input class="form-control" type="text" placeholder="Amount [PLN]" th:field="*{amount}"
-                                   required="true"/>
-                            <div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount
-                            </div>
+                            <input class="form-control" type="text" placeholder="Amount XXXX.XX" th:field="*{amount}"
+                            required="true"/>
+                            <span class="alert-warn" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount</span>
                         </td>
                         <td class="col-md-2">
-                            <select class="form-control" th:field="*{fromAccount}" required="true">
+                            <select class="form-control" th:field="*{account}" required="true">
                                 <option th:each="userAccount : ${userDto.accounts}" th:value="${userAccount.id}"
                                         th:text="${userAccount.name}">
                                     User accounts
                                 </option>
                             </select>
-                            <div class="error-msg" th:if="${#fields.hasErrors('fromAccount')}"
-                                 th:errors="*{fromAccount}">
-                                fromAccount
+                            <div class="error-msg" th:if="${#fields.hasErrors('account')}"
+                                 th:errors="*{account}">
+                                account
                             </div>
                         </td>
                         <td class="col-md-2">
                             <input class="form-control" type="text" placeholder="Destination account"
-                                   th:field="*{toAccount}" required="true"/>
-                            <div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{toAccount}">
-                                toAccount
+                            th:field="*{comment}" required="true"/>
+                            <div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{comment}">
+                                comment
                             </div>
                         </td>
                         <td class="col-md-2">
@@ -81,8 +81,11 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="col-md-3">
-                    <button class=" btn btn-lg btn-primary" type="submit">Add transaction</button>
+                <div class="row">
+
+                    <div class="col-md-3 pull-right">
+                        <button class=" btn btn-lg btn-primary" type="submit">Add transaction</button>
+                    </div>
                 </div>
             </form>
             <h2>Transactions list</h2>
@@ -92,8 +95,8 @@
                     <tr>
                         <td class="col-md-2">Amount</td>
                         <td class="col-md-2">Account balance</td>
-                        <td class="col-md-2">FromAccount</td>
-                        <td class="col-md-2">ToAccount</td>
+                        <td class="col-md-2">Account</td>
+                        <td class="col-md-2">Comment</td>
                         <td class="col-md-2">Transaction Date</td>
                         <td class="col-md-2">Categories</td>
                     </tr>
@@ -112,8 +115,8 @@
                 <tr th:each="transaction  : ${transactionList}">
                     <td th:text="${transaction.amount} + ' PLN'">amount</td>
                     <td th:text="${transaction.balance} + ' PLN'">balance</td>
-                    <td th:text="${transaction.fromAccount.name}"> fromAccount.name</td>
-                    <td th:text="${transaction.toAccount}"> toAccount</td>
+                    <td th:text="${transaction.account.name}"> account.name</td>
+                    <td th:text="${transaction.comment}"> comment</td>
                     <td th:text="${transaction.transDate}"> transDate</td>
                     <!--<td th:text="${transaction.categories}"> categories</td>-->
                     <!--<select multiple class="form-control">-->

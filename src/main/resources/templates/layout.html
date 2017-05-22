@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
 <meta charset="UTF-8"/>
 <head>
     <title>Layout</title>
@@ -31,9 +32,24 @@
                     <li><a th:href="@{/user/list}">Transactions list</a></li>
                     <li><a th:href="@{/user.addTransaction}">Add transaction</a></li>
                 </ul>
+
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a th:href="@{/user/account}">Account</a></li>
-                    <li><a th:href="@{/logout}">Log out</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false" th:text="${session.username}">username<span
+                                class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/user/account}">Account</a></li>
+
+                            <li>
+                                <form th:action="@{/logout}" method="post">
+                                    <input type="submit" th:value="logout"></input>
+                                </form>
+                            </li>
+                        </ul>
+
+                    </li>
+
                 </ul>
 
                 <!--<form th:action="@{/logout}" th:method="post">-->
@@ -56,8 +72,6 @@
     <div layout:fragment="content">content goes here</div>
 
     <div layout:fragment="footer">footer goes here</div>
-
-
 </div>
 </body>
 </html>

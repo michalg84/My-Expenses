@@ -22,9 +22,9 @@ public class Transaction {
     private BigDecimal amount;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id")
-    private Account fromAccount;
+    private Account account;
     @Column
-    private String toAccount;
+    private String comment;
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date transDate;
@@ -59,20 +59,20 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public void setFromAccount(Account fromAccount) {
-        this.fromAccount = fromAccount;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Account getFromAccount() {
-        return fromAccount;
+    public Account getAccount() {
+        return account;
     }
 
-    public String getToAccount() {
-        return toAccount;
+    public String getComment() {
+        return comment;
     }
 
-    public void setToAccount(String toAccount) {
-        this.toAccount = toAccount;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Date getTransDate() {

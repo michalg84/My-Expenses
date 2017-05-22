@@ -6,28 +6,32 @@
     <script th:src="@{/js/bootstrap.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
     <link th:rel="stylesheet" th:href="@{/css/signin.css}"/>
-
+<script>
+    $(document).ready(function () {
+        $('#message').fadeOut(8000);
+    });
+</script>
 
 </head>
 <body>
 <div class="container">
     <form class="form-signin"  th:object="${userDto}" th:action="@{login}"  th:method="post">
-        <!--<div style="margin-bottom: 15px" class="form-control alert alert-danger" role="alert">alert</div>-->
+
         <h2 class="form-signin-heading">Please sign in</h2>
+
+        <div id="message" th:if="${message}" th:text="${message.msg}" class="alert alert-warning">message</div>
 
         <label for="username" class="sr-only">Email address</label>
         <input type="text" name="username"
 
                id="username" class="form-control"
                placeholder="username"  required="true" autofocus="true" />
-        <div class="error-msg" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Wrong username</div>
 
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password"
 
                id="inputPassword" class="form-control"   placeholder="Password"
                required="true"/>
-        <div class="error-msg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Wrong password</div>
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
 

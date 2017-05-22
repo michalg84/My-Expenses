@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
-import pl.sda.model.Account;
 import pl.sda.model.Transaction;
 import pl.sda.model.User;
 import pl.sda.repository.AccountRepository;
@@ -68,9 +67,9 @@ public class TransactionService {
     private TransactionDto convertTransactionToTransactionDto(Transaction t) {
             TransactionDto transactionDto = new TransactionDto();
             transactionDto.setAmount(t.getAmount());
-            transactionDto.setFromAccount(t.getFromAccount());
+            transactionDto.setAccount(t.getAccount());
             transactionDto.setId(t.getId());
-            transactionDto.setToAccount(t.getToAccount());
+            transactionDto.setComment(t.getComment());
             transactionDto.setTransDate(t.getTransDate());
             transactionDto.setUser(t.getUser());
         return transactionDto;
@@ -134,9 +133,9 @@ public class TransactionService {
     private Transaction convertTransactionDtoToTransaction(TransactionDto transactionDto) {
         Transaction transaction = new Transaction();
         transaction.setAmount(transactionDto.getAmount());
-        transaction.setFromAccount(transactionDto.getFromAccount());
+        transaction.setAccount(transactionDto.getAccount());
         transaction.setId(transactionDto.getId());
-        transaction.setToAccount(transactionDto.getToAccount());
+        transaction.setComment(transactionDto.getComment());
         transaction.setTransDate(transactionDto.getTransDate());
         transaction.setUser(transactionDto.getUser());
 //        transaction.setBalance(transactionDto.getBalance());

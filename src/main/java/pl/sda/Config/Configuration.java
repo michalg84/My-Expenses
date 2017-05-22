@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import pl.sda.service.UserDetailsServiceImpl;
 
 /**
@@ -30,12 +31,14 @@ public class Configuration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/register").permitAll()
+                .antMatchers("/css/**", "/js/**", "/register", "/login/error").permitAll()
 //                .antMatchers("/save").hasAnyAuthority("ADMIN")
 //                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .csrf().disable()       //wyłącznie tokena
+                .csrf()
+                .disable()       //wyłącznie tokena
+//                .and()
                 .formLogin()
                 .loginPage("/login")
 //                .loginProcessingUrl("/user/list")

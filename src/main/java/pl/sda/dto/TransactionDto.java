@@ -1,8 +1,12 @@
 package pl.sda.dto;
 
+import org.springframework.format.annotation.NumberFormat;
 import pl.sda.model.Account;
 import pl.sda.model.User;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,9 +16,13 @@ import java.util.Date;
 public class TransactionDto {
     private Integer id;
     private User user;
+//    @Pattern(regexp = "[0-9].[0-9]")
+    @NumberFormat(style = NumberFormat.Style.DEFAULT)
     private BigDecimal amount;
-    private Account fromAccount;
-    private String toAccount;
+    private Account account;
+    @Valid
+    private String comment;
+    @Valid
     private Date transDate;
     private BigDecimal balance;
 
@@ -46,20 +54,20 @@ public class TransactionDto {
         this.amount = amount;
     }
 
-    public Account getFromAccount() {
-        return fromAccount;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setFromAccount(Account fromAccount) {
-        this.fromAccount = fromAccount;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public String getToAccount() {
-        return toAccount;
+    public String getComment() {
+        return comment;
     }
 
-    public void setToAccount(String toAccount) {
-        this.toAccount = toAccount;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Date getTransDate() {

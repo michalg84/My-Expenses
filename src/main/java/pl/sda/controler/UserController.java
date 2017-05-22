@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.AccountDto;
+import pl.sda.dto.MessageDto;
 import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
 import pl.sda.model.Transaction;
@@ -17,6 +18,7 @@ import pl.sda.service.AccountTypeService;
 import pl.sda.service.TransactionService;
 import pl.sda.service.UserService;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
@@ -44,11 +46,10 @@ public class UserController {
     private AccountTypeService accountTypeService;
 
 
-
-
     @RequestMapping("account")
-    public ModelAndView userAccount(ModelMap modelMap) {
+    public ModelAndView userAccount(ModelMap modelMap, HttpSession session) {
         UserDto userDto = userService.getAcctualUserDto();
+        session.setAttribute("username", userDto.getUsername());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("accounts", userDto.getAccounts());
         modelMap.addAttribute("sum", userService.getTotalBalance());
@@ -59,6 +60,7 @@ public class UserController {
 
     /**
      * Adds new money account to database.
+     *
      * @param accountDto
      * @param result
      * @param modelMap
@@ -75,21 +77,25 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public ModelAndView transactionList(ModelMap modelMap) {
+    public ModelAndView transactionList(ModelMap modelMap, MessageDto messageDto) {
         UserDto userDto = userService.getAcctualUserDto();
         modelMap.addAttribute("userDto", userDto);
-
+//            messageDto = new MessageDto("test");
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance(userDto.getTransactionList());
+        modelMap.addAttribute("message", messageDto);
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("transactionDto", new TransactionDto());
         return new ModelAndView(USER_TRANSACTIONS, modelMap);
     }
 
     @PostMapping("addTransaction")
-    public String addNewTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto, BindingResult result, ModelMap modelMap) {
-        transactionService.addTransaction(transactionDto);
-
-
-        return "redirect:/" + USER_TRANSACTIONS;
+    public String addNewTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
+                                    BindingResult result, ModelMap modelMap) {
+        if (!result.hasErrors()) {
+            transactionService.addTransaction(transactionDto);
+            return "redirect:/" + USER_TRANSACTIONS;
+        }
+//        transactionList(modelMap, new MessageDto("Bad value! = " + transactionDto.getAmount()));
+        return USER_TRANSACTIONS;
     }
 }
