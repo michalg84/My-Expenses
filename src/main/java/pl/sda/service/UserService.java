@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.UserDto;
+import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.User;
 import pl.sda.repository.AccountRepository;
@@ -14,9 +15,8 @@ import pl.sda.repository.RoleRepository;
 import pl.sda.repository.UserRepository;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -35,6 +35,10 @@ public class UserService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private MessageService messageService;
 
     /**
      * Converts authenticated User to UserDto.
@@ -93,6 +97,7 @@ public class UserService {
         user.setAccounts(userDto.getAccounts());
         user.setTransactionList(userDto.getTransactionList());
         user.setRoles(userDto.getRoles());
+        user.setCategories(userDto.getCategories());
         return user;
     }
 
@@ -115,6 +120,7 @@ public class UserService {
         userDto.setAccounts(user.getAccounts());
         userDto.setTransactionList(user.getTransactionList());
         userDto.setRoles(user.getRoles());
+        userDto.setCategories(user.getCategories());
         return userDto;
     }
 
@@ -130,11 +136,16 @@ public class UserService {
 
         user.setRoles(new HashSet<>());
 
+
         Role userRole = roleRepository.findOne(1);
         user.getRoles().add(userRole);
 
+        user.setCategories(categoryService.initCategories());
+
         userRepository.save(user);
     }
+
+
 
     /**
      * Gets All UsersDto.
@@ -177,4 +188,6 @@ public class UserService {
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
     }
+
+
 }

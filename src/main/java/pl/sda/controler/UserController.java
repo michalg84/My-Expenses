@@ -12,6 +12,7 @@ import pl.sda.dto.AccountDto;
 import pl.sda.dto.MessageDto;
 import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
+import pl.sda.model.Category;
 import pl.sda.model.Transaction;
 import pl.sda.service.*;
 
@@ -27,20 +28,20 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
-    public static final String USER_ACCOUNT_ADD = "user/AddAccount";
     public static final String USER_ACCOUNT = "user/account";
     public static final String USER_TRANSACTIONS = "user/list";
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private MessageService messageService;
-
     @Autowired
     private UserService userService;
     @Autowired
     private TransactionService transactionService;
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private CategoryService categoryService;
     @Autowired
     private AccountTypeService accountTypeService;
 
@@ -81,6 +82,7 @@ public class UserController {
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getAcctualUserDto();
         modelMap.addAttribute("userDto", userDto);
+        modelMap.addAttribute("newCategory", new Category());
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance(userDto.getTransactionList());
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("transactionDto", new TransactionDto());
@@ -92,11 +94,24 @@ public class UserController {
                                     BindingResult result, ModelMap modelMap) {
         if (!result.hasErrors()) {
             transactionService.addTransaction(transactionDto);
-            messageService.addSuccessMessage("Transaction added !");
             return "redirect:/" + USER_TRANSACTIONS;
         }
         messageService.addErrorMessage("Transaction Error. Values aren't correct. Please try again.");
 //        transactionList(modelMap, new MessageDto("Bad value! = " + transactionDto.getAmount()));
+        return "redirect:/" + USER_TRANSACTIONS;
+    }
+
+    @PostMapping("removeTransaction/{id}")
+    public String removeTransaction(@PathVariable("id") Integer transId) {
+        if (transId != null) {
+            transactionService.removeById(transId);
+        }
+        return "redirect:/" + USER_TRANSACTIONS;
+    }
+
+    @PostMapping("addCategory")
+    public String addNewCategory(@ModelAttribute("newCategory") Category category) {
+       categoryService.add(category);
         return "redirect:/" + USER_TRANSACTIONS;
     }
 }

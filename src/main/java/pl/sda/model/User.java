@@ -32,18 +32,29 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+    @Column
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "user_category",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<Category> categories;
+
 
     public User() {
     }
 
-    public User(String username, String login, String mail, String password, List<Transaction> transactionList, List<Account> accounts) {
+    public User(String username, String login, String mail, String password, List<Transaction> transactionList, List<Account> accounts, List<Category> categories) {
         this.username = username;
         this.login = login;
         this.mail = mail;
         this.password = password;
         this.transactionList = transactionList;
         this.accounts = accounts;
+        this.categories = categories;
     }
+
+
+
 
     public Integer getId() {
         return id;
@@ -60,6 +71,8 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 
 
 
@@ -109,6 +122,14 @@ public class User {
 
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
     }
 }
 

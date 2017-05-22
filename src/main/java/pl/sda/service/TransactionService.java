@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.TransactionDto;
 import pl.sda.dto.UserDto;
+import pl.sda.model.Account;
 import pl.sda.model.Transaction;
 import pl.sda.model.User;
 import pl.sda.repository.AccountRepository;
@@ -145,5 +146,14 @@ public class TransactionService {
         transaction.setUser(transactionDto.getUser());
 //        transaction.setBalance(transactionDto.getBalance());
         return transaction;
+    }
+
+    public void removeById(Integer transId) {
+        Transaction t = transactionRepository.findOne(transId);
+        Account a = accountRepository.findOne(t.getAccount().getId());
+        a.setBalance(a.getBalance().subtract(t.getAmount()));
+        accountRepository.save(a);
+        transactionRepository.delete(transId);
+    messageService.addSuccessMessage("Transactions was succesfuly removed");
     }
 }

@@ -12,9 +12,26 @@
     <script src="/js/jquery-ui-timepicker-addon.js"></script>
 
     <script>
-        $(function () {
+        $(document).ready(function () {
             $("#datetimepicker").datetimepicker();
+
+            $('#myTabs a').click(function (e) {
+                e.preventDefault()
+                $(this).tab('show')
+            })
+
+//                $('#edit-button').click(function () {
+//                    var amount = $('#t-amount').val();
+//                    var id = $('#edit-button').val();
+//                    var account = $('#t-acount').val();
+//                    var comment = $('#t-comment').val();
+//                    console.log(id);
+//                    console.log(amount);
+//                    console.log(account);
+//                    console.log(comment);
+//                })
         });
+
     </script>
 </head>
 <body>
@@ -22,120 +39,274 @@
 
     <h1 layout:fragment="header">Transactions </h1>
 
-        <div layout:fragment="content">
-            <h2>Add new transaction</h2>
-            <form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                    <tr>
-                        <td class="col-md-2">Amount [PLN]</td>
-                        <td class="col-md-2">Choose account</td>
-                        <td class="col-md-2">Comment</td>
-                        <td class="col-md-2">Transaction Date</td>
-                        <td class="col-md-2">Categories //TODO</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td class="col-md-2">
-                            <input class="form-control" type="text" placeholder="Amount XXXX.XX" th:field="*{amount}"
-                            required="true"/>
-                            <span class="alert-warn" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount</span>
-                        </td>
-                        <td class="col-md-2">
-                            <select class="form-control" th:field="*{account}" required="true">
-                                <option th:each="userAccount : ${userDto.accounts}" th:value="${userAccount.id}"
-                                        th:text="${userAccount.name}">
-                                    User accounts
-                                </option>
-                            </select>
-                            <div class="error-msg" th:if="${#fields.hasErrors('account')}"
-                                 th:errors="*{account}">
-                                account
+    <div layout:fragment="content">
+
+
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#addTransaction" aria-controls="home" role="tab"
+                                                          data-toggle="tab">Add Transaction</a>
+                </li>
+                <li role="presentation"><a href="#addCategory" aria-controls="profile" role="tab" data-toggle="tab">Add
+                    Category</a>
+                </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane fade in active" id="addTransaction">
+                    <h2>Add new transaction</h2>
+                    <form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <td class="col-md-2">Amount [PLN]</td>
+                                <td class="col-md-2">Choose account</td>
+                                <td class="col-md-2">Comment</td>
+                                <td class="col-md-2">Transaction Date</td>
+                                <td class="col-md-2">Categories //TODO</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="col-md-2">
+                                    <input class="form-control" type="text" placeholder="Amount XXXX.XX"
+                                           th:field="*{amount}"
+                                           required="true"/>
+                                    <span class="alert-warn" th:if="${#fields.hasErrors('amount')}"
+                                          th:errors="*{amount}">amount</span>
+                                </td>
+                                <td class="col-md-2">
+                                    <select class="form-control" th:field="*{account}" required="true">
+                                        <option th:each="userAccount : ${userDto.accounts}" th:value="${userAccount.id}"
+                                                th:text="${userAccount.name}">
+                                            User accounts
+                                        </option>
+                                    </select>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('account')}"
+                                         th:errors="*{account}">
+                                        account
+                                    </div>
+                                </td>
+                                <td class="col-md-2">
+                                    <input class="form-control" type="text" placeholder="Destination account"
+                                           th:field="*{comment}" required="true"/>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('amount')}"
+                                         th:errors="*{comment}">
+                                        comment
+                                    </div>
+                                </td>
+                                <td class="col-md-2">
+                                    <input class="form-control" id="datetimepicker" type="datetime"
+                                           placeholder="Choose date and time"
+                                           th:field="*{transDate}" required="true"/>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('transDate')}"
+                                         th:errors="*{transDate}">
+                                        transDate
+                                    </div>
+                                </td>
+
+                                <!--<td class="col-md-2">-->
+                                <!--<input class="form-control" type="text" placeholder="Amount [PLN]" th:field="*{amount}"-->
+                                <!--required="true"/>-->
+                                <!--<div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount</div>-->
+                                <!--</td>-->
+
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="row">
+
+                            <div class="col-md-3 pull-right">
+                                <button class=" btn  btn-primary" type="submit">Add transaction</button>
                             </div>
-                        </td>
-                        <td class="col-md-2">
-                            <input class="form-control" type="text" placeholder="Destination account"
-                            th:field="*{comment}" required="true"/>
-                            <div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{comment}">
-                                comment
-                            </div>
-                        </td>
-                        <td class="col-md-2">
-                            <input class="form-control" id="datetimepicker" type="datetime"
-                                   placeholder="Choose date and time"
-                                   th:field="*{transDate}" required="true"/>
-                            <div class="error-msg" th:if="${#fields.hasErrors('transDate')}" th:errors="*{transDate}">
-                                transDate
-                            </div>
-                        </td>
-
-                        <!--<td class="col-md-2">-->
-                        <!--<input class="form-control" type="text" placeholder="Amount [PLN]" th:field="*{amount}"-->
-                        <!--required="true"/>-->
-                        <!--<div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount</div>-->
-                        <!--</td>-->
-
-
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="row">
-
-                    <div class="col-md-3 pull-right">
-                        <button class=" btn btn-lg btn-primary" type="submit">Add transaction</button>
-                    </div>
+                        </div>
+                    </form>
                 </div>
+                <div role="tabpanel" class="tab-pane fade" id="addCategory">
+                    <h2>Add new category</h2>
+                    <form th:object="${newCategory}" th:action="@{addCategory}" method="post">
+                        <div class="col-md-3">
+                            <input class="form-control" type="text" placeholder="category name" th:field="*{name}"
+                                   required="true"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add category</button>
+                        <span class="alert-warn" th:if="${#fields.hasErrors('name')}"
+                              th:errors="*{name}">amount</span>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <h2>Transactions list</h2>
+        <!--EDIT MODAL-->
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+             aria-labelledby="myLargeModalLabel">
+            <!--<div class="modal-dialog modal-lg" role="document">-->
+            <!--<div class="modal-content">-->
+
+            <!--<form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">-->
+            <!--<table class="table table-bordered table-striped">-->
+            <!--<thead>-->
+            <!--<tr>-->
+            <!--<td class="col-md-2">Amount [PLN]</td>-->
+            <!--<td class="col-md-2">Choose account</td>-->
+            <!--<td class="col-md-2">Comment</td>-->
+            <!--<td class="col-md-2">Transaction Date</td>-->
+            <!--<td class="col-md-2">Categories //TODO</td>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--<tbody>-->
+            <!--<tr>-->
+            <!--<td class="col-md-2">-->
+            <!--<input id="t-amount" class="form-control" type="text" placeholder="Amount XXXX.XX"-->
+            <!--th:field="*{amount}"-->
+            <!--required="true"/>-->
+            <!--<span class="alert-warn" th:if="${#fields.hasErrors('amount')}"-->
+            <!--th:errors="*{amount}">amount</span>-->
+            <!--</td>-->
+            <!--<td class="col-md-2">-->
+            <!--<select id="t-account" class="form-control" th:field="*{account}" required="true">-->
+            <!--<option th:each="userAccount : ${userDto.accounts}" th:value="${userAccount.id}"-->
+            <!--th:text="${userAccount.name}">-->
+            <!--User accounts-->
+            <!--</option>-->
+            <!--</select>-->
+            <!--<div class="error-msg" th:if="${#fields.hasErrors('account')}"-->
+            <!--th:errors="*{account}">-->
+            <!--account-->
+            <!--</div>-->
+            <!--</td>-->
+            <!--<td class="col-md-2">-->
+            <!--<input id="t-comment" class="form-control" type="text"-->
+            <!--placeholder="Destination account"-->
+            <!--th:field="*{comment}" required="true"/>-->
+            <!--<div class="error-msg" th:if="${#fields.hasErrors('amount')}"-->
+            <!--th:errors="*{comment}">-->
+            <!--comment-->
+            <!--</div>-->
+            <!--</td>-->
+            <!--<td class="col-md-2">-->
+            <!--<input class="form-control" id="datetimepicker" type="datetime"-->
+            <!--placeholder="Choose date and time"-->
+            <!--th:field="*{transDate}" required="true"/>-->
+            <!--<div class="error-msg" th:if="${#fields.hasErrors('transDate')}"-->
+            <!--th:errors="*{transDate}">-->
+            <!--transDate-->
+            <!--</div>-->
+            <!--</td>-->
+
+            <!--&lt;!&ndash;<td class="col-md-2">&ndash;&gt;-->
+            <!--&lt;!&ndash;<input class="form-control" type="text" placeholder="Amount [PLN]" th:field="*{amount}"&ndash;&gt;-->
+            <!--&lt;!&ndash;required="true"/>&ndash;&gt;-->
+            <!--&lt;!&ndash;<div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount</div>&ndash;&gt;-->
+            <!--&lt;!&ndash;</td>&ndash;&gt;-->
+
+
+            <!--</tr>-->
+            <!--</tbody>-->
+            <!--</table>-->
+            <!--<div class="row">-->
+
+            <!--<div class="col-md-3 pull-right">-->
+            <!--<button class=" btn  btn-primary" type="submit">Update transaction</button>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</form>-->
+
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+            <!--</div>-->
+            <!--</div>-->
+        </div> <!--END EDIT MODAL-->
+
+        <table class="table table-bordered table-striped">
+            <thead>
+            <form>
+                <tr>
+                    <td class="col-md-2">Amount</td>
+                    <td class="col-md-2">Account balance</td>
+                    <td class="col-md-1">Account</td>
+                    <td class="col-md-2">Comment</td>
+                    <td class="col-md-2">Transaction Date</td>
+                    <td>Categories</td>
+                    <td class="col-md-1">Action</td>
+                </tr>
+
             </form>
-            <h2>Transactions list</h2>
-            <table class="table table-bordered table-striped">
-                <thead>
-                <form>
-                    <tr>
-                        <td class="col-md-2">Amount</td>
-                        <td class="col-md-2">Account balance</td>
-                        <td class="col-md-2">Account</td>
-                        <td class="col-md-2">Comment</td>
-                        <td class="col-md-2">Transaction Date</td>
-                        <td class="col-md-2">Categories</td>
-                    </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${transactionList.empty}">
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+                <td>---</td>
+            </tr>
+            <tr th:each="transaction  : ${transactionList}">
 
-                </form>
-                </thead>
-                <tbody>
-                <tr th:if="${transactionList.empty}">
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                    <td>---</td>
-                </tr>
-                <tr th:each="transaction  : ${transactionList}">
-                    <td th:text="${transaction.amount} + ' PLN'">amount</td>
-                    <td th:text="${transaction.balance} + ' PLN'">balance</td>
-                    <td th:text="${transaction.account.name}"> account.name</td>
-                    <td th:text="${transaction.comment}"> comment</td>
-                    <td th:text="${transaction.transDate}"> transDate</td>
-                    <!--<td th:text="${transaction.categories}"> categories</td>-->
-                    <!--<select multiple class="form-control">-->
-                    <!--<option>1</option>-->
-                    <!--<option>2</option>-->
-                    <!--</select>-->
-                    <!--<select id="multiSelectElementsSelected"-->
-                    <!--name="multiSelectElementsSelected"-->
-                    <!--multiple="multiple"-->
-                    <!--th:field="*{departments}">-->
+                <td th:text="${transaction.amount} + ' PLN'">amount</td>
+                <td th:text="${transaction.balance} + ' PLN'">balance</td>
+                <td th:text="${transaction.account.name}"> account.name</td>
+                <td th:text="${transaction.comment}"> comment</td>
+                <td th:text="${transaction.transDate}"> transDate</td>
+                <td></td>
+                <td th:id="${transaction.id}">
+                    <div class="dropdown">
+                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                            Action
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dLabel">
+                            <li>
+                                <form th:action="@{'removeTransaction/' + ${transaction.id}}" th:method="post">
+                                    <button type="submit" class="btn btn-small btn-warning ">Delete</button>
+                                </form>
+                            </li>
+                            <li>
+                                <!--<button th:value="${transaction.id}" type="button" class="btn btn-primary"-->
+                                <!--data-toggle="modal"-->
+                                <!--data-target=".bs-example-modal-lg" id="edit-button">Move-->
+                                <!--</button>-->
 
-                    <!--<option th:each="department,row : ${collectionOfDepartments.values()}"-->
-                    <!--th:value="${department.value}"-->
-                    <!--th:text="${department.label}"></option>-->
-                    <!--</select>-->
-                </tr>
-                </tbody>
-            </table>
+                            </li>
+                            <li>
 
-        </div> <!--end of content-->
+                            </li>
+                        </ul>
+                    </div>
+
+                </td>
+                <!--TODO : add transcactions categories-->
+                <!--<td th:text="${transaction.categories}"> categories</td>-->
+                <!--<select multiple class="form-control">-->
+                <!--<option>1</option>-->
+                <!--<option>2</option>-->
+                <!--</select>-->
+                <!--<select id="multiSelectElementsSelected"-->
+                <!--name="multiSelectElementsSelected"-->
+                <!--multiple="multiple"-->
+                <!--th:field="*{departments}">-->
+
+                <!--<option th:each="department,row : ${collectionOfDepartments.values()}"-->
+                <!--th:value="${department.value}"-->
+                <!--th:text="${department.label}"></option>-->
+                <!--</select>-->
+            </tr>
+            </tbody>
+        </table>
+
+
+    </div> <!--end of content-->
 
 
 </div> <!--end of container-->

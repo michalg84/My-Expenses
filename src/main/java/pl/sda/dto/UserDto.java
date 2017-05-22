@@ -3,6 +3,7 @@ package pl.sda.dto;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sda.model.Account;
+import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.Transaction;
 
@@ -34,17 +35,20 @@ public class UserDto {
     private List<Transaction> transactionList;
     private List<Account> accounts;
     private Set<Role> roles;
+    private List<Category> categories;
 
     public UserDto() {
     }
 
-    public UserDto(Integer id, String username, String login, String mail, String password, String confirmPassword) {
+    public UserDto(Integer id, String username, String login, String mail, String password,
+                   String confirmPassword, List<Category> categories) {
         this.id = id;
         this.username = username;
         this.login = login;
         this.mail = mail;
         this.password = password;
         this.confirmPassword = confirmPassword;
+        this.categories = categories;
     }
 
     public Integer getId() {
@@ -63,6 +67,13 @@ public class UserDto {
         this.username = username;
     }
 
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
 
     public String getLogin() {
         return login;
