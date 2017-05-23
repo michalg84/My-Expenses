@@ -63,6 +63,10 @@ public class UserService {
         return null;
     }
 
+    public UserDto getUser() {
+        return convertUserToUserDto(userRepository.getOne(1));
+    }
+
     /**
      * Saves User o DB unlees such user exists.
      *
@@ -93,7 +97,7 @@ public class UserService {
         user.setUsername(userDto.getUsername());
         user.setLogin(userDto.getLogin());
         user.setMail(userDto.getMail());
-        user.setPassword(userDto.getPassword());
+//        user.setPassword(userDto.getPassword());
         user.setAccounts(userDto.getAccounts());
         user.setTransactionList(userDto.getTransactionList());
         user.setRoles(userDto.getRoles());
@@ -116,7 +120,7 @@ public class UserService {
         userDto.setUsername(user.getUsername());
         userDto.setLogin(user.getLogin());
         userDto.setMail(user.getMail());
-        userDto.setPassword(user.getPassword());
+//        userDto.setPassword(user.getPassword());
         userDto.setAccounts(user.getAccounts());
         userDto.setTransactionList(user.getTransactionList());
         userDto.setRoles(user.getRoles());

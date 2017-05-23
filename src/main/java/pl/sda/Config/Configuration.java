@@ -31,7 +31,7 @@ public class Configuration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/register", "/login/error").permitAll()
+                .antMatchers("/css/**", "/js/**", "/register", "/login/error", "/table/transaction").permitAll()
 //                .antMatchers("/save").hasAnyAuthority("ADMIN")
 //                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()

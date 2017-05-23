@@ -40,7 +40,8 @@ public class User {
     public User() {
     }
 
-    public User(String username, String login, String mail, String password, List<Transaction> transactionList, List<Account> accounts, List<Category> categories) {
+    public User(String username, String login, String mail, String password,
+                List<Transaction> transactionList, List<Account> accounts, List<Category> categories) {
         this.username = username;
         this.login = login;
         this.mail = mail;

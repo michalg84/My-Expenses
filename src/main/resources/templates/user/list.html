@@ -63,7 +63,7 @@
                 <!--Add new transaction-->
                 <div role="tabpanel" class="tab-pane fade in active" id="addTransaction">
                     <h2>Add new transaction</h2>
-                    <form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">
+                    <form th:object="${transactionDto}" action="/user/addTransaction" method="post">
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -173,7 +173,7 @@
 
         </div>
 
-
+        <!--TRANSACTIONS LIST-->
         <h2>Transactions list</h2>
 
         <table class="table table-bordered table-striped">

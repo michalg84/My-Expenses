@@ -24,13 +24,10 @@ import java.util.stream.Collectors;
 public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private AccountRepository accountRepository;
-
     @Autowired
     private AccountService accountService;
     @Autowired
@@ -76,6 +73,7 @@ public class TransactionService {
             transactionDto.setComment(t.getComment());
             transactionDto.setTransDate(t.getTransDate());
             transactionDto.setUser(t.getUser());
+            transactionDto.getUser().setPassword(null);
             transactionDto.setCategory(t.getCategory());
         return transactionDto;
 

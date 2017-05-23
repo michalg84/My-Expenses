@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<meta charset="UTF-8"/>
+<head>
+    <title>Transaction list</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="/css/datatable.css" th:href="@{/css/bootstrap.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="/js/datatable.js" th:src="@{/js/jquery-1.12.4.js}"></script>
+
+    <script>
+//        $(document).ready( function () {
+//            var table = $('#employeesTable').DataTable({
+//                "sAjaxSource": "/employees",
+//                "sAjaxDataProp": "",
+//                "order": [[ 0, "asc" ]],
+//                "aoColumns": [
+//                    { "mData": "id"},
+//                    { "mData": "name" },
+//                    { "mData": "lastName" },
+//                    { "mData": "email" },
+//                    { "mData": "phone" },
+//                    { "mData": "active" }
+//                ]
+//            })
+//        });
+    </script>
+</head>
+<body>
+<div class="container">
+
+    <h1 layout:fragment="header">Transactions datatable</h1>
+
+    <div layout:fragment="content" class="container">
+        <h1>Employees Table</h1>
+        <!--<table id="employeesTable" class="display">-->
+
+            <!--&lt;!&ndash; Header Table &ndash;&gt;-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>Id</th>-->
+                <!--<th>Name</th>-->
+                <!--<th>Last Name</th>-->
+                <!--<th>Email</th>-->
+                <!--<th>Phone</th>-->
+                <!--<th>Active</th>-->
+            <!--</tr>-->
+            <!--</thead>-->
+            <!--&lt;!&ndash; Footer Table &ndash;&gt;-->
+            <!--<tfoot>-->
+            <!--<tr>-->
+                <!--<th>Id</th>-->
+                <!--<th>Name</th>-->
+                <!--<th>Last Name</th>-->
+                <!--<th>Email</th>-->
+                <!--<th>Phone</th>-->
+                <!--<th>Active</th>-->
+            <!--</tr>-->
+            <!--</tfoot>-->
+        <!--</table>-->
+
+    </div> <!--end of content-->
+
+
+</div> <!--end of container-->
+</body>
+</html>
