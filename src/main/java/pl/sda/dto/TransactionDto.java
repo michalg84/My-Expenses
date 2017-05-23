@@ -2,6 +2,7 @@ package pl.sda.dto;
 
 import org.springframework.format.annotation.NumberFormat;
 import pl.sda.model.Account;
+import pl.sda.model.Category;
 import pl.sda.model.User;
 
 import javax.validation.Valid;
@@ -25,6 +26,7 @@ public class TransactionDto {
     @Valid
     private Date transDate;
     private BigDecimal balance;
+    private Category category;
 
     public TransactionDto() {
 
@@ -84,5 +86,13 @@ public class TransactionDto {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

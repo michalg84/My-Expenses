@@ -52,10 +52,15 @@
                 <li role="presentation"><a href="#addCategory" aria-controls="profile" role="tab" data-toggle="tab">Add
                     Category</a>
                 </li>
+                <li role="presentation"><a href="#moveBetweenAccounts" aria-controls="profile" role="tab"
+                                           data-toggle="tab">Move between accounts</a>
+                </li>
+
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
+                <!--Add new transaction-->
                 <div role="tabpanel" class="tab-pane fade in active" id="addTransaction">
                     <h2>Add new transaction</h2>
                     <form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">
@@ -66,7 +71,7 @@
                                 <td class="col-md-2">Choose account</td>
                                 <td class="col-md-2">Comment</td>
                                 <td class="col-md-2">Transaction Date</td>
-                                <td class="col-md-2">Categories //TODO</td>
+                                <td class="col-md-2">Categories</td>
                             </tr>
                             </thead>
                             <tbody>
@@ -107,6 +112,20 @@
                                         transDate
                                     </div>
                                 </td>
+                                <td class="col-md-2">
+                                    <select class="form-control" th:field="*{category}" required="true">
+                                        <option th:each="category :
+                                         ${userDto.categories}"
+                                                th:value="${category.id}"
+                                                th:text="${category.name}">
+                                            Category
+                                        </option>
+                                    </select>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('category.name')}"
+                                         th:errors="*{category.name}">
+                                        account
+                                    </div>
+                                </td>
 
                                 <!--<td class="col-md-2">-->
                                 <!--<input class="form-control" type="text" placeholder="Amount [PLN]" th:field="*{amount}"-->
@@ -126,7 +145,9 @@
                         </div>
                     </form>
                 </div>
+                <!--Add new category-->
                 <div role="tabpanel" class="tab-pane fade" id="addCategory">
+
                     <h2>Add new category</h2>
                     <form th:object="${newCategory}" th:action="@{addCategory}" method="post">
                         <div class="col-md-3">
@@ -137,95 +158,23 @@
                         <span class="alert-warn" th:if="${#fields.hasErrors('name')}"
                               th:errors="*{name}">amount</span>
                     </form>
-                </div>
+                    <h4>Categories:</h4>
+                    <span th:each="category : ${userDto.categories}" th:text="${category.name} +', '">
 
+                        <!--<span style="display: inline" th:text="${category.name} +', '">category name</span>-->
+                    </span>
+                </div>
+                <!--Move between accounts-->
+                <div role="tabpanel" class="tab-pane fade in active" id="moveBetweenAccounts">
+                    <h2>TODO: in development</h2>
+                    <!--TODO: move between accounts-->
+                </div>
             </div>
 
         </div>
 
 
         <h2>Transactions list</h2>
-        <!--EDIT MODAL-->
-        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
-             aria-labelledby="myLargeModalLabel">
-            <!--<div class="modal-dialog modal-lg" role="document">-->
-            <!--<div class="modal-content">-->
-
-            <!--<form th:object="${transactionDto}" th:action="@{addTransaction}" method="post">-->
-            <!--<table class="table table-bordered table-striped">-->
-            <!--<thead>-->
-            <!--<tr>-->
-            <!--<td class="col-md-2">Amount [PLN]</td>-->
-            <!--<td class="col-md-2">Choose account</td>-->
-            <!--<td class="col-md-2">Comment</td>-->
-            <!--<td class="col-md-2">Transaction Date</td>-->
-            <!--<td class="col-md-2">Categories //TODO</td>-->
-            <!--</tr>-->
-            <!--</thead>-->
-            <!--<tbody>-->
-            <!--<tr>-->
-            <!--<td class="col-md-2">-->
-            <!--<input id="t-amount" class="form-control" type="text" placeholder="Amount XXXX.XX"-->
-            <!--th:field="*{amount}"-->
-            <!--required="true"/>-->
-            <!--<span class="alert-warn" th:if="${#fields.hasErrors('amount')}"-->
-            <!--th:errors="*{amount}">amount</span>-->
-            <!--</td>-->
-            <!--<td class="col-md-2">-->
-            <!--<select id="t-account" class="form-control" th:field="*{account}" required="true">-->
-            <!--<option th:each="userAccount : ${userDto.accounts}" th:value="${userAccount.id}"-->
-            <!--th:text="${userAccount.name}">-->
-            <!--User accounts-->
-            <!--</option>-->
-            <!--</select>-->
-            <!--<div class="error-msg" th:if="${#fields.hasErrors('account')}"-->
-            <!--th:errors="*{account}">-->
-            <!--account-->
-            <!--</div>-->
-            <!--</td>-->
-            <!--<td class="col-md-2">-->
-            <!--<input id="t-comment" class="form-control" type="text"-->
-            <!--placeholder="Destination account"-->
-            <!--th:field="*{comment}" required="true"/>-->
-            <!--<div class="error-msg" th:if="${#fields.hasErrors('amount')}"-->
-            <!--th:errors="*{comment}">-->
-            <!--comment-->
-            <!--</div>-->
-            <!--</td>-->
-            <!--<td class="col-md-2">-->
-            <!--<input class="form-control" id="datetimepicker" type="datetime"-->
-            <!--placeholder="Choose date and time"-->
-            <!--th:field="*{transDate}" required="true"/>-->
-            <!--<div class="error-msg" th:if="${#fields.hasErrors('transDate')}"-->
-            <!--th:errors="*{transDate}">-->
-            <!--transDate-->
-            <!--</div>-->
-            <!--</td>-->
-
-            <!--&lt;!&ndash;<td class="col-md-2">&ndash;&gt;-->
-            <!--&lt;!&ndash;<input class="form-control" type="text" placeholder="Amount [PLN]" th:field="*{amount}"&ndash;&gt;-->
-            <!--&lt;!&ndash;required="true"/>&ndash;&gt;-->
-            <!--&lt;!&ndash;<div class="error-msg" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">amount</div>&ndash;&gt;-->
-            <!--&lt;!&ndash;</td>&ndash;&gt;-->
-
-
-            <!--</tr>-->
-            <!--</tbody>-->
-            <!--</table>-->
-            <!--<div class="row">-->
-
-            <!--<div class="col-md-3 pull-right">-->
-            <!--<button class=" btn  btn-primary" type="submit">Update transaction</button>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</form>-->
-
-            <!--</div>-->
-            <!--<div class="modal-footer">-->
-            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-            <!--</div>-->
-            <!--</div>-->
-        </div> <!--END EDIT MODAL-->
 
         <table class="table table-bordered table-striped">
             <thead>
@@ -236,7 +185,7 @@
                     <td class="col-md-1">Account</td>
                     <td class="col-md-2">Comment</td>
                     <td class="col-md-2">Transaction Date</td>
-                    <td>Categories</td>
+                    <td>Category</td>
                     <td class="col-md-1">Action</td>
                 </tr>
 
@@ -244,6 +193,7 @@
             </thead>
             <tbody>
             <tr th:if="${transactionList.empty}">
+                <td>---</td>
                 <td>---</td>
                 <td>---</td>
                 <td>---</td>
@@ -258,7 +208,7 @@
                 <td th:text="${transaction.account.name}"> account.name</td>
                 <td th:text="${transaction.comment}"> comment</td>
                 <td th:text="${transaction.transDate}"> transDate</td>
-                <td></td>
+                <td th:text="${transaction.category.name}"> transDate</td>
                 <td th:id="${transaction.id}">
                     <div class="dropdown">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -272,16 +222,7 @@
                                     <button type="submit" class="btn btn-small btn-warning ">Delete</button>
                                 </form>
                             </li>
-                            <li>
-                                <!--<button th:value="${transaction.id}" type="button" class="btn btn-primary"-->
-                                <!--data-toggle="modal"-->
-                                <!--data-target=".bs-example-modal-lg" id="edit-button">Move-->
-                                <!--</button>-->
 
-                            </li>
-                            <li>
-
-                            </li>
                         </ul>
                     </div>
 

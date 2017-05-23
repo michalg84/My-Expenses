@@ -76,6 +76,7 @@ public class TransactionService {
             transactionDto.setComment(t.getComment());
             transactionDto.setTransDate(t.getTransDate());
             transactionDto.setUser(t.getUser());
+            transactionDto.setCategory(t.getCategory());
         return transactionDto;
 
     }
@@ -145,6 +146,7 @@ public class TransactionService {
         transaction.setTransDate(transactionDto.getTransDate());
         transaction.setUser(transactionDto.getUser());
 //        transaction.setBalance(transactionDto.getBalance());
+        transaction.setCategory(transactionDto.getCategory());
         return transaction;
     }
 

@@ -31,8 +31,10 @@ public class CategoryService {
      */
     public void add(Category category){
         User user = userService.getAcctualUser();
-        category.setName(category.getName().toUpperCase());
         List<Category> categories = user.getCategories();
+        //TODO: remove duplicates
+        category.setName(category.getName().toUpperCase());
+        category.setUser(user);
         categories.add(category);
         userRepository.save(user);
         messageService.addSuccessMessage("Categoty " + category.getName() + " succesfuly added.");
@@ -52,6 +54,7 @@ public class CategoryService {
         categories.add(new Category("RENT"));
         categories.add(new Category("TAXES"));
         categories.add(new Category("BILLS"));
+        categories.add(new Category("SALARY"));
         return sort(categories);
     }
 

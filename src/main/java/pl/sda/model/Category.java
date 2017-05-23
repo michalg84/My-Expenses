@@ -15,6 +15,9 @@ public class Category {
     private Integer id;
     @Column
     private String name;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Category() {
     } ;
@@ -33,6 +36,14 @@ public class Category {
 
     public String getName() {
         return name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setName(String name) {

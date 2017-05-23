@@ -114,4 +114,7 @@ public class UserController {
        categoryService.add(category);
         return "redirect:/" + USER_TRANSACTIONS;
     }
+
+    //todo mail
+    //todo logger
 }

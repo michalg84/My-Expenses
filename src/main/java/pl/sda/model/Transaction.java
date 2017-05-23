@@ -28,6 +28,9 @@ public class Transaction {
     @Column
     @Temporal(TemporalType.TIMESTAMP)
     private Date transDate;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     public Transaction() {
     }
@@ -83,5 +86,11 @@ public class Transaction {
         this.transDate = transDate;
     }
 
+    public Category getCategory() {
+        return category;
+    }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 }

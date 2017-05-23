@@ -32,36 +32,24 @@
                  id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li><a th:href="@{/user/list}">Transactions</a></li>
-                    <li><a th:href="@{/user.addTransaction}">Add transaction</a></li>
+                    <li><a th:href="@{/user/budget}">Budget</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-haspopup="true" aria-expanded="false" th:text="${session.username}">username<span
+                           aria-haspopup="true" aria-expanded="false" th:text="'Logged in: ' +${session.username}">username<span
                                 class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a th:href="@{/user/account}">Account</a></li>
+                    </li>
 
-                            <li>
-                                <form th:action="@{/logout}" method="post">
-                                    <input type="submit" th:value="logout"></input>
-                                </form>
-                            </li>
-                        </ul>
-
+                    <li><a th:href="@{/user/account}">Account</a></li>
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <button class="btn btn-default navbar-btn" type="submit">Logout</button>
+                        </form>
                     </li>
 
                 </ul>
-
-                <!--<form th:action="@{/logout}" th:method="post">-->
-
-                <!--<div>-->
-                <!--<input type="submit" value="Log out"/>-->
-                <!--</div>-->
-                <!--</form>-->
-
-
             </div>
             <!--/.navbar-collapse-->
         </div>
@@ -81,7 +69,9 @@
 
     <div layout:fragment="content">content goes here</div>
 
-    <div layout:fragment="footer">footer goes here</div>
+    <div layout:fragment="footer">
+        @author Michał Gałka
+    </div>
 
 
     <script>
