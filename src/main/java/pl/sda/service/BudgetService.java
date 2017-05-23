@@ -3,6 +3,7 @@ package pl.sda.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.BudgetDto;
+import pl.sda.dto.MonthBudget;
 import pl.sda.model.Budget;
 import pl.sda.model.Category;
 import pl.sda.model.User;
@@ -27,6 +28,8 @@ public class BudgetService {
     private UserService userService;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private MessageService messageService;
 
 
     public List<BudgetDto> getBudgetDtoList() {
@@ -59,5 +62,10 @@ public class BudgetService {
             budgetDtoList.add(budgetDto);
         }
         return budgetDtoList;
+    }
+
+    public void add(MonthBudget monthBudget) {
+
+        messageService.addSuccessMessage("Budget added");
     }
 }

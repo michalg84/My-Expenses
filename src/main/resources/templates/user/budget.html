@@ -74,11 +74,11 @@
                                     <!--account-->
                                     <!--</div>-->
                                 </td>
-                                <!--<td th:text="${monthBudget.list[3].category.name}"></td>-->
+                                <!--<td th:text="${monthBudget.list[__${stat.index}__].category.name}"></td>-->
 
                                 <td class="col-md-3">
                                     <input class="form-control" type="text" placeholder="Amount"
-                                           th:field="*{monthBudget.list[__${stat.index}__].sum}" required="true"/>
+                                           th:field="${monthBudget.list[__${stat.index}__].sum}" required="true"/>
                                     <!--<div class="error-msg" th:if="${#fields.hasErrors('amount')}"-->
                                     <!--th:errors="*{comment}">-->
                                     <!--comment-->
