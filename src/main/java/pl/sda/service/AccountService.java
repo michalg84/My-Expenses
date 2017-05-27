@@ -7,6 +7,7 @@ import pl.sda.dto.TransactionDto;
 import pl.sda.model.Account;
 import pl.sda.repository.AccountRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -24,12 +25,21 @@ public class AccountService {
     @Autowired
     private UserService userService;
 
-    public List<Account> getAccounts(){
-        return accountRepository.findAll(userService.getAcctualUser());
+    public List<AccountDto> getAccounts(){
+        List<Account> accounts = accountRepository.findAll(userService.getAcctualUser());
+        List<AccountDto> accountDtos = new ArrayList<>();
+
+        for (Account a: accounts) {
+            AccountDto accountDto = convertAccountToAccountDto(a);
+            accountDtos.add(accountDto);
+        }
+        return accountDtos;
     }
 
+
+
+
     public void addAccount(AccountDto accountDto) {
-        accountDto.setUser(userService.getAcctualUser());
         accountDto.setCreationDate(new Date());
         accountRepository.save(convertAccountDtoToAccount(accountDto));
         messageService.addSuccessMessage("Account added !");
@@ -53,8 +63,24 @@ public class AccountService {
         account.setBalance(newAccount.getBalance());
         account.setCreationDate(newAccount.getCreationDate());
         account.setName(newAccount.getName());
-        account.setUser(newAccount.getUser());
+        account.setUser(userService.getAcctualUser());
         return account;
 
+    }
+
+    /**
+     * Converts Account to AccountDto.
+     * @param account
+     * @return
+     */
+    private AccountDto convertAccountToAccountDto(Account account) {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setId(account.getId());
+        accountDto.setName(account.getName());
+        accountDto.setAccountNumber(account.getAccountNumber());
+        accountDto.setAccountType(account.getAccountType());
+        accountDto.setBalance(account.getBalance());
+        accountDto.setCreationDate(account.getCreationDate());
+        return accountDto;
     }
 }

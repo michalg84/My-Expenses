@@ -85,7 +85,7 @@
                                 </td>
                                 <td class="col-md-2">
                                     <select class="form-control" th:field="*{account}" required="true">
-                                        <option th:each="userAccount : ${userDto.accounts}" th:value="${userAccount.id}"
+                                        <option th:each="userAccount : ${accounts}" th:value="${userAccount.id}"
                                                 th:text="${userAccount.name}">
                                             User accounts
                                         </option>
@@ -114,10 +114,8 @@
                                 </td>
                                 <td class="col-md-2">
                                     <select class="form-control" th:field="*{category}" required="true">
-                                        <option th:each="category :
-                                         ${userDto.categories}"
-                                                th:value="${category.id}"
-                                                th:text="${category.name}">
+                                        <option th:each="category : ${categories}"
+                                                th:value="${category.id}" th:text="${category.name}">
                                             Category
                                         </option>
                                     </select>

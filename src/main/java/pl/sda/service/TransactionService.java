@@ -32,6 +32,8 @@ public class TransactionService {
     private AccountService accountService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private TransactionService transactionService;
 
     /**
      * Gets summary of all Transactions form List.
@@ -72,8 +74,6 @@ public class TransactionService {
             transactionDto.setId(t.getId());
             transactionDto.setComment(t.getComment());
             transactionDto.setTransDate(t.getTransDate());
-            transactionDto.setUser(t.getUser());
-            transactionDto.getUser().setPassword(null);
             transactionDto.setCategory(t.getCategory());
         return transactionDto;
 
@@ -81,10 +81,10 @@ public class TransactionService {
 
     /**
      * Creates TransactionsDto List and sets up Transaction balance for each of them.
-     * @param transactions List of transactions
      * @return TransactionsDto List with balance.
      */
-    public List<TransactionDto> getTransactionsWithBalance(List<Transaction> transactions) {
+    public List<TransactionDto> getTransactionsWithBalance() {
+        List<Transaction> transactions = transactionService.getAllTransactions();
         List<TransactionDto> transactionsDto = new ArrayList<>();
         Collections
                 .sort(transactions, (t1, t2) -> t2.getTransDate().compareTo(t1.getTransDate()));
@@ -123,7 +123,6 @@ public class TransactionService {
 
     public void addTransaction(TransactionDto transactionDto) {
         User user = userService.getAcctualUser();
-        transactionDto.setUser(user);
         transactionDto.setBalance(accountRepository
                 .getTotalBallance(user)
                 .add(transactionDto.getAmount()));
@@ -142,7 +141,7 @@ public class TransactionService {
         transaction.setId(transactionDto.getId());
         transaction.setComment(transactionDto.getComment());
         transaction.setTransDate(transactionDto.getTransDate());
-        transaction.setUser(transactionDto.getUser());
+        transaction.setUser(userService.getAcctualUser());
 //        transaction.setBalance(transactionDto.getBalance());
         transaction.setCategory(transactionDto.getCategory());
         return transaction;
@@ -155,5 +154,9 @@ public class TransactionService {
         accountRepository.save(a);
         transactionRepository.delete(transId);
     messageService.addSuccessMessage("Transactions was succesfuly removed");
+    }
+
+    public List<Transaction> getAllTransactions() {
+        return transactionRepository.findAllByUser(userService.getAcctualUser());
     }
 }

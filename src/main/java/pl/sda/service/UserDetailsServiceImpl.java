@@ -14,6 +14,7 @@ import pl.sda.model.User;
 import pl.sda.repository.UserRepository;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 

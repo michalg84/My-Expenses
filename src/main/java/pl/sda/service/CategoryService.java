@@ -23,6 +23,8 @@ public class CategoryService {
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
 
     /**
@@ -31,12 +33,10 @@ public class CategoryService {
      */
     public void add(Category category){
         User user = userService.getAcctualUser();
-        List<Category> categories = user.getCategories();
         //TODO: remove duplicates
         category.setName(category.getName().toUpperCase());
         category.setUser(user);
-        categories.add(category);
-        userRepository.save(user);
+        categoryRepository.save(category);
         messageService.addSuccessMessage("Categoty " + category.getName() + " succesfuly added.");
     }
 
@@ -44,7 +44,7 @@ public class CategoryService {
      * Creates base group of categories.
      * @return
      */
-    public List<Category> initCategories() {
+    public List<Category> initialCategories(User user) {
         List<Category> categories = new ArrayList<>();
         categories.add(new Category("FOOD"));
         categories.add(new Category("CAR"));
@@ -55,6 +55,7 @@ public class CategoryService {
         categories.add(new Category("TAXES"));
         categories.add(new Category("BILLS"));
         categories.add(new Category("SALARY"));
+        categories.forEach((c)-> c.setUser(user));
         return sort(categories);
     }
 
@@ -70,4 +71,7 @@ public class CategoryService {
     }
 
 
+    public List<Category> getCategories() {
+        return categoryRepository.findAll(userService.getAcctualUser());
+    }
 }

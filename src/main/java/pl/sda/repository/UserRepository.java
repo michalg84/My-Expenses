@@ -9,6 +9,7 @@ import pl.sda.model.User;
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.Optional;
 
 /**
  * Created by Michał Gałka on 2017-04-07.

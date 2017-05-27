@@ -6,17 +6,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.sda.dto.AccountDto;
 import pl.sda.dto.UserDto;
+import pl.sda.model.Account;
 import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.User;
 import pl.sda.repository.AccountRepository;
+import pl.sda.repository.CategoryRepository;
 import pl.sda.repository.RoleRepository;
 import pl.sda.repository.UserRepository;
 
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -29,6 +31,8 @@ public class UserService {
 
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -39,6 +43,8 @@ public class UserService {
     private CategoryService categoryService;
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private UserService userService;
 
     /**
      * Converts authenticated User to UserDto.
@@ -53,6 +59,7 @@ public class UserService {
 
     /**
      * Gets authenticated User username and gets his User object form DB.
+     *
      * @return Authenticated User object.
      */
     public User getAcctualUser() {
@@ -82,9 +89,6 @@ public class UserService {
 //    }
 
 
-
-
-
     /**
      * Converts UserDto object to User object
      *
@@ -98,10 +102,10 @@ public class UserService {
         user.setLogin(userDto.getLogin());
         user.setMail(userDto.getMail());
 //        user.setPassword(userDto.getPassword());
-        user.setAccounts(userDto.getAccounts());
-        user.setTransactionList(userDto.getTransactionList());
+//        user.setAccounts(userDto.getAccounts());
+//        user.setTransactionList(userDto.getTransactionList());
         user.setRoles(userDto.getRoles());
-        user.setCategories(userDto.getCategories());
+//        user.setCategories(userDto.getCategories());
         return user;
     }
 
@@ -121,17 +125,17 @@ public class UserService {
         userDto.setLogin(user.getLogin());
         userDto.setMail(user.getMail());
 //        userDto.setPassword(user.getPassword());
-        userDto.setAccounts(user.getAccounts());
-        userDto.setTransactionList(user.getTransactionList());
+//        userDto.setAccounts(user.getAccounts());
+//        userDto.setTransactionList(user.getTransactionList());
         userDto.setRoles(user.getRoles());
-        userDto.setCategories(user.getCategories());
+//        userDto.setCategories(user.getCategories());
         return userDto;
     }
 
 
-
     /**
      * Adds UserDto to Database.
+     *
      * @param userDto User to be saved to database.
      */
     public void save(UserDto userDto) {
@@ -144,15 +148,16 @@ public class UserService {
         Role userRole = roleRepository.findOne(1);
         user.getRoles().add(userRole);
 
-        user.setCategories(categoryService.initCategories());
+        List<Category> categories = categoryService.initialCategories(user);
+        categoryRepository.save(categories);
 
         userRepository.save(user);
     }
 
 
-
     /**
      * Gets All UsersDto.
+     *
      * @return List of all UserDto.
      */
     public List<UserDto> getAll() {
@@ -173,6 +178,7 @@ public class UserService {
 
     /**
      * Finds User using username
+     *
      * @param username Authenticated Users username.
      * @return
      */
@@ -183,6 +189,7 @@ public class UserService {
 
     /**
      * Gets acctual total acount balance for acctual user.
+     *
      * @return Users account balance from all Accounts.
      */
     public BigDecimal getTotalBalance() {
@@ -194,4 +201,46 @@ public class UserService {
     }
 
 
+    public List<AccountDto> getAccounts(User acctualUser) {
+        List<Account> accounts = accountRepository.findAll(acctualUser);
+        List<AccountDto> accountDtos = new ArrayList<>();
+        for (Account a : accounts) {
+            AccountDto accountDto = convertAccountToAccountDto(a);
+            accountDtos.add(accountDto);
+        }
+        return accountDtos;
+    }
+
+    /**
+     * Converts Acount to AccountDto/
+     * @param account
+     * @return
+     */
+    private AccountDto convertAccountToAccountDto(Account account) {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setId(account.getId());
+        accountDto.setName(account.getName());
+        accountDto.setAccountNumber(account.getAccountNumber());
+        accountDto.setBalance(account.getBalance());
+        accountDto.setAccountType(account.getAccountType());
+        accountDto.setCreationDate(account.getCreationDate());
+        return accountDto;
+    }
+
+    /**
+     * Converts AccountDto to Account.
+     * @param accountDto
+     * @return
+     */
+    private AccountDto convertAccountDtoToAccount(AccountDto accountDto) {
+        Account account = new Account();
+        account.setId(accountDto.getId());
+        account.setName(accountDto.getName());
+        account.setAccountNumber(accountDto.getAccountNumber());
+        account.setBalance(accountDto.getBalance());
+        account.setAccountType(accountDto.getAccountType());
+        account.setCreationDate(accountDto.getCreationDate());
+        account.setUser(userService.getAcctualUser());
+        return accountDto;
+    }
 }

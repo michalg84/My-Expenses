@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.sda.model.Transaction;
+import pl.sda.model.User;
 
 import java.util.List;
 
@@ -16,4 +17,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findById(Integer id);
 
+    List<Transaction> findAllByUser(User acctualUser);
 }

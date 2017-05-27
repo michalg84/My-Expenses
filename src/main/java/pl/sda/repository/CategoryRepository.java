@@ -1,12 +1,22 @@
 package pl.sda.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import pl.sda.model.Account;
 import pl.sda.model.Category;
+import pl.sda.model.User;
+
+import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-05-22.
  */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
+    List<Category> findByUser(User user);
+
+    @Query("from Category category where category.user = :user")
+    List<Category> findAll(@Param("user") User acctualUser);
 }

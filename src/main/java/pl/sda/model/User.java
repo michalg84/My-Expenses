@@ -13,8 +13,9 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, updatable = false)
     private Integer id;
-    @Column
+    @Column(nullable = false, unique = true)
     private String username;
     @Column(unique = true)
     private String login;
@@ -22,34 +23,33 @@ public class User {
     private String mail;
     @Column
     private String password;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Transaction> transactionList;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Account> accounts;
-    @Column
+//    @OneToMany(mappedBy = "user")
+//    private List<Transaction> transactionList;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Account> accounts;
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-    @Column
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Category> categories;
+//    @Column
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+//    private List<Category> categories;
 
 
     public User() {
     }
 
-    public User(String username, String login, String mail, String password,
-                List<Transaction> transactionList, List<Account> accounts, List<Category> categories) {
-        this.username = username;
-        this.login = login;
-        this.mail = mail;
-        this.password = password;
-        this.transactionList = transactionList;
-        this.accounts = accounts;
-        this.categories = categories;
-    }
+//    public User(String username, String login, String mail, String password,
+//                List<Transaction> transactionList, List<Account> accounts, List<Category> categories) {
+//        this.username = username;
+//        this.login = login;
+//        this.mail = mail;
+//        this.password = password;
+//        this.transactionList = transactionList;
+//        this.accounts = accounts;
+//        this.categories = categories;
+//    }
 
 
 
@@ -98,13 +98,13 @@ public class User {
         this.password = password;
     }
 
-    public List<Transaction> getTransactionList() {
-        return transactionList;
-    }
-
-    public void setTransactionList(List<Transaction> transactionList) {
-        this.transactionList = transactionList;
-    }
+//    public List<Transaction> getTransactionList() {
+//        return transactionList;
+//    }
+//
+//    public void setTransactionList(List<Transaction> transactionList) {
+//        this.transactionList = transactionList;
+//    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -114,21 +114,21 @@ public class User {
         this.roles = roles;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
-    }
-
-    public List<Category> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<Category> categories) {
-        this.categories = categories;
-    }
+//    public List<Account> getAccounts() {
+//        return accounts;
+//    }
+//
+//    public void setAccounts(List<Account> accounts) {
+//        this.accounts = accounts;
+//    }
+//
+//    public List<Category> getCategories() {
+//        return categories;
+//    }
+//
+//    public void setCategories(List<Category> categories) {
+//        this.categories = categories;
+//    }
 }
 
 

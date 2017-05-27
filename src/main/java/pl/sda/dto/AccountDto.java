@@ -21,7 +21,6 @@ public class AccountDto {
     private Integer accountNumber;
     @NotNull(message = "Please choose account type")
     private AccountType accountType;
-    private User user;
     @NotNull(message = "Please insert ballance")
     @NumberFormat(style = NumberFormat.Style.CURRENCY)
     private BigDecimal balance;
@@ -69,13 +68,7 @@ public class AccountDto {
         this.accountType = accountType;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public BigDecimal getBalance() {
         return balance;

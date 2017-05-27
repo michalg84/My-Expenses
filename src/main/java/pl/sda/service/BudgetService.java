@@ -54,7 +54,7 @@ public class BudgetService {
 
     public List<BudgetDto> getNewBudgetDtos() {
         User user = userService.getAcctualUser();
-        List<Category> categories = user.getCategories();
+        List<Category> categories = categoryRepository.findByUser(user);
         List<BudgetDto> budgetDtoList = new ArrayList<>();
         for (Category c : categories) {
             BudgetDto budgetDto = new BudgetDto();

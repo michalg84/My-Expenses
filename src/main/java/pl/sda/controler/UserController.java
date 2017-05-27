@@ -51,7 +51,7 @@ public class UserController {
         UserDto userDto = userService.getAcctualUserDto();
         session.setAttribute("username", userDto.getUsername());
         modelMap.addAttribute("userDto", userDto);
-        modelMap.addAttribute("accounts", userDto.getAccounts());
+        modelMap.addAttribute("accounts", userService.getAccounts(userService.getAcctualUser()));
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
         modelMap.addAttribute("accountTypes", accountTypeService.getAccountTypes());
@@ -83,7 +83,9 @@ public class UserController {
         UserDto userDto = userService.getAcctualUserDto();
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new Category());
-        List<TransactionDto> transactions = transactionService.getTransactionsWithBalance(userDto.getTransactionList());
+        modelMap.addAttribute("accounts", accountService.getAccounts());
+        modelMap.addAttribute("categories", categoryService.getCategories());
+        List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("transactionDto", new TransactionDto());
         return new ModelAndView(USER_TRANSACTIONS, modelMap);

@@ -16,7 +16,6 @@ import java.util.Date;
  */
 public class TransactionDto {
     private Integer id;
-    private User user;
 //    @Pattern(regexp = "[0-9].[0-9]")
     @NumberFormat(style = NumberFormat.Style.DEFAULT)
     private BigDecimal amount;
@@ -40,13 +39,7 @@ public class TransactionDto {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public BigDecimal getAmount() {
         return amount;
