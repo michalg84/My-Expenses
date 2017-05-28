@@ -1,7 +1,10 @@
 package pl.sda.service;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import pl.sda.dto.CategoryDto;
 import pl.sda.model.Category;
 import pl.sda.model.User;
 import pl.sda.repository.CategoryRepository;
@@ -26,26 +29,36 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-
     /**
      * Adds new category to Users Categories
-     * @param category
+     *
+     * @param categoryDto
      */
-    public void add(Category category){
+    public void add(CategoryDto categoryDto) {
         User user = userService.getAcctualUser();
-        //TODO: remove duplicates
+        categoryDto.setUser(user);
+
+        ModelMapper modelMapper = new ModelMapper();
+        Category category = modelMapper.map(categoryDto, Category.class);
         category.setName(category.getName().toUpperCase());
-        category.setUser(user);
-        categoryRepository.save(category);
-        messageService.addSuccessMessage("Categoty " + category.getName() + " succesfuly added.");
+        Integer exists = categoryRepository.ifExists(category.getName().toUpperCase(), user);
+        if (exists > 0)
+            messageService.addErrorMessage("Category " + category.getName() + " already exists");
+        else {
+            messageService.addSuccessMessage("Categoty " + category.getName() + " succesfuly added.");
+            categoryRepository.save(category);
+        }
     }
 
     /**
      * Creates base group of categories.
+     *
      * @return
      */
     public List<Category> initialCategories(User user) {
         List<Category> categories = new ArrayList<>();
+
+        categories.add(new Category("MOVE BETWEEN ACCOUNTS"));
         categories.add(new Category("FOOD"));
         categories.add(new Category("CAR"));
         categories.add(new Category("ENTERTAIMENT"));
@@ -55,12 +68,13 @@ public class CategoryService {
         categories.add(new Category("TAXES"));
         categories.add(new Category("BILLS"));
         categories.add(new Category("SALARY"));
-        categories.forEach((c)-> c.setUser(user));
+        categories.forEach((c) -> c.setUser(user));
         return sort(categories);
     }
 
     /**
-     * Sorts categories by name.
+     * Sort list of categories by name.
+     *
      * @param categories
      * @return sorted categories.
      */
@@ -70,8 +84,12 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-
+     /**
+     * Get all actual User categories form database sorted by name.
+     *
+     * @return
+     */
     public List<Category> getCategories() {
-        return categoryRepository.findAll(userService.getAcctualUser());
+        return this.sort(categoryRepository.findAll(userService.getAcctualUser()));
     }
 }

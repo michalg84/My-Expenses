@@ -8,10 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.AccountDto;
-import pl.sda.dto.MessageDto;
-import pl.sda.dto.TransactionDto;
-import pl.sda.dto.UserDto;
+import pl.sda.dto.*;
 import pl.sda.model.Category;
 import pl.sda.model.Transaction;
 import pl.sda.service.*;
@@ -51,7 +48,8 @@ public class UserController {
         UserDto userDto = userService.getAcctualUserDto();
         session.setAttribute("username", userDto.getUsername());
         modelMap.addAttribute("userDto", userDto);
-        modelMap.addAttribute("accounts", userService.getAccounts(userService.getAcctualUser()));
+        modelMap.addAttribute("accounts",
+                userService.getAccounts(userService.getAcctualUser()));
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
         modelMap.addAttribute("accountTypes", accountTypeService.getAccountTypes());
@@ -82,39 +80,15 @@ public class UserController {
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getAcctualUserDto();
         modelMap.addAttribute("userDto", userDto);
-        modelMap.addAttribute("newCategory", new Category());
+        modelMap.addAttribute("newCategory", new CategoryDto());
         modelMap.addAttribute("accounts", accountService.getAccounts());
         modelMap.addAttribute("categories", categoryService.getCategories());
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("transactionDto", new TransactionDto());
+        modelMap.addAttribute("moveCash", new MoveCashDto());
+
         return new ModelAndView(USER_TRANSACTIONS, modelMap);
-    }
-
-    @PostMapping("addTransaction")
-    public String addNewTransaction(@ModelAttribute("transactionDto") @Valid TransactionDto transactionDto,
-                                    BindingResult result, ModelMap modelMap) {
-        if (!result.hasErrors()) {
-            transactionService.addTransaction(transactionDto);
-            return "redirect:/" + USER_TRANSACTIONS;
-        }
-        messageService.addErrorMessage("Transaction Error. Values aren't correct. Please try again.");
-//        transactionList(modelMap, new MessageDto("Bad value! = " + transactionDto.getAmount()));
-        return "redirect:/" + USER_TRANSACTIONS;
-    }
-
-    @PostMapping("removeTransaction/{id}")
-    public String removeTransaction(@PathVariable("id") Integer transId) {
-        if (transId != null) {
-            transactionService.removeById(transId);
-        }
-        return "redirect:/" + USER_TRANSACTIONS;
-    }
-
-    @PostMapping("addCategory")
-    public String addNewCategory(@ModelAttribute("newCategory") Category category) {
-       categoryService.add(category);
-        return "redirect:/" + USER_TRANSACTIONS;
     }
 
     //todo mail

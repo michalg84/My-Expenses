@@ -25,6 +25,10 @@ public class AccountService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Get acctual User account list.
+     * @return
+     */
     public List<AccountDto> getAccounts(){
         List<Account> accounts = accountRepository.findAll(userService.getAcctualUser());
         List<AccountDto> accountDtos = new ArrayList<>();
@@ -37,8 +41,10 @@ public class AccountService {
     }
 
 
-
-
+    /**
+     * Add new acount to User account list.
+     * @param accountDto
+     */
     public void addAccount(AccountDto accountDto) {
         accountDto.setCreationDate(new Date());
         accountRepository.save(convertAccountDtoToAccount(accountDto));

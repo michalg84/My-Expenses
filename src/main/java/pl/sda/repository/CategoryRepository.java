@@ -19,4 +19,10 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query("from Category category where category.user = :user")
     List<Category> findAll(@Param("user") User acctualUser);
+
+    @Query("select count(c.id) from Category c where c.name = :name and c.user = :user")
+    Integer ifExists(@Param("name") String name, @Param("user") User user);
+
+    @Query("from Category c where c.name = :name and c.user = :user")
+    Category findByUserAndName(@Param("name") String name, @Param("user") User user);
 }

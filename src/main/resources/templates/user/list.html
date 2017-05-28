@@ -13,23 +13,22 @@
 
     <script>
         $(document).ready(function () {
-            $("#datetimepicker").datetimepicker();
+            $("#datetimepicker, #datetimepicker2").datetimepicker();
 
             $('#myTabs a').click(function (e) {
                 e.preventDefault()
                 $(this).tab('show')
             })
 
-//                $('#edit-button').click(function () {
-//                    var amount = $('#t-amount').val();
-//                    var id = $('#edit-button').val();
-//                    var account = $('#t-acount').val();
-//                    var comment = $('#t-comment').val();
-//                    console.log(id);
-//                    console.log(amount);
-//                    console.log(account);
-//                    console.log(comment);
-//                })
+
+            $('.moveCashSelect').change(function () {
+
+                $('#toAccountSelect, #fromAccountSelect').not(this)
+                    .children('option[value=' + this.value + ']')
+                    .attr('disabled', true)
+                    .siblings().removeAttr('disabled');
+
+            });
         });
 
     </script>
@@ -59,11 +58,10 @@
             </ul>
 
             <!-- Tab panes -->
-            <div class="tab-content">
+            <div class="tab-content" style="margin-top: 5px">
                 <!--Add new transaction-->
                 <div role="tabpanel" class="tab-pane fade in active" id="addTransaction">
-                    <h2>Add new transaction</h2>
-                    <form th:object="${transactionDto}" action="/user/addTransaction" method="post">
+                    <form th:object="${transactionDto}" action="/transaction/add" method="post">
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -96,7 +94,7 @@
                                     </div>
                                 </td>
                                 <td class="col-md-2">
-                                    <input class="form-control" type="text" placeholder="Destination account"
+                                    <input class="form-control" type="text" placeholder="Comment"
                                            th:field="*{comment}" required="true"/>
                                     <div class="error-msg" th:if="${#fields.hasErrors('amount')}"
                                          th:errors="*{comment}">
@@ -121,7 +119,7 @@
                                     </select>
                                     <div class="error-msg" th:if="${#fields.hasErrors('category.name')}"
                                          th:errors="*{category.name}">
-                                        account
+                                        category name error
                                     </div>
                                 </td>
 
@@ -135,37 +133,105 @@
                             </tr>
                             </tbody>
                         </table>
-                        <div class="row">
 
-                            <div class="col-md-3 pull-right">
-                                <button class=" btn  btn-primary" type="submit">Add transaction</button>
-                            </div>
-                        </div>
+                        <button class=" btn  btn-primary" type="submit">Add transaction</button>
                     </form>
                 </div>
                 <!--Add new category-->
                 <div role="tabpanel" class="tab-pane fade" id="addCategory">
-
-                    <h2>Add new category</h2>
-                    <form th:object="${newCategory}" th:action="@{addCategory}" method="post">
+                    <form th:object="${newCategory}" th:action="@{/category/add}" method="post">
                         <div class="col-md-3">
                             <input class="form-control" type="text" placeholder="category name" th:field="*{name}"
                                    required="true"/>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add category</button>
+                        <div class="row">
+
+                            <button type="submit" class="btn btn-primary">Add category</button>
+                        </div>
                         <span class="alert-warn" th:if="${#fields.hasErrors('name')}"
                               th:errors="*{name}">amount</span>
                     </form>
                     <h4>Categories:</h4>
-                    <span th:each="category : ${userDto.categories}" th:text="${category.name} +', '">
-
-                        <!--<span style="display: inline" th:text="${category.name} +', '">category name</span>-->
+                    <span th:each="category : ${categories}" th:text="${category.name} +', '">
                     </span>
                 </div>
                 <!--Move between accounts-->
-                <div role="tabpanel" class="tab-pane fade in active" id="moveBetweenAccounts">
-                    <h2>TODO: in development</h2>
-                    <!--TODO: move between accounts-->
+                <div role="tabpanel" class="tab-pane fade" id="moveBetweenAccounts">
+
+                    <form th:object="${moveCash}" th:action="@{/transaction/move}" method="post">
+
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <td class="col-md-2">From account</td>
+                                <td class="col-md-2">To account</td>
+                                <td class="col-md-2">Amount</td>
+                                <td class="col-md-2">Date</td>
+                                <td class="col-md-2">Comment</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="col-md-2">
+                                    <select class="form-control moveCashSelect" th:field="*{fromAccountId}"
+                                            id="fromAccountSelect" required="true">
+                                        <option th:each="userAccount : ${accounts}" th:value="${userAccount.id}"
+                                                th:text="${userAccount.name}">
+                                            fromAccountId
+                                        </option>
+                                    </select>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('fromAccountId')}"
+                                         th:errors="*{fromAccountId}">
+                                        error
+                                    </div>
+                                </td>
+                                <td class="col-md-2">
+                                    <select class="form-control moveCashSelect" th:field="*{toAccountId}"
+                                            id="toAccountSelect" required="true">
+                                        <option th:each="userAccount : ${accounts}" th:value="${userAccount.id}"
+                                                th:text="${userAccount.name}">
+                                            toAccountId
+                                        </option>
+                                    </select>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('fromAccountId')}"
+                                         th:errors="*{fromAccountId}">
+                                        error
+                                    </div>
+                                </td>
+                                <td class="col-md-2">
+                                    <input class="form-control" type="text" placeholder="Amount"
+                                           th:field="*{amount}" required="true"/>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('amount')}"
+                                         th:errors="*{amount}">
+                                        amount
+                                    </div>
+                                </td>
+                                <td class="col-md-2">
+                                    <input class="form-control" id="datetimepicker2" type="datetime"
+                                           placeholder="Choose date and time"
+                                           th:field="*{date}" required="true"/>
+                                    <div class="error-msg" th:if="${#fields.hasErrors('date')}"
+                                         th:errors="*{date}">
+                                        error
+                                    </div>
+                                </td>
+                                <td class="col-md-3">
+                                    <input class="form-control" type="text" placeholder="Comment"
+                                           th:field="*{comment}" />
+                                    <div class="error-msg" th:if="${#fields.hasErrors('amount')}"
+                                         th:errors="*{comment}">
+                                        comment
+                                    </div>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">Move cash</button>
+
+
+                    </form>
+
                 </div>
             </div>
 
@@ -207,6 +273,8 @@
                 <td th:text="${transaction.comment}"> comment</td>
                 <td th:text="${transaction.transDate}"> transDate</td>
                 <td th:text="${transaction.category.name}"> transDate</td>
+                <!--todo: if category name is MOVE BETWEEN ACCOUNTS mark it up-->
+
                 <td th:id="${transaction.id}">
                     <div class="dropdown">
                         <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true"
@@ -216,7 +284,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li>
-                                <form th:action="@{'removeTransaction/' + ${transaction.id}}" th:method="post">
+                                <form th:action="@{'/transaction/remove/' + ${transaction.id}}" th:method="post">
                                     <button type="submit" class="btn btn-small btn-warning ">Delete</button>
                                 </form>
                             </li>
@@ -225,21 +293,6 @@
                     </div>
 
                 </td>
-                <!--TODO : add transcactions categories-->
-                <!--<td th:text="${transaction.categories}"> categories</td>-->
-                <!--<select multiple class="form-control">-->
-                <!--<option>1</option>-->
-                <!--<option>2</option>-->
-                <!--</select>-->
-                <!--<select id="multiSelectElementsSelected"-->
-                <!--name="multiSelectElementsSelected"-->
-                <!--multiple="multiple"-->
-                <!--th:field="*{departments}">-->
-
-                <!--<option th:each="department,row : ${collectionOfDepartments.values()}"-->
-                <!--th:value="${department.value}"-->
-                <!--th:text="${department.label}"></option>-->
-                <!--</select>-->
             </tr>
             </tbody>
         </table>
