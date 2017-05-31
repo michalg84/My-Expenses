@@ -28,7 +28,7 @@ public class RestTableController {
 //        List<TransactionDto> l = trasactionService.getTransactionsWithBalance(list);
 //        return userService.getAcctualUserDto();
 
-        return userService.getUser();
+        return null;
     }
 
 

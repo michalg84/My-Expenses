@@ -23,8 +23,6 @@ public class CategoryService {
     @Autowired
     private MessageService messageService;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private UserService userService;
     @Autowired
     private CategoryRepository categoryRepository;

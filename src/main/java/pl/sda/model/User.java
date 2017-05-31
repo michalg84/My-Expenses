@@ -23,36 +23,14 @@ public class User {
     private String mail;
     @Column
     private String password;
-//    @OneToMany(mappedBy = "user")
-//    private List<Transaction> transactionList;
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Account> accounts;
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-//    @Column
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<Category> categories;
-
 
     public User() {
     }
-
-//    public User(String username, String login, String mail, String password,
-//                List<Transaction> transactionList, List<Account> accounts, List<Category> categories) {
-//        this.username = username;
-//        this.login = login;
-//        this.mail = mail;
-//        this.password = password;
-//        this.transactionList = transactionList;
-//        this.accounts = accounts;
-//        this.categories = categories;
-//    }
-
-
-
 
     public Integer getId() {
         return id;
