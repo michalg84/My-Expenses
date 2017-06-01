@@ -6,14 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.*;
-import pl.sda.service.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import pl.sda.dto.MoveCashDto;
+import pl.sda.dto.TransactionDto;
+import pl.sda.service.MessageService;
+import pl.sda.service.TransactionService;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-04-09.
@@ -23,7 +25,7 @@ import java.util.List;
 public class TransactionController {
 
     public static final String USER_ACCOUNT = "user/account";
-    public static final String USER_TRANSACTIONS = "user/list";
+    private static final String USER_TRANSACTIONS = "user/list";
     private final Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     @Autowired

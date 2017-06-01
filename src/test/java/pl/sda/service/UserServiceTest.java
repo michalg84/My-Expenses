@@ -20,9 +20,8 @@ import pl.sda.repository.UserRepository;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 
 /**
@@ -31,7 +30,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
     @InjectMocks
-    private UserService userService = new UserService();
+    private UserService userService = new UserServiceImpl();
     @Mock
     private UserRepository userRepository;
     @Mock
@@ -55,7 +54,7 @@ public class UserServiceTest {
     public void setUp() throws Exception {
 
 
-        Set<Role> roles = new HashSet<Role>();
+        Set<Role> roles = new HashSet<>();
         when(roleRepository.findOne(1)).thenReturn(new Role(1, "testRole1", null));
         when(roleRepository.findOne(2)).thenReturn(new Role(2, "testRole2", null));
         roles.add(roleRepository.findOne(1));
@@ -93,12 +92,12 @@ public class UserServiceTest {
     @Test
     public void getAcctualUserDto() throws Exception {
 //        userService = mock(UserService.class);
-        when(userService.getAcctualUser()).thenReturn(null);
-        assertNull(userService.getAcctualUserDto());
+        when(userService.getCurrentUser()).thenReturn(null);
+        assertNull(userService.getCurrentUserDto());
         //TODO test when user is not null
 //        User user = testUser;
-//        when(userService.getAcctualUser()).thenReturn(user);
-//        UserDto userDto = userService.getAcctualUserDto();
+//        when(userService.getCurrentUser()).thenReturn(user);
+//        UserDto userDto = userService.getCurrentUserDto();
 //        assertEquals(userDto, testUserDto);
 
     }
