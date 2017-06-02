@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.sda.dto.UserDto;
+import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.User;
 import pl.sda.repository.AccountRepository;
@@ -18,6 +19,7 @@ import pl.sda.repository.RoleRepository;
 import pl.sda.repository.UserRepository;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
@@ -84,9 +86,17 @@ public class UserServiceTest {
     public void tearDown() throws Exception {
     }
 
-    @Ignore
     @Test
     public void save() throws Exception {
+        testUser.setPassword(bCryptPasswordEncoder.encode("testPassword"));
+        Role userRole = roleRepository.findOne(1);
+        testUser.setRoles(new HashSet<>());
+        testUser.getRoles().add(userRole);
+
+        List<Category> categories = categoryService.initialCategories(testUser);
+        categoryRepository.save(categories);
+
+        userRepository.save(testUser);
     }
 
     @Test

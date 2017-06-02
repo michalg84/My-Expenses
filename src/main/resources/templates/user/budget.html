@@ -10,27 +10,40 @@
     <!--TIMEPICKER http://trentrichardson.com/examples/timepicker/-->
     <link rel="stylesheet" href="/css/jquery-ui-timepicker-addon.css"/>
     <script src="/js/jquery-ui-timepicker-addon.js"></script>
-
+    <style>
+        .ui-datepicker-calendar {
+            display: none;
+        }
+    </style>
     <script>
         $(document).ready(function () {
-            $("#datetimepicker").datetimepicker();
+            $("#year-month").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+                dateFormat: 'dd/mm/yy',
+                onClose: function (dateText, inst) {
+                    $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                }
+            });
 
             $('#myTabs a').click(function (e) {
-                e.preventDefault()
+                e.preventDefault();
                 $(this).tab('show')
             })
 
-//                $('#edit-button').click(function () {
-//                    var amount = $('#t-amount').val();
-//                    var id = $('#edit-button').val();
-//                    var account = $('#t-acount').val();
-//                    var comment = $('#t-comment').val();
-//                    console.log(id);
-//                    console.log(amount);
-//                    console.log(account);
-//                    console.log(comment);
-//                })
-        });
+            //                $('#edit-button').click(function () {
+            //                    var amount = $('#t-amount').val();
+            //                    var id = $('#edit-button').val();
+            //                    var account = $('#t-acount').val();
+            //                    var comment = $('#t-comment').val();
+            //                    console.log(id);
+            //                    console.log(amount);
+            //                    console.log(account);
+            //                    console.log(comment);
+            //                })
+        })
+        ;
 
     </script>
 </head>
@@ -53,11 +66,19 @@
 
             <!-- Tab panes -->
             <div class="tab-content">
-                <!--Add new transaction-->
+                <!--Add new month budget-->
                 <div role="tabpanel" class="tab-pane fade in active" id="addBudget">
-                    <h2>Add new transaction</h2>
-                    <!--<h3 th:text="${}"></h3>-->
                     <form th:object="${monthBudget}" action="/budget/add" method="post">
+                        <!--Month and Year-->
+                        <div class="row">
+                            <div class="col-md-2 ">
+                                <label for="year-month">Month/Year</label>
+                                <input type="text" class="form-control"
+                                       id="year-month" th:field="*{date}"/>
+                            </div>
+                        </div>
+                        <h3>Set budget</h3>
+                        <!--budget categories tabel-->
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -75,7 +96,11 @@
                                     <!--</div>-->
                                 </td>
                                 <!--<td th:text="${monthBudget.list[__${stat.index}__].category.name}"></td>-->
+                                <!--<td>-->
+                                <!--<input type="hidden" class="month-year"-->
+                                <!--th:field="${monthBudget.list[__${stat.index}__].date}" />-->
 
+                                <!--</td>-->
                                 <td class="col-md-3">
                                     <input class="form-control" type="text" placeholder="Amount"
                                            th:field="${monthBudget.list[__${stat.index}__].sum}" required="true"/>
@@ -103,13 +128,12 @@
                         </div>
                     </form>
                 </div>
-                <!--Add new category-->
+                <!--Add new month budget-->
+
 
             </div>
 
         </div>
-
-
         <h2>Transactions list</h2>
 
         <!--<table class="table table-bordered table-striped">-->

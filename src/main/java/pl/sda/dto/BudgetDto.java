@@ -4,6 +4,7 @@ import pl.sda.model.Category;
 import pl.sda.model.User;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * Created by Michał Gałka on 2017-05-23.
@@ -11,9 +12,19 @@ import java.math.BigDecimal;
 public class BudgetDto {
     private Category category;
     private BigDecimal sum;
+    private Date date;
     private Integer month;
     private Integer year;
     private User user;
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Category getCategory() {
         return category;

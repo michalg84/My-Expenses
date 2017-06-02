@@ -36,15 +36,17 @@ public class BudgetController {
             monthBudget.setList(budgetService.getNewBudgetDtos());
         }
         modelMap.addAttribute("monthBudget", monthBudget);
+
+//        modelMap.addAttribute("date", new Date());
+
         return new ModelAndView("user/budget", modelMap);
     }
 
     @PostMapping("/add")
     public String addBudget(@ModelAttribute("monthBudget") MonthBudget monthBudget, ModelMap modelMap) {
         System.out.println(monthBudget);
-        //todo: add month, year, save to DB. then add view list.
         budgetService.add(monthBudget);
-        return null;
+        return "redirect:/budget/list";
     }
 }
 

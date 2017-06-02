@@ -11,6 +11,8 @@ import pl.sda.repository.BudgetRepository;
 import pl.sda.repository.CategoryRepository;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,11 +46,24 @@ public class BudgetServiceImpl implements BudgetService {
     private BudgetDto convertBudgetToBudgetDto(Budget b) {
         BudgetDto budgetDto = new BudgetDto();
         budgetDto.setCategory(b.getCategory());
-        budgetDto.setMonth(b.getMonth());
-        budgetDto.setYear(b.getYear());
+        budgetDto.setDate(new Date(b.getYear(), b.getMonth(), 1));
         budgetDto.setSum(b.getSum());
         budgetDto.setUser(b.getUser());
         return budgetDto;
+    }
+
+    private Budget convertBudgetDtoToBudget(BudgetDto b) {
+        Budget budget = new Budget();
+        budget.setCategory(b.getCategory());
+        budget.setSum(b.getSum());
+        budget.setUser(b.getUser());
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(b.getDate());
+
+        budget.setYear(cal.get(Calendar.YEAR));
+        budget.setMonth(cal.get(Calendar.MONTH));
+        return budget;
     }
 
     public List<BudgetDto> getNewBudgetDtos() {
@@ -64,7 +79,15 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     public void add(MonthBudget monthBudget) {
-
+        Date date = monthBudget.getDate();
+        List<Budget> budgets = new ArrayList<>();
+        //todo: set category and user, check conversion, save to DB.
+        for (BudgetDto budgetDto : monthBudget.getList()) {
+            budgetDto.setDate(date);
+            Budget budget = this.convertBudgetDtoToBudget(budgetDto);
+            budgets.add(budget);
+        }
+        System.out.println(budgets);
         messageService.addSuccessMessage("Budget added");
     }
 }

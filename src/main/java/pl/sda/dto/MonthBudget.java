@@ -1,5 +1,6 @@
 package pl.sda.dto;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -7,7 +8,16 @@ import java.util.List;
  */
 public class MonthBudget {
     private List<BudgetDto> list;
+    private Date date;
 
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public List<BudgetDto> getList() {
         return list;
