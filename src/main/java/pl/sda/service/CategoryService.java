@@ -17,4 +17,7 @@ public interface CategoryService {
 
     List<Category> getCategories();
 
+    CategoryDto convertCategoryToCategoryDto(Category category);
+
+    Category convertCategoryDtoToCategory(CategoryDto categoryDto);
 }

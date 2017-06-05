@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface BudgetService {
 
-    List<BudgetDto> getBudgetDtoList();
+    List<BudgetDto> getBudgetDtoList(Integer year, Integer month);
 
     List<BudgetDto> getNewBudgetDtos();
 

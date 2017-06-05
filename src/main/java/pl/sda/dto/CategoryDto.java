@@ -1,9 +1,7 @@
 package pl.sda.dto;
 
 import org.hibernate.validator.constraints.Range;
-import pl.sda.model.User;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -14,7 +12,6 @@ public class CategoryDto {
     @NotNull(message = "Please insert name")
     @Range(min = 3, max = 40, message = "Name length range is 3-40 signs")
     private String name;
-    private User user;
 
     public CategoryDto() {
     }    ;
@@ -33,14 +30,6 @@ public class CategoryDto {
 
     public String getName() {
         return name;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public void setName(String name) {

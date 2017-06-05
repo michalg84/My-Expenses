@@ -71,4 +71,15 @@ public class Budget {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "Budget{" +
+                "id=" + id +
+                ", category=" + category +
+                ", sum=" + sum +
+                ", month=" + month +
+                ", year=" + year +
+                '}';
+    }
 }

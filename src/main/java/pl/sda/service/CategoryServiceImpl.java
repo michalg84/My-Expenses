@@ -32,7 +32,6 @@ public class CategoryServiceImpl implements CategoryService {
      */
     public void add(CategoryDto categoryDto) {
         User user = userService.getCurrentUser();
-        categoryDto.setUser(user);
 
         ModelMapper modelMapper = new ModelMapper();
         Category category = modelMapper.map(categoryDto, Category.class);
@@ -86,6 +85,29 @@ public class CategoryServiceImpl implements CategoryService {
      * @return List of Categories.
      */
     public List<Category> getCategories() {
-        return this.sort(categoryRepository.findAll(userService.getCurrentUser()));
+        List<Category> list = categoryRepository.findAll(userService.getCurrentUser());
+        list = list.stream()
+                .filter(category -> !category.getName().equals("MOVE BETWEEN ACCOUNTS"))
+                .collect(Collectors.toList());
+        return this.sort(list);
     }
+
+    @Override
+    public CategoryDto convertCategoryToCategoryDto(Category category) {
+        CategoryDto categoryDto = new CategoryDto();
+        categoryDto.setId(category.getId());
+        categoryDto.setName(category.getName());
+        return categoryDto;
+    }
+
+    @Override
+    public Category convertCategoryDtoToCategory(CategoryDto categoryDto) {
+        Category category = new Category();
+        category.setUser(userService.getCurrentUser());
+        category.setName(categoryDto.getName());
+        category.setId(categoryDto.getId());
+        return category;
+    }
+
+
 }

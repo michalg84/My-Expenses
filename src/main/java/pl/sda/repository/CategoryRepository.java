@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import pl.sda.model.Account;
 import pl.sda.model.Category;
 import pl.sda.model.User;
 
@@ -25,4 +24,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     @Query("from Category c where c.name = :name and c.user = :user")
     Category findByUserAndName(@Param("name") String name, @Param("user") User user);
+
+
 }

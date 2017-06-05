@@ -61,8 +61,6 @@ public class TransactionServiceImpl implements TransactionService {
                 .stream()
                 .map(t -> t.getAmount().add(sum))
                 .collect(Collectors.toList());
-        //        list.add(sum);
-//        list.remove(0);
         return list;
     }
 
@@ -132,7 +130,13 @@ public class TransactionServiceImpl implements TransactionService {
         transactionDto.setBalance(accountRepository
                 .getTotalBallance(user)
                 .add(transactionDto.getAmount()));
-        transactionRepository.save(convertTransactionDtoToTransaction(transactionDto));
+        try {
+            transactionRepository.save(convertTransactionDtoToTransaction(transactionDto));
+        } catch (Exception e) {
+            messageService.addErrorMessage("Error saving transaction to database");
+
+            e.printStackTrace();
+        }
         accountService.updateAccountBalance(transactionDto);
         messageService.addSuccessMessage("Transaction added !");
 

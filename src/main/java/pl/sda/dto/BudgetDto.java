@@ -1,8 +1,5 @@
 package pl.sda.dto;
 
-import pl.sda.model.Category;
-import pl.sda.model.User;
-
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,28 +7,27 @@ import java.util.Date;
  * Created by Michał Gałka on 2017-05-23.
  */
 public class BudgetDto {
-    private Category category;
+    private Integer id;
+    private CategoryDto categoryDto;
     private BigDecimal sum;
     private Date date;
-    private Integer month;
-    private Integer year;
-    private User user;
+//    private User user;
 
 
-    public Date getDate() {
-        return date;
+    public CategoryDto getCategoryDto() {
+        return categoryDto;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCategoryDto(CategoryDto categoryDto) {
+        this.categoryDto = categoryDto;
     }
 
-    public Category getCategory() {
-        return category;
+    public Integer getId() {
+        return id;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public BigDecimal getSum() {
@@ -42,27 +38,11 @@ public class BudgetDto {
         this.sum = sum;
     }
 
-    public Integer getMonth() {
-        return month;
+    public Date getDate() {
+        return date;
     }
 
-    public void setMonth(Integer month) {
-        this.month = month;
-    }
-
-    public Integer getYear() {
-        return year;
-    }
-
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }
