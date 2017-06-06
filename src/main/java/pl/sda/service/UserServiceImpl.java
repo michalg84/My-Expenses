@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
 import pl.sda.dto.AccountDto;
 import pl.sda.dto.UserDto;
 import pl.sda.model.Account;
@@ -184,5 +185,15 @@ public class UserServiceImpl implements UserService {
             accountDtos.add(accountDto);
         }
         return accountDtos;
+    }
+
+    @Override
+    public FieldError checkIfSuchUserExists(UserDto userDto) {
+        FieldError fieldError;
+        if (userRepository.findByUsername(userDto.getUsername()) != null)
+            return fieldError = new FieldError("userDto", "username", "Such user already exists");
+        if (userRepository.findUserByMail(userDto.getMail()) != null)
+            return fieldError = new FieldError("userDto", "mail", "Such e-mail already exists.");
+        return null;
     }
 }

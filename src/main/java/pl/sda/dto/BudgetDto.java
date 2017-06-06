@@ -10,6 +10,7 @@ public class BudgetDto {
     private Integer id;
     private CategoryDto categoryDto;
     private BigDecimal sum;
+    private BigDecimal used;
     private Date date;
 //    private User user;
 
@@ -20,6 +21,14 @@ public class BudgetDto {
 
     public void setCategoryDto(CategoryDto categoryDto) {
         this.categoryDto = categoryDto;
+    }
+
+    public BigDecimal getUsed() {
+        return used;
+    }
+
+    public void setUsed(BigDecimal used) {
+        this.used = used;
     }
 
     public Integer getId() {

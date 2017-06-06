@@ -7,9 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.MessageDto;
 import pl.sda.dto.UserDto;
 import pl.sda.service.UserService;
 
@@ -22,13 +24,11 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class HomeController {
 
-    @Autowired
-    private UserService userService;
     private final static String LOGIN_PAGE = "login";
     private final static String REGISTER_PAGE = "register";
-
     private final Logger log = LoggerFactory.getLogger(HomeController.class);
-
+    @Autowired
+    private UserService userService;
 
     /**
      * Opens login page.
@@ -68,33 +68,19 @@ public class HomeController {
     public String addUser(@ModelAttribute(name = "userDto") @Valid UserDto userDto,
                           BindingResult result) {
         if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
-            FieldError fieldError = new FieldError("userDto", "confirmPassword", "password doesn't match");
-            result.addError(fieldError);
+            FieldError fieldErrorPassword = new FieldError("userDto", "confirmPassword", "password doesn't match");
+            result.addError(fieldErrorPassword);
+            log.info("Password doesn't match ConfirmedPassword");
         }
+        FieldError fieldErrorExists = userService.checkIfSuchUserExists(userDto);
+        if (fieldErrorExists != null)
+            result.addError(fieldErrorExists);
         if (!result.hasErrors()) {
             userService.save(userDto);
             return "redirect:/user/account/";
         } else {
-            System.out.println("błąd");
+            log.debug("Errors regisered: " + result.getAllErrors());
         }
         return REGISTER_PAGE;
     }
-
-    /**
-     * Login method.
-     *
-     * @param modelMap main page model
-     * @return model and view of main page.
-     */
-//    @PostMapping(value = "login")
-//    public String login(@ModelAttribute(name = "userDto") @Valid UserDto userDto, BindingResult result, ModelMap modelMap) {
-//        if (!result.hasErrors()) {
-//            userDto = userService.findUserDtoByUsername(userDto.getUsername());
-//            modelMap.addAttribute("userDto", userDto);
-//            return "redirect:/user/account/";
-//        }
-//
-//        return LOGIN_PAGE;
-//    }
-
 }

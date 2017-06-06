@@ -85,6 +85,7 @@
                             <tr>
                                 <td class="col-md-1">Category</td>
                                 <td class="col-md-1">Current budget [PLN]</td>
+                                <td class="col-md-1">Usage [PLN]</td>
                                 <td class="col-md-3">Set Sum [PLN]</td>
                             </tr>
                             </thead>
@@ -100,6 +101,7 @@
                                 <td class="col-md-1" th:text="${budget.categoryDto.name}"></td>
                                 <td th:if="${budget.sum} != null" th:text="${budget.sum}"></td>
                                 <td th:if="${budget.sum} == null" th:text="--">0.00 PLN</td>
+                                <td>todo</td>
                                 <td class="col-md-3">
                                     <input class="form-control" type="text" placeholder="Amount"
                                            th:field="${monthBudget.list[__${stat.index}__].sum}"

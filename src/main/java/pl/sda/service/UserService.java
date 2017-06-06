@@ -1,5 +1,6 @@
 package pl.sda.service;
 
+import org.springframework.validation.FieldError;
 import pl.sda.dto.AccountDto;
 import pl.sda.dto.UserDto;
 import pl.sda.model.User;
@@ -31,4 +32,6 @@ public interface UserService {
 
     List<AccountDto> getAccounts(User acctualUser);
 
+    FieldError checkIfSuchUserExists(UserDto userDto);
 }
+

@@ -44,6 +44,7 @@ public class BudgetServiceImpl implements BudgetService {
         for (Budget b : budgetList) {
             budgetDtoList.add(convertBudgetToBudgetDto(b));
         }
+        //todo: add used to BudgetDto from transactionList grouped by category
         return budgetDtoList;
     }
 
