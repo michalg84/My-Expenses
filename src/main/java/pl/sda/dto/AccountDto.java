@@ -18,6 +18,8 @@ public class AccountDto {
     private Date creationDate;
     @NotNull(message = "Please insert name")
     private String name;
+//    @Pattern(regexp = "[a-zA-Z0-9*]", message = "For account number numbers, letters and '*' are allowed")
+    //TODO: change for String
     private Integer accountNumber;
     @NotNull(message = "Please choose account type")
     private AccountType accountType;
