@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.sda.dto.CategoryDto;
-import pl.sda.model.Category;
-import pl.sda.service.*;
+import pl.sda.service.CategoryService;
+import pl.sda.service.MessageService;
 
 import javax.validation.Valid;
 
@@ -32,12 +32,25 @@ public class CategoryController {
     @PostMapping("add")
     public String addNewCategory(@ModelAttribute("newCategory") @Valid CategoryDto categoryDto, BindingResult result) {
         if (result.hasErrors()) {
-            log.warn(categoryDto + " name : " + categoryDto.getName() + " is invalid");
-            messageService.addWarnMessage("Category name has to be 3-40 signs.");
+            addErrorMessages(result);
             return "redirect:/" + USER_TRANSACTIONS;
-        } else
+        } else {
             categoryService.add(categoryDto);
-        return "redirect:/" + USER_TRANSACTIONS;
+            return "redirect:/" + USER_TRANSACTIONS;
+        }
+    }
+
+    private void addErrorMessages(Object arg) {
+        if (arg instanceof BindingResult) {
+            BindingResult result = (BindingResult) arg;
+            result.getAllErrors().forEach(e -> messageService.addErrorMessage(e.getDefaultMessage()));
+        } else if (arg instanceof String) {
+            messageService.addErrorMessage((String) arg);
+        } else {
+            log.error("Invalid argument in " + this.getClass().getName() + " for '" + arg + "'");
+        }
+
+
     }
 
 }

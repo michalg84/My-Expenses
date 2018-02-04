@@ -63,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
         categories.add(new Category("TAXES"));
         categories.add(new Category("BILLS"));
         categories.add(new Category("SALARY"));
-        categories.forEach((c) -> c.setUser(user));
+        categories.forEach(c -> c.setUser(user));
         return sort(categories);
     }
 

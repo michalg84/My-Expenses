@@ -10,14 +10,14 @@ import javax.validation.constraints.NotNull;
 public class CategoryDto {
     private Integer id;
     @NotNull(message = "Please insert name")
-    @Range(min = 3, max = 40, message = "Name length range is 3-40 signs")
+    @Range(min = 1, max = 25, message = "Category name has to be 3-25 signs")
     private String name;
-
-    public CategoryDto() {
-    }    ;
 
     public CategoryDto(String name) {
         this.name = name;
+    }
+
+    public CategoryDto() {
     }
 
     public Integer getId() {
