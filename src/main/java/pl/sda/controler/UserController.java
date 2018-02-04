@@ -41,6 +41,7 @@ public class UserController {
     private CategoryService categoryService;
     @Autowired
     private AccountTypeService accountTypeService;
+    private static final String CREATE_ACCOUNT_FIRST = "You need to create cash account before making transactions.";
 
 
     @RequestMapping("account")
@@ -72,11 +73,15 @@ public class UserController {
     @GetMapping("/list")
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getCurrentUserDto();
+        List<AccountDto> accounts = accountService.getAccounts();
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
-        modelMap.addAttribute("accounts", accountService.getAccounts());
+        modelMap.addAttribute("accounts", accounts);
         modelMap.addAttribute("categories", categoryService.getCategories());
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
+        if (accounts.size() == 0) {
+            messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
+        }
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("transactionDto", new TransactionDto());
         modelMap.addAttribute("moveCash", new MoveCashDto());
