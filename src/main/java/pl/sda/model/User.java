@@ -8,7 +8,7 @@ import java.util.Set;
  * Created by Michał Gałka on 2017-04-07.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "userr")
 public class User {
 
     @Id
