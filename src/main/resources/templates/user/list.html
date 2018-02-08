@@ -276,21 +276,19 @@
                 <td th:text="${transaction.category.name}"> transDate</td>
                 <!--todo: if category name is MOVE BETWEEN ACCOUNTS mark it up-->
 
-                <td th:id="${transaction.id}">
-                    <div class="dropdown">
-                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <td th:id="${transaction.id}" class="dropdown">
+                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             More
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dLabel">
                             <li>
                                 <form th:action="@{'/transaction/remove/' + ${transaction.id}}" th:method="post">
-                                    <button type="submit" class="btn btn-small btn-warning ">Delete</button>
+                                    <button type="submit" class="form-control">Delete</button>
                                 </form>
                             </li>
 
                         </ul>
-                    </div>
 
                 </td>
             </tr>

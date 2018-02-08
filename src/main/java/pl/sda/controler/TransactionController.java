@@ -30,7 +30,7 @@ public class TransactionController {
 
     @Autowired
     private MessageService messageService;
-        @Autowired
+    @Autowired
     private TransactionService transactionService;
 
 
@@ -50,6 +50,8 @@ public class TransactionController {
     public String removeTransaction(@PathVariable("id") Integer transId) {
         if (transId != null) {
             transactionService.removeById(transId);
+        } else {
+            messageService.addErrorMessage("Failed to remove transaction");
         }
         return "redirect:/" + USER_TRANSACTIONS;
     }
