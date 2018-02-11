@@ -1,6 +1,7 @@
 package pl.sda.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 /**
@@ -11,8 +12,10 @@ import java.util.Set;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @NotNull
     private Integer id;
     @Column
+    @NotNull
     private String name;
 
     //opcjonalne
