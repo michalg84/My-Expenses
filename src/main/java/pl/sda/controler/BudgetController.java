@@ -1,13 +1,10 @@
 package pl.sda.controler;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.MonthBudget;
-import pl.sda.service.BudgetService;
-import pl.sda.service.UserService;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -16,13 +13,8 @@ import java.util.Date;
  * Created by Michał Gałka on 2017-05-23.
  */
 @Controller
-@RequestMapping("budget/")
-public class BudgetController {
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private BudgetService budgetService;
+@RequestMapping("budget")
+public class BudgetController extends AbstractController {
 
     @GetMapping("list")
     public String viewBudget() {
@@ -30,7 +22,9 @@ public class BudgetController {
         Calendar cal = Calendar.getInstance();
         Integer year = cal.get(Calendar.YEAR);
         Integer month = cal.get(Calendar.MONTH);
-        return "redirect:/budget/list/" + year + "/" + month;
+        return buildRedirectPath(new String[]{"budget", "list",
+                year.toString(), month.toString()});
+//        return "redirect:/budget/list/" + year + "/" + month;
     }
 
     @GetMapping("/list/{year}/{month}")
@@ -49,7 +43,7 @@ public class BudgetController {
     public String addBudget(@ModelAttribute("monthBudget") MonthBudget monthBudget, ModelMap modelMap) {
         System.out.println(monthBudget);
         budgetService.add(monthBudget);
-        return "redirect:/budget/list";
+        return buildRedirectPath(new String[] {"budget", "list"});
     }
 }
 

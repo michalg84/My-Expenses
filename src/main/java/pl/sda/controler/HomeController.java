@@ -49,7 +49,7 @@ public class HomeController {
 
 
 
-    @RequestMapping("/login/error")
+    @RequestMapping("login/error")
     public ModelAndView login(ModelMap modelMap) {
         return new ModelAndView("/login", modelMap);
     }

@@ -24,7 +24,6 @@ import javax.validation.Valid;
 @RequestMapping("/transaction")
 public class TransactionController {
 
-    public static final String USER_ACCOUNT = "user/account";
     private static final String USER_TRANSACTIONS = "user/list";
     private final Logger log = LoggerFactory.getLogger(TransactionController.class);
 

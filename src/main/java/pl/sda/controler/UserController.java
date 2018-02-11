@@ -23,26 +23,9 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends AbstractController {
 
-    private static final String USER_ACCOUNT = "user/account";
-    private static final String USER_TRANSACTIONS = "user/list";
     private final Logger log = LoggerFactory.getLogger(UserController.class);
-
-    @Autowired
-    private MessageService messageService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TransactionService transactionService;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private AccountTypeService accountTypeService;
-    private static final String CREATE_ACCOUNT_FIRST = "You need to create cash account before making transactions.";
-
 
     @RequestMapping("account")
     public ModelAndView userAccount(ModelMap modelMap, HttpSession session) {
