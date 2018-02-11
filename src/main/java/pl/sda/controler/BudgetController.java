@@ -27,7 +27,7 @@ public class BudgetController extends AbstractController {
 //        return "redirect:/budget/list/" + year + "/" + month;
     }
 
-    @GetMapping("/list/{year}/{month}")
+    @GetMapping("list/{year}/{month}")
     public ModelAndView budgetList(@PathVariable(required = false) Integer year,
                                    @PathVariable(required = false) Integer month,
                                    ModelMap modelMap) {
@@ -39,7 +39,7 @@ public class BudgetController extends AbstractController {
         return new ModelAndView("user/budget", modelMap);
     }
 
-    @PostMapping("/add")
+    @PostMapping("add")
     public String addBudget(@ModelAttribute("monthBudget") MonthBudget monthBudget, ModelMap modelMap) {
         System.out.println(monthBudget);
         budgetService.add(monthBudget);

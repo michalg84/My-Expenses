@@ -77,7 +77,7 @@ public class HomeController {
             result.addError(fieldErrorExists);
         if (!result.hasErrors()) {
             userService.save(userDto);
-            return "redirect:/user/account/";
+            return "redirect:/user/account";
         } else {
             log.debug("Errors regisered: " + result.getAllErrors());
         }

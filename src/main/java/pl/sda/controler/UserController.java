@@ -22,7 +22,7 @@ import java.util.List;
  * Created by Michał Gałka on 2017-04-09.
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController extends AbstractController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -53,7 +53,7 @@ public class UserController extends AbstractController {
         return "redirect:/" + USER_ACCOUNT;
     }
 
-    @GetMapping("/list")
+    @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getCurrentUserDto();
         List<AccountDto> accounts = accountService.getAccounts();

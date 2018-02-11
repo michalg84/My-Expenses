@@ -18,7 +18,7 @@ import javax.validation.Valid;
  * Created by Michał Gałka on 2017-04-09.
  */
 @Controller
-@RequestMapping("/category")
+@RequestMapping("category")
 public class CategoryController {
 
     public static final String USER_TRANSACTIONS = "user/list";
