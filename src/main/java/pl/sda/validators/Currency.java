@@ -10,9 +10,9 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD })
 @Retention(RUNTIME)
-@Constraint(validatedBy = { MyCurrencyValidator.class })
-public @interface MyCurrency {
-    String message();
+@Constraint(validatedBy = { CurrencyValidator.class })
+public @interface Currency {
+    String message() default "Invalid entry. Please insert valid amount";
 
     Class<?>[] groups() default {};
 
