@@ -32,15 +32,14 @@ public class CategoryServiceImpl implements CategoryService {
      */
     public void add(CategoryDto categoryDto) {
         User user = userService.getCurrentUser();
-
-        ModelMapper modelMapper = new ModelMapper();
-        Category category = modelMapper.map(categoryDto, Category.class);
-        category.setName(category.getName().toUpperCase());
+        Category category = new Category();
+        category.setUser(user);
+        category.setName(categoryDto.getName().toUpperCase());
         Integer exists = categoryRepository.ifExists(category.getName().toUpperCase(), user);
         if (exists > 0)
             messageService.addErrorMessage("Category " + category.getName() + " already exists");
         else {
-            messageService.addSuccessMessage("Categoty " + category.getName() + " succesfuly added.");
+            messageService.addSuccessMessage("Category " + category.getName() + " succesfuly added.");
             categoryRepository.save(category);
         }
     }
