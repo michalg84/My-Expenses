@@ -1,5 +1,6 @@
 package pl.sda.service;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.MoveCashDto;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class TransactionServiceImpl implements TransactionService {
+    private static final Logger logger_ = Logger.getLogger(TransactionServiceImpl.class);
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
@@ -57,20 +59,13 @@ public class TransactionServiceImpl implements TransactionService {
 
     public List<BigDecimal> getTransactionsBalanceList(UserDto userDto) {
         BigDecimal sum = userService.getTotalBalance();
-        List<BigDecimal> list = userDto.getTransactionList()
+        return userDto.getTransactionList()
                 .stream()
                 .map(t -> t.getAmount().add(sum))
                 .collect(Collectors.toList());
-        return list;
     }
 
-    /**
-     * Converts Transaction to TransactionDto.
-     *
-     * @param t Transaction object.
-     * @return TransactionDto object.
-     */
-    private TransactionDto convertTransactionToTransactionDto(Transaction t) {
+    private TransactionDto convertToDto(Transaction t) {
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setAmount(t.getAmount());
         transactionDto.setAccount(t.getAccount());
@@ -82,17 +77,12 @@ public class TransactionServiceImpl implements TransactionService {
 
     }
 
-    /**
-     * Creates TransactionsDto List and sets up Transaction balance for each of them.
-     *
-     * @return TransactionsDto List with balance.
-     */
     public List<TransactionDto> getTransactionsWithBalance() {
         List<Transaction> transactions = transactionService.getAllTransactions();
         List<TransactionDto> transactionsDto = new ArrayList<>();
         transactions.sort((t1, t2) -> t2.getTransDate().compareTo(t1.getTransDate()));
         for (Transaction t : transactions) {
-            TransactionDto transactionDto = convertTransactionToTransactionDto(t);
+            TransactionDto transactionDto = convertToDto(t);
             transactionsDto.add(transactionDto);
         }
         BigDecimal accountsBalance = accountRepository.getTotalBallance(userService.getCurrentUser());
@@ -112,12 +102,6 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionsDto;
     }
 
-    /**
-     * Creates a list of transactions balance.
-     *
-     * @param transactions list of transactions.
-     * @return Transactions balance List after every Transaction.
-     */
     private List<BigDecimal> getBalanceList(List<Transaction> transactions) {
         BigDecimal sum = userService.getTotalBalance();
         return transactions.stream()
@@ -126,16 +110,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public void addTransaction(TransactionDto transactionDto) {
-        User user = userService.getCurrentUser();
-        transactionDto.setBalance(accountRepository
-                .getTotalBallance(user)
-                .add(transactionDto.getAmount()));
+        transactionDto.setBalance(accountRepository.getTotalBallance(userService.getCurrentUser()).add(transactionDto.getAmount()));
         try {
-            transactionRepository.save(convertTransactionDtoToTransaction(transactionDto));
+            transactionRepository.save(convertToModel(transactionDto));
         } catch (Exception e) {
-            messageService.addErrorMessage("Error saving transaction to database");
-
-            e.printStackTrace();
+            messageService.addErrorMessage(String.format("Error saving transaction '%s' to database", transactionDto.toString()));
         }
         accountService.updateAccountBalance(transactionDto);
         messageService.addSuccessMessage("Transaction added !");
@@ -143,7 +122,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
-    private Transaction convertTransactionDtoToTransaction(TransactionDto transactionDto) {
+    private Transaction convertToModel(TransactionDto transactionDto) {
         Transaction transaction = new Transaction();
         transaction.setAmount(transactionDto.getAmount());
         transaction.setAccount(transactionDto.getAccount());
@@ -157,12 +136,17 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public void removeById(Integer transId) {
-        Transaction t = transactionRepository.findOne(transId);
-        Account a = accountRepository.findOne(t.getAccount().getId());
-        a.setBalance(a.getBalance().subtract(t.getAmount()));
-        accountRepository.save(a);
-        transactionRepository.delete(transId);
-        messageService.addSuccessMessage("Transactions was succesfuly removed");
+        try {
+            Transaction trn = transactionRepository.findOne(transId);
+            Account account = accountRepository.findOne(trn.getAccount().getId());
+            account.setBalance(account.getBalance().subtract(trn.getAmount()));
+            accountRepository.save(account);
+            transactionRepository.delete(transId);
+        } catch (Exception e) {
+            messageService.addErrorMessage("Error removing transaction");
+            logger_.error(e);
+        }
+        messageService.addSuccessMessage("Transactions was successfully removed");
     }
 
     public List<Transaction> getAllTransactions() {
