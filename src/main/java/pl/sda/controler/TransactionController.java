@@ -52,11 +52,7 @@ public class TransactionController {
 
     @PostMapping("remove/{id}")
     public String removeTransaction(@PathVariable("id") Integer transId) {
-        try {
-            transactionService.removeById(transId);
-        } catch (Exception e) {
-            messageService.addErrorMessage("Failed to ");
-        }
+        transactionService.removeById(transId);
         return REDIRECT + USER_TRANSACTIONS;
     }
 
