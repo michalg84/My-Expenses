@@ -181,7 +181,7 @@ public class UserServiceImpl implements UserService {
         List<Account> accounts = accountRepository.findAll(acctualUser);
         List<AccountDto> accountDtos = new ArrayList<>();
         for (Account a : accounts) {
-            AccountDto accountDto = accountService.convertAccountToAccountDto(a);
+            AccountDto accountDto = accountService.convertToModel(a);
             accountDtos.add(accountDto);
         }
         return accountDtos;

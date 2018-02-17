@@ -92,7 +92,7 @@ public class User {
         this.roles = roles;
     }
 
-//    public List<Account> getAccounts() {
+//    public List<Account> getUserAccounts() {
 //        return accounts;
 //    }
 //
@@ -100,7 +100,7 @@ public class User {
 //        this.accounts = accounts;
 //    }
 //
-//    public List<Category> getCategories() {
+//    public List<Category> getCategoriesList() {
 //        return categories;
 //    }
 //

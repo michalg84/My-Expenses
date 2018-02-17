@@ -14,7 +14,6 @@ public class MessageDto {
     }
 
     public MessageDto() {
-
     }
 
     public MessageDtoType getType() {
@@ -25,7 +24,6 @@ public class MessageDto {
         return text;
     }
 
-
     public enum MessageDtoType {
         INFO("alert alert-info"),
         ERROR("alert alert-warning"),
@@ -34,7 +32,7 @@ public class MessageDto {
 
         private String cssClass;
 
-        MessageDtoType(String cssClass){
+        MessageDtoType(String cssClass) {
             this.cssClass = cssClass;
         }
 

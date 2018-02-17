@@ -1,5 +1,6 @@
 package pl.sda.service;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.AccountDto;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @Service
 public class AccountServiceImpl implements AccountService {
+    private static final Logger logger_ = Logger.getLogger(AccountServiceImpl.class);
 
     @Autowired
     private MessageService messageService;
@@ -25,32 +27,30 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private UserService userService;
 
-    /**
-     * Get acctual User account list.
-     *
-     * @return List of User AccountDto's
-     */
-    public List<AccountDto> getAccounts() {
-        List<Account> accounts = accountRepository.findAll(userService.getCurrentUser());
-        List<AccountDto> accountDtos = new ArrayList<>();
-
-        for (Account a : accounts) {
-            AccountDto accountDto = convertAccountToAccountDto(a);
-            accountDtos.add(accountDto);
+    public List<AccountDto> getUserAccounts() {
+        List<Account> accounts = null;
+        List<AccountDto> accountDtoList = new ArrayList<>();
+        try {
+            accounts = accountRepository.findAll(userService.getCurrentUser());
+            for (Account a : accounts) {
+                AccountDto accountDto = convertToModel(a);
+                accountDtoList.add(accountDto);
+            }
+        } catch (Exception e) {
+            logger_.warn(String.format("No accounts fount for user %s", userService.getCurrentUser().getUsername()));
         }
-        return accountDtos;
+        return accountDtoList;
     }
 
 
-    /**
-     * Add new acount to User account list.
-     *
-     * @param accountDto AccountDto
-     */
     public void addAccount(AccountDto accountDto) {
         accountDto.setCreationDate(new Date());
-        accountRepository.save(convertAccountDtoToAccount(accountDto));
-        messageService.addSuccessMessage("Account added !");
+        try {
+            accountRepository.save(convertToDto(accountDto));
+            messageService.addSuccessMessage("Account added !");
+        } catch (Exception e) {
+            messageService.addErrorMessage(String.format("Failed to add account %s", accountDto.getName()));
+        }
 
     }
 
@@ -66,7 +66,7 @@ public class AccountServiceImpl implements AccountService {
      * @param newAccount Account to be created.
      * @return Account converted from AccountDto.
      */
-    public Account convertAccountDtoToAccount(AccountDto newAccount) {
+    public Account convertToDto(AccountDto newAccount) {
         Account account = new Account();
         account.setAccountNumber(newAccount.getAccountNumber());
         account.setAccountType(newAccount.getAccountType());
@@ -84,7 +84,7 @@ public class AccountServiceImpl implements AccountService {
      * @param account to be converted.
      * @return AccountDto converted from Account
      */
-    public AccountDto convertAccountToAccountDto(Account account) {
+    public AccountDto convertToModel(Account account) {
         AccountDto accountDto = new AccountDto();
         accountDto.setId(account.getId());
         accountDto.setName(account.getName());

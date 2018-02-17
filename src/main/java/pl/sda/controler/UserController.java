@@ -2,7 +2,6 @@ package pl.sda.controler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.*;
-import pl.sda.service.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -56,11 +54,11 @@ public class UserController extends AbstractController {
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getCurrentUserDto();
-        List<AccountDto> accounts = accountService.getAccounts();
+        List<AccountDto> accounts = accountService.getUserAccounts();
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
         modelMap.addAttribute("accounts", accounts);
-        modelMap.addAttribute("categories", categoryService.getCategories());
+        modelMap.addAttribute("categories", categoryService.getCategoriesList());
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
         if (accounts.size() == 0) {
             messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);

@@ -16,11 +16,6 @@ public class AccountTypeServiceImpl implements AccountTypeService {
     private AccountTypeRepository accountTypeRepository;
 
 
-    /**
-     * Gets account types form datebase.
-     *
-     * @return List of AccountType's.
-     */
     public List<AccountType> getAccountTypes() {
         return accountTypeRepository.findAll();
     }

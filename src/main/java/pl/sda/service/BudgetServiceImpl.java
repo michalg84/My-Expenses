@@ -55,7 +55,7 @@ public class BudgetServiceImpl implements BudgetService {
         List<BudgetDto> budgetDtoList = new ArrayList<>();
         for (Category c : categories) {
             BudgetDto budgetDto = new BudgetDto();
-            budgetDto.setCategoryDto(categoryService.convertCategoryToCategoryDto(c));
+            budgetDto.setCategoryDto(categoryService.convertToDto(c));
             budgetDtoList.add(budgetDto);
         }
         return budgetDtoList;
@@ -82,7 +82,7 @@ public class BudgetServiceImpl implements BudgetService {
     private BudgetDto convertBudgetToBudgetDto(Budget b) {
         BudgetDto budgetDto = new BudgetDto();
         budgetDto.setId(b.getId());
-        budgetDto.setCategoryDto(categoryService.convertCategoryToCategoryDto(b.getCategory()));
+        budgetDto.setCategoryDto(categoryService.convertToDto(b.getCategory()));
         budgetDto.setDate(new Date(b.getYear(), b.getMonth(), 1));
         budgetDto.setSum(b.getSum());
         return budgetDto;
@@ -91,7 +91,7 @@ public class BudgetServiceImpl implements BudgetService {
     private Budget convertBudgetDtoToBudget(BudgetDto b) {
         Budget budget = new Budget();
         budget.setId(b.getId());
-        budget.setCategory(categoryService.convertCategoryDtoToCategory(b.getCategoryDto()));
+        budget.setCategory(categoryService.convertToModel(b.getCategoryDto()));
         budget.setSum(b.getSum());
         budget.setUser(userService.getCurrentUser());
 

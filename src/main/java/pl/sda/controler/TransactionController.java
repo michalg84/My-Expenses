@@ -31,6 +31,7 @@ public class TransactionController {
     private MessageService messageService;
     @Autowired
     private TransactionService transactionService;
+    private String REDIRECT = "redirect:/";
 
 
     @PostMapping("add")
@@ -38,28 +39,32 @@ public class TransactionController {
                                     BindingResult result, ModelMap modelMap) {
         if (!result.hasErrors()) {
             transactionService.addTransaction(transactionDto);
-            return "redirect:/" + USER_TRANSACTIONS;
+            return REDIRECT + USER_TRANSACTIONS;
         }
-        messageService.addErrorMessage("Transaction Error. Values aren't correct. Please try again.");
+
+//            for (ObjectError e: result.getAllErrors()) {
+//                messageService.addErrorMessage(e.getDefaultMessage());
+//            }
+//        messageService.addErrorMessage("Transaction Error. Values aren't correct. Please try again.");
 //        transactionList(modelMap, new MessageDto("Bad value! = " + transactionDto.getAmount()));
-        return "redirect:/" + USER_TRANSACTIONS;
+        return REDIRECT + USER_TRANSACTIONS;
     }
 
     @PostMapping("remove/{id}")
     public String removeTransaction(@PathVariable("id") Integer transId) {
-        if (transId != null) {
+        try {
             transactionService.removeById(transId);
-        } else {
-            messageService.addErrorMessage("Failed to remove transaction");
+        } catch (Exception e) {
+            messageService.addErrorMessage("Failed to ");
         }
-        return "redirect:/" + USER_TRANSACTIONS;
+        return REDIRECT + USER_TRANSACTIONS;
     }
 
     @PostMapping("move")
     public String moveCashBetweenAccounts(@ModelAttribute("moveCash") MoveCashDto moveCashDto) {
         System.out.println(moveCashDto);
         transactionService.moveBetweenAccounts(moveCashDto);
-        return "redirect:/" + USER_TRANSACTIONS;
+        return REDIRECT + USER_TRANSACTIONS;
     }
 
 

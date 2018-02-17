@@ -10,14 +10,14 @@ import java.util.List;
  * Created by Michał Gałka on 2017-05-18.
  */
 public interface AccountService {
-    List<AccountDto> getAccounts();
+    List<AccountDto> getUserAccounts();
 
     void addAccount(AccountDto accountDto);
 
     void updateAccountBalance(TransactionDto transactionDto);
 
-    AccountDto convertAccountToAccountDto(Account account);
+    AccountDto convertToModel(Account account);
 
-    Account convertAccountDtoToAccount(AccountDto accountDto);
+    Account convertToDto(AccountDto accountDto);
 
 }
