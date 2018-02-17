@@ -1,13 +1,10 @@
 package pl.sda.dto;
 
-import org.springframework.format.annotation.NumberFormat;
 import pl.sda.model.Account;
 import pl.sda.model.Category;
-import pl.sda.model.User;
+import pl.sda.validators.Currency;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -16,8 +13,7 @@ import java.util.Date;
  */
 public class TransactionDto {
     private Integer id;
-//    @Pattern(regexp = "[0-9].[0-9]")
-    @NumberFormat(style = NumberFormat.Style.DEFAULT)
+    @Currency(message = "Invalid amount entry. Please insert correct currency value.")
     private BigDecimal amount;
     private Account account;
     @Valid
@@ -31,6 +27,19 @@ public class TransactionDto {
 
     }
 
+    @Override
+    public String toString() {
+        return "TransactionDto{" +
+                "id=" + id +
+                ", amount=" + amount +
+                ", account=" + account +
+                ", comment='" + comment + '\'' +
+                ", transDate=" + transDate +
+                ", balance=" + balance +
+                ", category=" + category +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
@@ -38,7 +47,6 @@ public class TransactionDto {
     public void setId(Integer id) {
         this.id = id;
     }
-
 
 
     public BigDecimal getAmount() {
