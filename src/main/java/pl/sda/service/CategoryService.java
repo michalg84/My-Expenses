@@ -15,9 +15,9 @@ public interface CategoryService {
 
     List<Category> initialCategories(User user);
 
-    List<Category> getCategories();
+    List<Category> getCategoriesList();
 
-    CategoryDto convertCategoryToCategoryDto(Category category);
+    CategoryDto convertToDto(Category category);
 
-    Category convertCategoryDtoToCategory(CategoryDto categoryDto);
+    Category convertToModel(CategoryDto categoryDto);
 }

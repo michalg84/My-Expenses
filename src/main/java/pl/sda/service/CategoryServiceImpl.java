@@ -1,6 +1,5 @@
 package pl.sda.service;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.CategoryDto;
@@ -25,11 +24,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    /**
-     * Adds new category to Users Categories
-     *
-     * @param categoryDto CategoryDto.
-     */
     public void add(CategoryDto categoryDto) {
         User user = userService.getCurrentUser();
         Category category = new Category();
@@ -37,9 +31,9 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(categoryDto.getName().toUpperCase());
         Integer exists = categoryRepository.ifExists(category.getName().toUpperCase(), user);
         if (exists > 0)
-            messageService.addErrorMessage("Category " + category.getName() + " already exists");
+            messageService.addErrorMessage(String.format("Category %s already exists", category.getName()));
         else {
-            messageService.addSuccessMessage("Category " + category.getName() + " succesfuly added.");
+            messageService.addSuccessMessage(String.format("Category %s successfuly added", category.getName()));
             categoryRepository.save(category);
         }
     }
@@ -78,12 +72,8 @@ public class CategoryServiceImpl implements CategoryService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Get all actual User categories form database sorted by name.
-     *
-     * @return List of Categories.
-     */
-    public List<Category> getCategories() {
+
+    public List<Category> getCategoriesList() {
         List<Category> list = categoryRepository.findAll(userService.getCurrentUser());
         list = list.stream()
                 .filter(category -> !category.getName().equals("MOVE BETWEEN ACCOUNTS"))
@@ -92,7 +82,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto convertCategoryToCategoryDto(Category category) {
+    public CategoryDto convertToDto(Category category) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setId(category.getId());
         categoryDto.setName(category.getName());
@@ -100,7 +90,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category convertCategoryDtoToCategory(CategoryDto categoryDto) {
+    public Category convertToModel(CategoryDto categoryDto) {
         Category category = new Category();
         category.setUser(userService.getCurrentUser());
         category.setName(categoryDto.getName());
