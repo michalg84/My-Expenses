@@ -65,8 +65,7 @@ public class HomeController {
     }
 
     @PostMapping("register")
-    public String addUser(@ModelAttribute(name = "userDto") @Valid UserDto userDto,
-                          BindingResult result) {
+    public String addUser(@ModelAttribute(name = "userDto") @Valid UserDto userDto, BindingResult result) {
         if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
             FieldError fieldErrorPassword = new FieldError("userDto", "confirmPassword", "password doesn't match");
             result.addError(fieldErrorPassword);

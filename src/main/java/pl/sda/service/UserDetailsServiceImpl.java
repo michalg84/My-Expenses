@@ -14,7 +14,6 @@ import pl.sda.model.User;
 import pl.sda.repository.UserRepository;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -29,6 +28,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private MessageService messageService;
 
     @Override
     @Transactional(readOnly = true)
@@ -36,11 +37,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        if (user != null) {
+            for (Role role : user.getRoles()) {
+                grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+            }
+            return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                    user.getPassword(), grantedAuthorities);
+        } else {
+            messageService.addErrorMessage("User or password are incorrect");
+            throw new UsernameNotFoundException("User " + username + "not found");
         }
 
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(), grantedAuthorities);
     }
 }
