@@ -1,6 +1,10 @@
 package pl.sda.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
@@ -11,10 +15,7 @@ import pl.sda.dto.TransactionDto;
 import pl.sda.mapper.AccountMapper;
 import pl.sda.model.Account;
 import pl.sda.repository.AccountRepository;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import pl.sda.service.user.UserService;
 
 /**
  * Created by Michał Gałka on 2017-05-18.
@@ -66,4 +67,19 @@ public class AccountServiceImpl implements AccountService {
         account.setBalance(account.getBalance().add(transactionDto.getAmount()));
         accountRepository.save(account);
     }
-   }
+
+    @Override
+    public BigDecimal getTotalBalance() {
+        return accountRepository.getTotalBalance(userService.getCurrentUser());
+    }
+
+    @Override
+    public List<AccountDto> getAccounts() {
+        final List<Account> accounts = accountRepository.findAll(userService.getCurrentUser());
+        List<AccountDto> accountDtos = new ArrayList<>();
+        for (Account account : accounts) {
+            accountDtos.add(AccountMapper.map(account));
+        }
+        return accountDtos;
+    }
+}

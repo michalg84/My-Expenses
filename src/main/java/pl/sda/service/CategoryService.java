@@ -1,10 +1,9 @@
 package pl.sda.service;
 
+import java.util.List;
 import pl.sda.dto.CategoryDto;
 import pl.sda.model.Category;
 import pl.sda.model.User;
-
-import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-05-22.
@@ -20,4 +19,6 @@ public interface CategoryService {
     CategoryDto convertToDto(Category category);
 
     Category convertToModel(CategoryDto categoryDto);
+
+    void save(List<Category> categories);
 }

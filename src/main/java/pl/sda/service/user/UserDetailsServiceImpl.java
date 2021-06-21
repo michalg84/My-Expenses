@@ -1,5 +1,7 @@
-package pl.sda.service;
+package pl.sda.service.user;
 
+import java.util.HashSet;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,17 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sda.model.Role;
 import pl.sda.model.User;
-import pl.sda.repository.UserRepository;
-
-import java.util.HashSet;
-import java.util.Set;
+import pl.sda.service.MessageService;
 
 
 /**
  * Created by Michał Gałka on 2017-04-29.
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public final class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;

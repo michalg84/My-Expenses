@@ -1,20 +1,21 @@
 package pl.sda.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import pl.sda.service.*;
+import pl.sda.service.BudgetService;
+import pl.sda.service.CategoryService;
+import pl.sda.service.MessageService;
+import pl.sda.service.TransactionService;
+import pl.sda.service.user.UserService;
 
 public abstract class AbstractController {
     @Autowired
     MessageService messageService;
     @Autowired
     TransactionService transactionService;
-    @Autowired
-    AccountService accountService;
+
     @Autowired
     CategoryService categoryService;
-    @Autowired
-    AccountTypeService accountTypeService;
+
     @Autowired
     UserService userService;
 

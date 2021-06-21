@@ -1,5 +1,6 @@
 package pl.sda.controler;
 
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.UserDto;
-import pl.sda.service.UserService;
-
-import javax.validation.Valid;
+import pl.sda.service.user.UserService;
 
 /**
  * Created by Michał Gałka on 2017-04-06.

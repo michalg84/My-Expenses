@@ -1,16 +1,16 @@
 package pl.sda.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.CategoryDto;
 import pl.sda.model.Category;
 import pl.sda.model.User;
 import pl.sda.repository.CategoryRepository;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
+import pl.sda.service.user.UserService;
 
 /**
  * Created by Michał Gałka on 2017-05-22.
@@ -96,6 +96,11 @@ public class CategoryServiceImpl implements CategoryService {
         category.setName(categoryDto.getName());
         category.setId(categoryDto.getId());
         return category;
+    }
+
+    @Override
+    public void save(List<Category> categories) {
+        categoryRepository.save(categories);
     }
 
 

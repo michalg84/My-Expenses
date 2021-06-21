@@ -1,12 +1,10 @@
-package pl.sda.service;
-
-import org.springframework.validation.FieldError;
-import pl.sda.dto.AccountDto;
-import pl.sda.dto.UserDto;
-import pl.sda.model.User;
+package pl.sda.service.user;
 
 import java.math.BigDecimal;
 import java.util.List;
+import org.springframework.validation.FieldError;
+import pl.sda.dto.UserDto;
+import pl.sda.model.User;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -25,8 +23,6 @@ public interface UserService {
     BigDecimal getTotalBalance();
 
     User findUserByUsername(String username);
-
-    List<AccountDto> getAccounts(User acctualUser);
 
     FieldError checkIfSuchUserExists(UserDto userDto);
 }

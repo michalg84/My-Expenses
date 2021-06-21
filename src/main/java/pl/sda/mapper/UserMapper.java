@@ -1,6 +1,5 @@
 package pl.sda.mapper;
 
-import javax.validation.constraints.NotNull;
 import pl.sda.dto.UserDto;
 import pl.sda.model.User;
 

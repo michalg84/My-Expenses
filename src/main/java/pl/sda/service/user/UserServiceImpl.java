@@ -1,46 +1,38 @@
-package pl.sda.service;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.FieldError;
-import pl.sda.dto.AccountDto;
-import pl.sda.dto.UserDto;
-import pl.sda.mapper.AccountMapper;
-import pl.sda.mapper.UserMapper;
-import pl.sda.model.Account;
-import pl.sda.model.Category;
-import pl.sda.model.Role;
-import pl.sda.model.User;
-import pl.sda.repository.AccountRepository;
-import pl.sda.repository.CategoryRepository;
-import pl.sda.repository.RoleRepository;
-import pl.sda.repository.UserRepository;
+package pl.sda.service.user;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
+import pl.sda.dto.UserDto;
+import pl.sda.mapper.UserMapper;
+import pl.sda.model.Category;
+import pl.sda.model.Role;
+import pl.sda.model.User;
+import pl.sda.service.AccountService;
+import pl.sda.service.CategoryService;
+import pl.sda.service.MessageService;
+import pl.sda.service.crypto.PasswordService;
+import pl.sda.service.role.RoleService;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
  */
 @Service
-public class UserServiceImpl implements UserService {
+class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private RoleRepository roleRepository;
+    private PasswordService passwordService;
     @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private RoleService roleService;
     @Autowired
     private CategoryService categoryService;
     @Autowired
@@ -51,7 +43,7 @@ public class UserServiceImpl implements UserService {
     /**
      * Converts authenticated User to UserDto.
      *
-     * @return UserDto of current loged User.
+     * @return UserDto of current logged User.
      */
     public UserDto getCurrentUserDto() {
         if (this.getCurrentUser() == null)
@@ -73,31 +65,21 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Converts UserDto object to User object
-     *
-     * @param userDto class UserDto.
-     * @return User Object.
-     */
-
-
-
-    /**
      * Adds UserDto to Database.
      *
      * @param userDto User to be saved to database.
      */
     public void save(UserDto userDto) {
         User user = UserMapper.map(userDto);
-        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-
+        user.setPassword(passwordService.encode(userDto.getPassword()));
         user.setRoles(new HashSet<>());
 
 
-        Role userRole = roleRepository.findOne(1);
+        Role userRole = roleService.get(1);
         user.getRoles().add(userRole);
 
         List<Category> categories = categoryService.initialCategories(user);
-        categoryRepository.save(categories);
+        categoryService.save(categories);
 
         userRepository.save(user);
     }
@@ -141,21 +123,11 @@ public class UserServiceImpl implements UserService {
      * @return Users account balance from all Accounts.
      */
     public BigDecimal getTotalBalance() {
-        return accountRepository.getTotalBallance(getCurrentUser());
+        return accountService.getTotalBalance();
     }
 
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-
-    public List<AccountDto> getAccounts(User acctualUser) {
-        List<Account> accounts = accountRepository.findAll(acctualUser);
-        List<AccountDto> accountDtos = new ArrayList<>();
-        for (Account account : accounts) {
-            accountDtos.add(AccountMapper.map(account));
-        }
-        return accountDtos;
     }
 
     @Override

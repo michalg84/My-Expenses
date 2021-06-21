@@ -1,7 +1,11 @@
 package pl.sda.controler;
 
+import java.util.List;
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -10,11 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.*;
-
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.List;
+import pl.sda.dto.AccountDto;
+import pl.sda.dto.CategoryDto;
+import pl.sda.dto.MoveCashDto;
+import pl.sda.dto.TransactionDto;
+import pl.sda.dto.UserDto;
+import pl.sda.service.AccountService;
+import pl.sda.service.AccountTypeService;
 
 /**
  * Created by Michał Gałka on 2017-04-09.
@@ -22,7 +28,10 @@ import java.util.List;
 @Controller
 @RequestMapping("user")
 public class UserController extends AbstractController {
-
+    @Autowired
+    AccountTypeService accountTypeService;
+    @Autowired
+    AccountService accountService;
     private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("account")
@@ -31,7 +40,7 @@ public class UserController extends AbstractController {
         session.setAttribute("username", userDto.getUsername());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("accounts",
-                userService.getAccounts(userService.getCurrentUser()));
+                accountService.getAccounts());
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
         modelMap.addAttribute("accountTypes", accountTypeService.getAccountTypes());

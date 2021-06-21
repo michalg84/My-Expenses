@@ -1,5 +1,10 @@
 package pl.sda.service;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +18,7 @@ import pl.sda.model.User;
 import pl.sda.repository.AccountRepository;
 import pl.sda.repository.CategoryRepository;
 import pl.sda.repository.TransactionRepository;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
+import pl.sda.service.user.UserService;
 
 /**
  * Created by Michał Gałka on 2017-04-17.
@@ -85,7 +85,7 @@ public class TransactionServiceImpl implements TransactionService {
             TransactionDto transactionDto = convertToDto(t);
             transactionsDto.add(transactionDto);
         }
-        BigDecimal accountsBalance = accountRepository.getTotalBallance(userService.getCurrentUser());
+        BigDecimal accountsBalance = accountRepository.getTotalBalance(userService.getCurrentUser());
 //        List<BigDecimal> balanceList = getBalanceList(transactions);
 
         for (int i = 0; i < transactionsDto.size(); i++) {
@@ -110,7 +110,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public void addTransaction(TransactionDto transactionDto) {
-        transactionDto.setBalance(accountRepository.getTotalBallance(userService.getCurrentUser()).add(transactionDto.getAmount()));
+        transactionDto.setBalance(accountRepository.getTotalBalance(userService.getCurrentUser())
+                .add(transactionDto.getAmount()));
         try {
             transactionRepository.save(convertToModel(transactionDto));
         } catch (Exception e) {
