@@ -55,14 +55,14 @@ public class UserController extends AbstractController {
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getCurrentUserDto();
         List<AccountDto> accounts = accountService.getUserAccounts();
+        if (accounts.isEmpty()) {
+            messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
+        }
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
         modelMap.addAttribute("accounts", accounts);
         modelMap.addAttribute("categories", categoryService.getCategoriesList());
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
-        if (accounts.size() == 0) {
-            messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
-        }
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("transactionDto", new TransactionDto());
         modelMap.addAttribute("moveCash", new MoveCashDto());

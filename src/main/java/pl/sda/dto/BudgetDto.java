@@ -12,7 +12,7 @@ public class BudgetDto {
     private BigDecimal sum;
     private BigDecimal used;
     private Date date;
-//    private User user;
+    private BigDecimal usage = BigDecimal.ZERO;
 
 
     public CategoryDto getCategoryDto() {
@@ -53,5 +53,13 @@ public class BudgetDto {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public BigDecimal getUsage() {
+        return usage;
+    }
+
+    public void setUsage(BigDecimal usage) {
+        this.usage = usage;
     }
 }

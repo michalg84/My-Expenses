@@ -14,11 +14,7 @@ import java.util.List;
 public interface UserService {
     User getCurrentUser();
 
-    User convertUserDtoToUser(UserDto userDto);
-
-    UserDto convertUserToUserDto(User user);
-
-    void save(UserDto userDto);
+      void save(UserDto userDto);
 
     UserDto getCurrentUserDto();
 

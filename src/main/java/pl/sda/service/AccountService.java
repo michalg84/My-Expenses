@@ -16,8 +16,5 @@ public interface AccountService {
 
     void updateAccountBalance(TransactionDto transactionDto);
 
-    AccountDto convertToModel(Account account);
-
-    Account convertToDto(AccountDto accountDto);
 
 }

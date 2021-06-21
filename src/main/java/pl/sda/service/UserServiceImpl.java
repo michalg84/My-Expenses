@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 import pl.sda.dto.AccountDto;
 import pl.sda.dto.UserDto;
+import pl.sda.mapper.AccountMapper;
+import pl.sda.mapper.UserMapper;
 import pl.sda.model.Account;
 import pl.sda.model.Category;
 import pl.sda.model.Role;
@@ -44,8 +46,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MessageService messageService;
     @Autowired
-    private UserServiceImpl userService;
-    @Autowired
     private AccountService accountService;
 
     /**
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getCurrentUserDto() {
         if (this.getCurrentUser() == null)
             return null;
-        return convertUserToUserDto(this.getCurrentUser());
+        return UserMapper.map(this.getCurrentUser());
     }
 
     /**
@@ -78,35 +78,7 @@ public class UserServiceImpl implements UserService {
      * @param userDto class UserDto.
      * @return User Object.
      */
-    public User convertUserDtoToUser(UserDto userDto) {
-        User user = new User();
-        user.setId(userDto.getId());
-        user.setUsername(userDto.getUsername());
-        user.setLogin(userDto.getLogin());
-        user.setMail(userDto.getMail());
-        user.setPassword(userDto.getPassword());
-        user.setRoles(userDto.getRoles());
-        return user;
-    }
 
-    /**
-     * Converts User object to UserDto object.
-     *
-     * @param user class Object.
-     * @return UserDto object. Note that UsedDto confirmPassword
-     * is returned as null cause it's requiered only for registration.
-     */
-    public UserDto convertUserToUserDto(User user) {
-        if (user == null)
-            return null;
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setUsername(user.getUsername());
-        userDto.setLogin(user.getLogin());
-        userDto.setMail(user.getMail());
-        userDto.setRoles(user.getRoles());
-        return userDto;
-    }
 
 
     /**
@@ -115,7 +87,7 @@ public class UserServiceImpl implements UserService {
      * @param userDto User to be saved to database.
      */
     public void save(UserDto userDto) {
-        User user = convertUserDtoToUser(userDto);
+        User user = UserMapper.map(userDto);
         user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 
         user.setRoles(new HashSet<>());
@@ -160,7 +132,7 @@ public class UserServiceImpl implements UserService {
      */
     public UserDto findUserDtoByUsername(String username) {
         User user = userRepository.findByUsername(username);
-        return convertUserToUserDto(user);
+        return UserMapper.map(user);
     }
 
     /**
@@ -180,9 +152,8 @@ public class UserServiceImpl implements UserService {
     public List<AccountDto> getAccounts(User acctualUser) {
         List<Account> accounts = accountRepository.findAll(acctualUser);
         List<AccountDto> accountDtos = new ArrayList<>();
-        for (Account a : accounts) {
-            AccountDto accountDto = accountService.convertToModel(a);
-            accountDtos.add(accountDto);
+        for (Account account : accounts) {
+            accountDtos.add(AccountMapper.map(account));
         }
         return accountDtos;
     }

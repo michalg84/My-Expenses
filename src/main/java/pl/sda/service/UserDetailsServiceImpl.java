@@ -28,6 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
     private MessageService messageService;
 
