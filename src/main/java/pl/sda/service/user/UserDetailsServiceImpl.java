@@ -20,7 +20,7 @@ import pl.sda.service.MessageService;
  * Created by Michał Gałka on 2017-04-29.
  */
 @Service
-public final class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;

@@ -30,17 +30,21 @@ public class Configuration extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/css/**", "/js/**", "/register", "/h2/**", "/h2-console/**", "/login/error", "/table/transaction").permitAll()
-//                .antMatchers("/save").hasAnyAuthority("ADMIN")
-//                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/css/**", "/js/**", "/register", "/login/error", "/table/transaction").permitAll()
+
+                //                .antMatchers("/save").hasAnyAuthority("ADMIN")
+                //                .antMatchers("/user/**").hasRole("USER")
+
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
+                .and().headers().frameOptions().sameOrigin()
                 .and()
                 .csrf()
                 .disable()       //wyłącznie tokena
-//                .and()
+                //                .and()
                 .formLogin()
                 .loginPage("/login")
-//                .loginProcessingUrl("/user/list")
+                //                .loginProcessingUrl("/user/list")
                 .failureForwardUrl("/login/error")
                 .successForwardUrl("/user/account")
                 .passwordParameter("password")
@@ -57,6 +61,12 @@ public class Configuration extends WebSecurityConfigurerAdapter {
 
 
     }
+
+    //    @Override
+    //    public void init(WebSecurity web) throws Exception {
+    //        web
+    //                .ignoring().antMatchers("h2/console/**");
+    //    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
