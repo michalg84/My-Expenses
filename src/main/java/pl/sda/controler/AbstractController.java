@@ -3,9 +3,9 @@ package pl.sda.controler;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.sda.service.BudgetService;
 import pl.sda.service.CategoryService;
-import pl.sda.service.MessageService;
 import pl.sda.service.TransactionService;
 import pl.sda.service.user.UserService;
+import pl.sda.service.webnotification.MessageService;
 
 public abstract class AbstractController {
     @Autowired

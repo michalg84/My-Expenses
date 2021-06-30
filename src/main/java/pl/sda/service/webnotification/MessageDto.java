@@ -1,10 +1,12 @@
-package pl.sda.dto;
+package pl.sda.service.webnotification;
+
+import java.io.Serializable;
 
 /**
  * Created by Michał Gałka on 2017-05-22.
  */
-public class MessageDto {
-
+final class MessageDto implements Serializable {
+    public static final long serialVersionUID = 1L;
     private MessageDtoType type;
     private String text;
 
@@ -24,13 +26,13 @@ public class MessageDto {
         return text;
     }
 
-    public enum MessageDtoType {
+    enum MessageDtoType {
         INFO("alert alert-info"),
         ERROR("alert alert-warning"),
         WARN("alert alert-danger"),
         SUCCESS("alert alert-success");
 
-        private String cssClass;
+        private final String cssClass;
 
         MessageDtoType(String cssClass) {
             this.cssClass = cssClass;

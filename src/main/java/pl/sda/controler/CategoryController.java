@@ -1,5 +1,6 @@
 package pl.sda.controler;
 
+import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.sda.dto.CategoryDto;
 import pl.sda.service.CategoryService;
-import pl.sda.service.MessageService;
-
-import javax.validation.Valid;
+import pl.sda.service.webnotification.MessageService;
 
 /**
  * Created by Michał Gałka on 2017-04-09.

@@ -25,7 +25,7 @@
 
 <div class="container">
     <div class="row" id="notifications"
-         th:with="notifyMessages=${session[T(pl.sda.service.MessageServiceImpl).NOTIFY_MSG_SESSION_KEY]}">
+         th:with="notifyMessages=${session[T(pl.sda.service.webnotification.MessageServiceImpl).NOTIFY_MSG_SESSION_KEY]}">
         <div th:align="center" th:class="${msg.type}" role="alert"
              th:each="msg : ${notifyMessages}" th:text="${msg.text}">
         </div>

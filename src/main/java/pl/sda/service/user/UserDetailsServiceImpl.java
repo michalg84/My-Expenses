@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.sda.model.Role;
 import pl.sda.model.User;
-import pl.sda.service.MessageService;
+import pl.sda.service.webnotification.MessageService;
 
 
 /**

@@ -16,6 +16,7 @@ import pl.sda.mapper.AccountMapper;
 import pl.sda.model.Account;
 import pl.sda.repository.AccountRepository;
 import pl.sda.service.user.UserService;
+import pl.sda.service.webnotification.MessageService;
 
 /**
  * Created by Michał Gałka on 2017-05-18.
@@ -33,7 +34,6 @@ public class AccountServiceImpl implements AccountService {
     private UserService userService;
 
     public List<AccountDto> getUserAccounts() {
-        List<AccountDto> accountDtoList = new ArrayList<>();
         try {
             return getAccountsDto(AccountMapper::map); //todo
         } catch (Exception e) {

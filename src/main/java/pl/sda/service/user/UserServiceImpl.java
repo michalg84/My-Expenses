@@ -11,15 +11,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 import pl.sda.dto.UserDto;
-import pl.sda.mapper.UserMapper;
 import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.User;
 import pl.sda.service.AccountService;
 import pl.sda.service.CategoryService;
-import pl.sda.service.MessageService;
 import pl.sda.service.crypto.PasswordService;
 import pl.sda.service.role.RoleService;
+import pl.sda.service.webnotification.MessageService;
 
 /**
  * Created by Michał Gałka on 2017-04-07.

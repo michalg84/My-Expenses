@@ -11,6 +11,7 @@ import pl.sda.model.Category;
 import pl.sda.model.User;
 import pl.sda.repository.CategoryRepository;
 import pl.sda.service.user.UserService;
+import pl.sda.service.webnotification.MessageService;
 
 /**
  * Created by Michał Gałka on 2017-05-22.

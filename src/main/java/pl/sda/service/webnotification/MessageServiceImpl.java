@@ -1,19 +1,17 @@
-package pl.sda.service;
+package pl.sda.service.webnotification;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sda.dto.MessageDto;
-
-import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-05-22.
  */
 @Service
-public class MessageServiceImpl implements MessageService {
+class MessageServiceImpl implements MessageService {
     public static final String NOTIFY_MSG_SESSION_KEY = "notificationMessages";
     private static final Logger logger_ = Logger.getLogger(MessageServiceImpl.class);
     @Autowired
@@ -21,12 +19,12 @@ public class MessageServiceImpl implements MessageService {
 
     public void addInfoMessage(String msg) {
         addNotificationMessage(MessageDto.MessageDtoType.INFO, msg);
-        logger_.info(msg);
+        logger_.debug(msg);
     }
 
     public void addSuccessMessage(String msg) {
         addNotificationMessage(MessageDto.MessageDtoType.SUCCESS, msg);
-        logger_.info(msg);
+        logger_.debug(msg);
     }
 
     public void addWarnMessage(String msg) {
@@ -39,8 +37,8 @@ public class MessageServiceImpl implements MessageService {
         logger_.error(msg);
     }
 
-
-    public void addNotificationMessage(MessageDto.MessageDtoType type, String msg) {
+    @SuppressWarnings("unchecked")
+    private void addNotificationMessage(MessageDto.MessageDtoType type, String msg) {
         List<MessageDto> notifyMessages = (List<MessageDto>) httpSession.getAttribute(NOTIFY_MSG_SESSION_KEY);
         if (notifyMessages == null) {
             notifyMessages = new ArrayList<>();

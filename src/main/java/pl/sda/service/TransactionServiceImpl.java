@@ -19,6 +19,7 @@ import pl.sda.repository.AccountRepository;
 import pl.sda.repository.CategoryRepository;
 import pl.sda.repository.TransactionRepository;
 import pl.sda.service.user.UserService;
+import pl.sda.service.webnotification.MessageService;
 
 /**
  * Created by Michał Gałka on 2017-04-17.

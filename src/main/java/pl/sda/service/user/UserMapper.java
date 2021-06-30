@@ -1,13 +1,13 @@
-package pl.sda.mapper;
+package pl.sda.service.user;
 
 import pl.sda.dto.UserDto;
 import pl.sda.model.User;
 
-public class UserMapper  {
+public final class UserMapper {
     private UserMapper() {
     }
 
-    public static User map( UserDto userDto) {
+    public static User map(UserDto userDto) {
         User user = new User();
         user.setId(userDto.getId());
         user.setUsername(userDto.getUsername());
