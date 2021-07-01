@@ -1,13 +1,10 @@
-package pl.sda.dto;
+package pl.sda.service.account;
 
-import org.springframework.format.annotation.NumberFormat;
-import pl.sda.model.AccountType;
-import pl.sda.model.User;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
+import javax.validation.constraints.NotNull;
+import org.springframework.format.annotation.NumberFormat;
+import pl.sda.model.AccountType;
 
 /**
  * Created by Michał Gałka on 2017-05-18.

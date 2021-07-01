@@ -3,8 +3,6 @@ package pl.sda.controler;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,13 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.AccountDto;
 import pl.sda.dto.CategoryDto;
 import pl.sda.dto.MoveCashDto;
 import pl.sda.dto.TransactionDto;
-import pl.sda.dto.UserDto;
-import pl.sda.service.AccountService;
-import pl.sda.service.AccountTypeService;
+import pl.sda.service.account.AccountDto;
+import pl.sda.service.account.AccountService;
+import pl.sda.service.user.UserDto;
 
 /**
  * Created by Michał Gałka on 2017-04-09.
@@ -29,10 +26,7 @@ import pl.sda.service.AccountTypeService;
 @RequestMapping("user")
 public class UserController extends AbstractController {
     @Autowired
-    AccountTypeService accountTypeService;
-    @Autowired
     AccountService accountService;
-    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @RequestMapping("account")
     public ModelAndView userAccount(ModelMap modelMap, HttpSession session) {
@@ -43,7 +37,7 @@ public class UserController extends AbstractController {
                 accountService.getAccounts());
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
-        modelMap.addAttribute("accountTypes", accountTypeService.getAccountTypes());
+        modelMap.addAttribute("accountTypes", accountService.getAccountTypes());
         return new ModelAndView(USER_ACCOUNT, modelMap);
     }
 
@@ -63,7 +57,7 @@ public class UserController extends AbstractController {
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
         UserDto userDto = userService.getCurrentUserDto();
-        List<AccountDto> accounts = accountService.getUserAccounts();
+        List<AccountDto> accounts = accountService.getAccounts();
         if (accounts.isEmpty()) {
             messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
         }

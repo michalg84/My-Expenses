@@ -1,4 +1,4 @@
-package pl.sda.repository;
+package pl.sda.service.account;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.sda.model.AccountType;

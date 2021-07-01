@@ -1,12 +1,11 @@
 package pl.sda.service;
 
-import pl.sda.dto.MoveCashDto;
-import pl.sda.dto.TransactionDto;
-import pl.sda.dto.UserDto;
-import pl.sda.model.Transaction;
-
 import java.math.BigDecimal;
 import java.util.List;
+import pl.sda.dto.MoveCashDto;
+import pl.sda.dto.TransactionDto;
+import pl.sda.model.Transaction;
+import pl.sda.service.user.UserDto;
 
 /**
  * Created by Michał Gałka on 2017-04-17.

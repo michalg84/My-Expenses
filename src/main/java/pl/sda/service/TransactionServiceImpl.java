@@ -10,14 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.MoveCashDto;
 import pl.sda.dto.TransactionDto;
-import pl.sda.dto.UserDto;
 import pl.sda.model.Account;
 import pl.sda.model.Category;
 import pl.sda.model.Transaction;
 import pl.sda.model.User;
-import pl.sda.repository.AccountRepository;
 import pl.sda.repository.CategoryRepository;
 import pl.sda.repository.TransactionRepository;
+import pl.sda.service.account.AccountRepository;
+import pl.sda.service.account.AccountService;
+import pl.sda.service.user.UserDto;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
@@ -116,7 +117,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionRepository.save(convertToModel(transactionDto));
         } catch (Exception e) {
-            messageService.addErrorMessage(String.format("Error saving transaction '%s' to database", transactionDto.toString()));
+            messageService.addErrorMessage(String.format("Error saving transaction '%s' to database", transactionDto));
         }
         accountService.updateAccountBalance(transactionDto);
         messageService.addSuccessMessage("Transaction added !");

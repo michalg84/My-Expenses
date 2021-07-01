@@ -1,20 +1,16 @@
-package pl.sda.service;
+package pl.sda.service.account;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sda.dto.AccountDto;
 import pl.sda.dto.TransactionDto;
-import pl.sda.mapper.AccountMapper;
 import pl.sda.model.Account;
-import pl.sda.repository.AccountRepository;
+import pl.sda.model.AccountType;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
@@ -22,30 +18,29 @@ import pl.sda.service.webnotification.MessageService;
  * Created by Michał Gałka on 2017-05-18.
  */
 @Service
-public class AccountServiceImpl implements AccountService {
+class AccountServiceImpl implements AccountService {
     private static final Logger logger_ = Logger.getLogger(AccountServiceImpl.class);
 
     @Autowired
     private MessageService messageService;
     @Autowired
     private AccountRepository accountRepository;
-
+    @Autowired
+    private AccountTypeRepository accountTypeRepository;
     @Autowired
     private UserService userService;
 
-    public List<AccountDto> getUserAccounts() {
+    @Override
+    public List<AccountDto> getAccounts() {
         try {
-            return getAccountsDto(AccountMapper::map); //todo
+            return accountRepository.findAll(userService.getCurrentUser())
+                    .stream()
+                    .map(AccountMapper::map)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             logger_.warn(String.format("No accounts fount for user %s", userService.getCurrentUser().getUsername()));
         }
         return Collections.emptyList();
-    }
-
-    private List<AccountDto> getAccountsDto(Function<Account, AccountDto> mapper) {
-        return accountRepository.findAll(userService.getCurrentUser()).stream()
-                .map(mapper)
-                .collect(Collectors.toList());
     }
 
 
@@ -73,13 +68,9 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.getTotalBalance(userService.getCurrentUser());
     }
 
-    @Override
-    public List<AccountDto> getAccounts() {
-        final List<Account> accounts = accountRepository.findAll(userService.getCurrentUser());
-        List<AccountDto> accountDtos = new ArrayList<>();
-        for (Account account : accounts) {
-            accountDtos.add(AccountMapper.map(account));
-        }
-        return accountDtos;
+    public List<AccountType> getAccountTypes() {
+        return accountTypeRepository.findAll();
     }
+
+
 }

@@ -1,4 +1,4 @@
-package pl.sda.repository;
+package pl.sda.service.account;
 
 import java.math.BigDecimal;
 import java.util.List;

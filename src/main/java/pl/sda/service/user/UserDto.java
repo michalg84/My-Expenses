@@ -1,16 +1,14 @@
-package pl.sda.dto;
+package pl.sda.service.user;
 
+import java.util.List;
+import java.util.Set;
+import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import pl.sda.model.Account;
 import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.Transaction;
-
-import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -19,7 +17,7 @@ public class UserDto {
 
     private Integer id;
     @NotEmpty(message = "Please insert username")
-    @Size(min = 5, max = 25, message = "5 - 25 characters are requiered !")
+    @Size(min = 5, max = 25, message = "5 - 25 characters are required !")
     private String username;
 
     private String login;
@@ -27,10 +25,10 @@ public class UserDto {
     @Email
     private String mail;
     @NotEmpty
-    @Size(min = 5, max = 25, message = "5 - 25 characters are requiered !")
+    @Size(min = 5, max = 25, message = "5 - 25 characters are required !")
     private String password;
     @NotEmpty
-    @Size(min = 5, max = 25, message = "5 - 25 characters are requiered !")
+    @Size(min = 5, max = 25, message = "5 - 25 characters are required !")
     private String confirmPassword;
     private List<Transaction> transactionList;
     private List<Account> accounts;
@@ -40,8 +38,13 @@ public class UserDto {
     public UserDto() {
     }
 
-    public UserDto(Integer id, String username, String login, String mail, String password,
-                   String confirmPassword, List<Category> categories) {
+    public UserDto(Integer id,
+                   String username,
+                   String login,
+                   String mail,
+                   String password,
+                   String confirmPassword,
+                   List<Category> categories) {
         this.id = id;
         this.username = username;
         this.login = login;

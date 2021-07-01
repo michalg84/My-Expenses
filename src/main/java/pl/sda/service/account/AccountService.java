@@ -1,15 +1,14 @@
-package pl.sda.service;
+package pl.sda.service.account;
 
 import java.math.BigDecimal;
 import java.util.List;
-import pl.sda.dto.AccountDto;
 import pl.sda.dto.TransactionDto;
+import pl.sda.model.AccountType;
 
 /**
  * Created by Michał Gałka on 2017-05-18.
  */
 public interface AccountService {
-    List<AccountDto> getUserAccounts();
 
     void addAccount(AccountDto accountDto);
 
@@ -18,4 +17,6 @@ public interface AccountService {
     BigDecimal getTotalBalance();
 
     List<AccountDto> getAccounts();
+
+    List<AccountType> getAccountTypes();
 }

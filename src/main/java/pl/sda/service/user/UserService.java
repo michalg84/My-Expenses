@@ -3,7 +3,6 @@ package pl.sda.service.user;
 import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.validation.FieldError;
-import pl.sda.dto.UserDto;
 import pl.sda.model.User;
 
 /**

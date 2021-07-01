@@ -1,9 +1,8 @@
-package pl.sda.mapper;
+package pl.sda.service.account;
 
-import pl.sda.dto.AccountDto;
 import pl.sda.model.Account;
 
-public class AccountMapper {
+final class AccountMapper {
 
     private AccountMapper() {
     }
