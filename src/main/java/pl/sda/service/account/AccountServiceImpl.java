@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import pl.sda.dto.TransactionDto;
 import pl.sda.model.Account;
 import pl.sda.model.AccountType;
+import pl.sda.model.User;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
@@ -31,9 +32,9 @@ class AccountServiceImpl implements AccountService {
     private UserService userService;
 
     @Override
-    public List<AccountDto> getAccounts() {
+    public List<AccountDto> getAccounts(Integer userId) {
         try {
-            return accountRepository.findAll(userService.getCurrentUser())
+            return accountRepository.findByUserId(userId)
                     .stream()
                     .map(AccountMapper::map)
                     .collect(Collectors.toList());
@@ -54,7 +55,6 @@ class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             messageService.addErrorMessage(String.format("Failed to add account %s", accountDto.getName()));
         }
-
     }
 
     public void updateAccountBalance(TransactionDto transactionDto) {
@@ -71,6 +71,4 @@ class AccountServiceImpl implements AccountService {
     public List<AccountType> getAccountTypes() {
         return accountTypeRepository.findAll();
     }
-
-
 }

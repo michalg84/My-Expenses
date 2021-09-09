@@ -11,9 +11,11 @@ import pl.sda.model.User;
 public interface UserService {
     User getCurrentUser();
 
-      void save(UserDto userDto);
+    void save(UserDto userDto);
 
     UserDto getCurrentUserDto();
+
+    Integer getCurrentUserId();
 
     List<UserDto> getAll();
 

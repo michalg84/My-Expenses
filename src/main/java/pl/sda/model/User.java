@@ -28,6 +28,8 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Account.class)
+    private List<Account> accounts;
 
     public User() {
     }
@@ -92,13 +94,13 @@ public class User {
         this.roles = roles;
     }
 
-//    public List<Account> getUserAccounts() {
-//        return accounts;
-//    }
-//
-//    public void setAccounts(List<Account> accounts) {
-//        this.accounts = accounts;
-//    }
+    public List<Account> getUserAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
 //
 //    public List<Category> getCategoriesList() {
 //        return categories;

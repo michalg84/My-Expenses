@@ -15,13 +15,14 @@ public class TransactionDto {
     private Integer id;
     @Currency(message = "Invalid amount entry. Please insert correct currency value.")
     private BigDecimal amount;
-    private Account account;
+    private Account account; //TODO use Account DTO or ID
+    //TODO use separate Dto for each operaton SaveTransDto, ShowtransDto, etc...
     @Valid
     private String comment;
     @Valid
     private Date transDate;
     private BigDecimal balance;
-    private Category category;
+    private Category category; //TODO use CategoryDto
 
     public TransactionDto() {
 

@@ -16,7 +16,6 @@ import pl.sda.model.User;
 import pl.sda.service.CategoryService;
 import pl.sda.service.account.AccountService;
 import pl.sda.service.crypto.PasswordService;
-import pl.sda.service.role.RoleService;
 import pl.sda.service.webnotification.MessageService;
 
 /**
@@ -47,6 +46,12 @@ class UserServiceImpl implements UserService {
         if (this.getCurrentUser() == null)
             return null;
         return UserMapper.map(this.getCurrentUser());
+    }
+
+    public Integer getCurrentUserId() {
+        if (this.getCurrentUser() == null)
+            return null;
+        return this.getCurrentUser().getId();
     }
 
     /**

@@ -112,8 +112,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public void addTransaction(TransactionDto transactionDto) {
-        transactionDto.setBalance(accountRepository.getTotalBalance(userService.getCurrentUser())
-                .add(transactionDto.getAmount()));
+        final BigDecimal balanceBefore = accountRepository.getTotalBalance(userService.getCurrentUser());
+        final BigDecimal amount = transactionDto.getAmount();
+        final BigDecimal total = balanceBefore.add(amount);
+        transactionDto.setBalance(total);
         try {
             transactionRepository.save(convertToModel(transactionDto));
         } catch (Exception e) {

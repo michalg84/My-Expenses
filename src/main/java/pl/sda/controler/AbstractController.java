@@ -24,7 +24,6 @@ public abstract class AbstractController {
     static final String USER_ACCOUNT = "user/account";
     static final String USER_TRANSACTIONS = "user/list";
     static final String BUDGET_LIST = "budget/list";
-    static final String CREATE_ACCOUNT_FIRST = "You need to create cash account before making transactions.";
 
     /*
      * Appends "redrect:/" with list of string splited by '/'. Returns web address;

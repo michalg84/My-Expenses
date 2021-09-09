@@ -1,20 +1,15 @@
 package pl.sda.controler;
 
-import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.CategoryDto;
-import pl.sda.dto.MoveCashDto;
-import pl.sda.dto.TransactionDto;
 import pl.sda.service.account.AccountDto;
 import pl.sda.service.account.AccountService;
 import pl.sda.service.user.UserDto;
@@ -34,7 +29,7 @@ public class UserController extends AbstractController {
         session.setAttribute("username", userDto.getUsername());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("accounts",
-                accountService.getAccounts());
+                accountService.getAccounts(userService.getCurrentUserId()));
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
         modelMap.addAttribute("accountTypes", accountService.getAccountTypes());
@@ -54,24 +49,7 @@ public class UserController extends AbstractController {
         return "redirect:/" + USER_ACCOUNT;
     }
 
-    @GetMapping("list")
-    public ModelAndView transactionList(ModelMap modelMap) {
-        UserDto userDto = userService.getCurrentUserDto();
-        List<AccountDto> accounts = accountService.getAccounts();
-        if (accounts.isEmpty()) {
-            messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
-        }
-        modelMap.addAttribute("userDto", userDto);
-        modelMap.addAttribute("newCategory", new CategoryDto());
-        modelMap.addAttribute("accounts", accounts);
-        modelMap.addAttribute("categories", categoryService.getCategoriesList());
-        List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
-        modelMap.addAttribute("transactionList", transactions);
-        modelMap.addAttribute("transactionDto", new TransactionDto());
-        modelMap.addAttribute("moveCash", new MoveCashDto());
 
-        return new ModelAndView(USER_TRANSACTIONS, modelMap);
-    }
 
     //todo mail
     //todo logger

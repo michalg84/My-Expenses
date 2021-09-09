@@ -20,7 +20,7 @@ import pl.sda.service.webnotification.MessageService;
 @RequestMapping("category")
 public class CategoryController {
 
-    public static final String USER_TRANSACTIONS = "user/list";
+    public static final String USER_TRANSACTIONS = "transaction/list";
     private final Logger log = LoggerFactory.getLogger(CategoryController.class);
 
     @Autowired

@@ -17,5 +17,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     List<Transaction> findById(Integer id);
 
-    List<Transaction> findAllByUser(User acctualUser);
+    List<Transaction> findAllByUser(User user);
 }
