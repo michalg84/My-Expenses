@@ -1,0 +1,38 @@
+logging:
+  file: app.log
+  level:
+    '*': DEBUG
+  register-shutdown-hook: true
+server:
+  port: 8084
+spring:
+  datasource:
+    driverClassName: org.h2.Driver
+    initialization-mode: none
+    password: ''
+    sql-script-encoding: UTF-8
+    url: jdbc:h2:file:~/my_expenses
+    username: sa
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        trace: false
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    mode: HTML5
+spring-datasource:
+  platform: H2
