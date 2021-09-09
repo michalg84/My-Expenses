@@ -1,4 +1,4 @@
-package pl.sda.service.role;
+package pl.sda.service.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

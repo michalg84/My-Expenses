@@ -1,4 +1,4 @@
-package pl.sda.service.role;
+package pl.sda.service.user;
 
 import pl.sda.model.Role;
 

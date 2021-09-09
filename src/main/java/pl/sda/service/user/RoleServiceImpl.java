@@ -1,4 +1,4 @@
-package pl.sda.service.role;
+package pl.sda.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
