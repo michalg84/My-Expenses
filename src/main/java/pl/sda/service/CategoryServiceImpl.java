@@ -18,6 +18,7 @@ import pl.sda.service.webnotification.MessageService;
  */
 @Service
 public class CategoryServiceImpl implements CategoryService {
+    private final CategoryMapper categoryMapper = new CategoryMapper();
     @Autowired
     private MessageService messageService;
     @Autowired
@@ -84,18 +85,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto convertToDto(Category category) {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setId(category.getId());
-        categoryDto.setName(category.getName());
-        return categoryDto;
+        return categoryMapper.convertToDto(category);
     }
 
     @Override
     public Category convertToModel(CategoryDto categoryDto) {
-        Category category = new Category();
+        final Category category = categoryMapper.convertToModel(categoryDto);
         category.setUser(userService.getCurrentUser());
-        category.setName(categoryDto.getName());
-        category.setId(categoryDto.getId());
         return category;
     }
 

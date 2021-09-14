@@ -1,9 +1,5 @@
 package pl.sda.service.user;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +13,11 @@ import pl.sda.service.CategoryService;
 import pl.sda.service.account.AccountService;
 import pl.sda.service.crypto.PasswordService;
 import pl.sda.service.webnotification.MessageService;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-04-07.
@@ -135,11 +136,14 @@ class UserServiceImpl implements UserService {
 
     @Override
     public FieldError checkIfSuchUserExists(UserDto userDto) {
-        FieldError fieldError;
         if (userRepository.findByUsername(userDto.getUsername()) != null)
-            return fieldError = new FieldError("userDto", "username", "Such user already exists");
+            return getFieldError("username", "Such user already exists");
         if (userRepository.findUserByMail(userDto.getMail()) != null)
-            return fieldError = new FieldError("userDto", "mail", "Such e-mail already exists.");
+            return getFieldError("mail", "Such e-mail already exists.");
         return null;
+    }
+
+    private FieldError getFieldError(String txt, String msg) {
+        return new FieldError("userDto", txt, msg);
     }
 }

@@ -21,9 +21,6 @@ public class MoveCashDto {
     @NotNull
     private Date date;
 
-    public MoveCashDto() {
-    }
-
     public Integer getFromAccountId() {
         return fromAccountId;
     }

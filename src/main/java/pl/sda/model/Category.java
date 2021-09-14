@@ -1,9 +1,6 @@
 package pl.sda.model;
 
 import javax.persistence.*;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Michał Gałka on 2017-05-22.

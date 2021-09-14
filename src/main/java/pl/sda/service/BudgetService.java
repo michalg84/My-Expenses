@@ -1,7 +1,7 @@
 package pl.sda.service;
 
 import pl.sda.dto.BudgetDto;
-import pl.sda.dto.MonthBudget;
+import pl.sda.dto.MonthBudgetDto;
 
 import java.util.List;
 
@@ -14,6 +14,6 @@ public interface BudgetService {
 
     List<BudgetDto> getNewBudgetDtos();
 
-    void add(MonthBudget monthBudget);
+    void add(MonthBudgetDto monthBudgetDto);
 
 }

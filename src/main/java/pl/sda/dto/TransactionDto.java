@@ -24,10 +24,6 @@ public class TransactionDto {
     private BigDecimal balance;
     private Category category; //TODO use CategoryDto
 
-    public TransactionDto() {
-
-    }
-
     @Override
     public String toString() {
         return "TransactionDto{" +

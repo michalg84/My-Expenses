@@ -1,30 +1,33 @@
 package pl.sda.controler;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import pl.sda.dto.MonthBudget;
+import pl.sda.dto.MonthBudgetDto;
+import pl.sda.service.BudgetService;
 
 import java.util.Calendar;
-import java.util.Date;
+
+import static java.lang.String.valueOf;
 
 /**
  * Created by Michał Gałka on 2017-05-23.
  */
 @Controller
 @RequestMapping("budget")
-public class BudgetController extends AbstractController {
+public class BudgetController {
+
+    @Autowired
+    BudgetService budgetService;
 
     @GetMapping("list")
     public String viewBudget() {
-        Date today = new Date();
         Calendar cal = Calendar.getInstance();
-        Integer year = cal.get(Calendar.YEAR);
-        Integer month = cal.get(Calendar.MONTH);
-        return buildRedirectPath(new String[]{"budget", "list",
-                year.toString(), month.toString()});
-//        return "redirect:/budget/list/" + year + "/" + month;
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        return buildRedirectPath("budget", "list", valueOf(year), valueOf(month));
     }
 
     @GetMapping("list/{year}/{month}")
@@ -32,18 +35,29 @@ public class BudgetController extends AbstractController {
                                    @PathVariable(required = false) Integer month,
                                    ModelMap modelMap) {
 
-        MonthBudget newMonthBudget = new MonthBudget();
-        newMonthBudget.setList(budgetService.getBudgetDtoList(year, month));
+        MonthBudgetDto newBudget = new MonthBudgetDto();
+        newBudget.setList(budgetService.getBudgetDtoList(year, month));
 
-        modelMap.addAttribute("monthBudget", newMonthBudget);
+        modelMap.addAttribute("monthBudget", newBudget);
         return new ModelAndView("user/budget", modelMap);
     }
 
     @PostMapping("add")
-    public String addBudget(@ModelAttribute("monthBudget") MonthBudget monthBudget, ModelMap modelMap) {
-        System.out.println(monthBudget);
-        budgetService.add(monthBudget);
-        return buildRedirectPath(new String[] {"budget", "list"});
+    public String addBudget(@ModelAttribute("monthBudget") MonthBudgetDto monthBudgetDto, ModelMap modelMap) {
+        budgetService.add(monthBudgetDto);
+        return buildRedirectPath("budget", "list");
+    }
+
+    /*
+     * Appends "redirect:/" with list of string split by '/'.
+     * Returns web address.
+     */
+    protected String buildRedirectPath(String... strings) {
+        StringBuilder builder = new StringBuilder("redirect:");
+        for (String string : strings) {
+            builder.append('/');
+            builder.append(string);
+        }
+        return builder.toString();
     }
 }
-

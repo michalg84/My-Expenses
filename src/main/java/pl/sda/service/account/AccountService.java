@@ -1,10 +1,10 @@
 package pl.sda.service.account;
 
-import java.math.BigDecimal;
-import java.util.List;
 import pl.sda.dto.TransactionDto;
 import pl.sda.model.AccountType;
-import pl.sda.model.User;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Created by Michał Gałka on 2017-05-18.

@@ -1,6 +1,5 @@
 package pl.sda.controler;
 
-import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.sda.dto.CategoryDto;
 import pl.sda.service.CategoryService;
 import pl.sda.service.webnotification.MessageService;
+
+import javax.validation.Valid;
 
 /**
  * Created by Michał Gałka on 2017-04-09.
@@ -46,10 +47,7 @@ public class CategoryController {
         } else if (arg instanceof String) {
             messageService.addErrorMessage((String) arg);
         } else {
-            log.error("Invalid argument in " + this.getClass().getName() + " for '" + arg + "'");
+            log.error("Invalid argument in {} for '{}'", this.getClass().getName(), arg);
         }
-
-
     }
-
 }

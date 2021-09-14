@@ -1,9 +1,5 @@
 package pl.sda.controler;
 
-import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +17,7 @@ import pl.sda.service.user.UserDto;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -33,7 +30,6 @@ public class TransactionController {
     private static final String CREATE_ACCOUNT_FIRST = "You need to create cash account before making transactions.";
     private static final String USER_TRANSACTIONS = "transaction/list";
     private static final String USER_TRANSACTION_LIST_VIEW = "user/list";
-    private final Logger log = LoggerFactory.getLogger(TransactionController.class);
 
     @Autowired
     private MessageService messageService;

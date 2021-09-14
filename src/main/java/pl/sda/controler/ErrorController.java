@@ -1,16 +1,13 @@
 package pl.sda.controler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @ControllerAdvice
 public class ErrorController {
 
-    private static Logger log = LoggerFactory.getLogger(ErrorController.class);
-
-
-    //    @ExceptionHandler(UserNotFound.class)
+    private ErrorController() {
+    }
+//    @ExceptionHandler(UserNotFound.class)
     //    public ModelAndView megaExceptionHandler(HttpServletRequest req, UserNotFound e) {
     //
     //        log.error("Request: " + req.getRequestURL() + ", raised " + e);

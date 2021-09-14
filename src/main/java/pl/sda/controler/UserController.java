@@ -13,15 +13,23 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.sda.service.account.AccountDto;
 import pl.sda.service.account.AccountService;
 import pl.sda.service.user.UserDto;
+import pl.sda.service.user.UserService;
+import pl.sda.service.webnotification.MessageService;
 
 /**
  * Created by Michał Gałka on 2017-04-09.
  */
 @Controller
 @RequestMapping("user")
-public class UserController extends AbstractController {
+public class UserController {
+    static final String USER_ACCOUNT = "user/account";
+
     @Autowired
     AccountService accountService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    MessageService messageService;
 
     @RequestMapping("account")
     public ModelAndView userAccount(ModelMap modelMap, HttpSession session) {
@@ -44,13 +52,7 @@ public class UserController extends AbstractController {
             accountService.addAccount(accountDto);
             return "redirect:/" + USER_ACCOUNT;
         }
-//        String txt = result.getFieldError().getField()
         messageService.addErrorMessage("Error. Cannot add new account !" + result.getAllErrors());
         return "redirect:/" + USER_ACCOUNT;
     }
-
-
-
-    //todo mail
-    //todo logger
 }

@@ -58,15 +58,7 @@ public class Configuration extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .rememberMe();
-
-
     }
-
-    //    @Override
-    //    public void init(WebSecurity web) throws Exception {
-    //        web
-    //                .ignoring().antMatchers("h2/console/**");
-    //    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

@@ -1,19 +1,19 @@
 package pl.sda.service.account;
 
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.TransactionDto;
 import pl.sda.model.Account;
 import pl.sda.model.AccountType;
-import pl.sda.model.User;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
+
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Michał Gałka on 2017-05-18.

@@ -32,11 +32,6 @@ public class Transaction {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Transaction() {
-    }
-
-
-
     public User getUser() {
         return user;
     }
@@ -50,7 +45,7 @@ public class Transaction {
     }
 
     public void setId(Integer id) {
-        id = id;
+        this.id = id;
     }
 
 

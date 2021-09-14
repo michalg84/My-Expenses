@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Michał Gałka on 2017-05-23.
  */
-public class MonthBudget {
+public class MonthBudgetDto {
     private List<BudgetDto> list;
     private Date date;
 

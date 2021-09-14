@@ -7,12 +7,12 @@ server:
   port: 8084
 spring:
   datasource:
-    driverClassName: org.h2.Driver
     initialization-mode: none
-    password: ''
-    sql-script-encoding: UTF-8
     url: jdbc:h2:file:~/my_expenses
     username: sa
+    password: ''
+    driverClassName: org.h2.Driver
+    sql-script-encoding: UTF-8
   h2:
     console:
       enabled: true
