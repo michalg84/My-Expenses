@@ -4,9 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
-/**
- * Created by Michał Gałka on 2017-04-29.
- */
 @Entity
 @Table(name = "roles")
 public class Role {

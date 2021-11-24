@@ -6,9 +6,6 @@ import pl.sda.model.AccountType;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * Created by Michał Gałka on 2017-05-18.
- */
 public interface AccountService {
 
     void addAccount(AccountDto accountDto);

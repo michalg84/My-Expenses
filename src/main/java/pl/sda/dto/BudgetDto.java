@@ -3,9 +3,6 @@ package pl.sda.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by Michał Gałka on 2017-05-23.
- */
 public class BudgetDto {
     private Integer id;
     private CategoryDto categoryDto;

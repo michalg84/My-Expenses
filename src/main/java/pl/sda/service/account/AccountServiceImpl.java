@@ -15,9 +15,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by Michał Gałka on 2017-05-18.
- */
 @Service
 class AccountServiceImpl implements AccountService {
     private static final Logger logger_ = Logger.getLogger(AccountServiceImpl.class);

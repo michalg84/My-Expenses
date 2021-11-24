@@ -10,9 +10,6 @@ import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.Transaction;
 
-/**
- * Created by Michał Gałka on 2017-04-07.
- */
 public class UserDto {
 
     private Integer id;

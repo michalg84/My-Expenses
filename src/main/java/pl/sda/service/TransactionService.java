@@ -7,9 +7,6 @@ import pl.sda.dto.TransactionDto;
 import pl.sda.model.Transaction;
 import pl.sda.service.user.UserDto;
 
-/**
- * Created by Michał Gałka on 2017-04-17.
- */
 public interface TransactionService {
     BigDecimal getTransactionSum(List<Transaction> transactionList);
 

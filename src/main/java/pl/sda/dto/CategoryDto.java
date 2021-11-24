@@ -3,9 +3,6 @@ package pl.sda.dto;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-/**
- * Created by Michał Gałka on 2017-05-22.
- */
 public class CategoryDto {
     private Integer id;
     @NotNull(message = "Please insert name")

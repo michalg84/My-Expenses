@@ -2,9 +2,6 @@ package pl.sda.model;
 
 import javax.persistence.*;
 
-/**
- * Created by Michał Gałka on 2017-05-22.
- */
 @Entity
 public class Category {
     @Id

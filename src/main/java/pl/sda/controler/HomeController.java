@@ -18,9 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.sda.service.user.UserDto;
 import pl.sda.service.user.UserService;
 
-/**
- * Created by Michał Gałka on 2017-04-06.
- */
 @Controller
 @RequestMapping("/")
 public class HomeController {

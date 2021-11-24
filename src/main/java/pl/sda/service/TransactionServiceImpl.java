@@ -22,9 +22,6 @@ import pl.sda.service.user.UserDto;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
-/**
- * Created by Michał Gałka on 2017-04-17.
- */
 @Service
 public class TransactionServiceImpl implements TransactionService {
     private static final Logger logger_ = Logger.getLogger(TransactionServiceImpl.class);

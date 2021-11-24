@@ -15,9 +15,6 @@ import pl.sda.service.webnotification.MessageService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Michał Gałka on 2017-05-23.
- */
 @Service
 public class BudgetServiceImpl implements BudgetService {
 

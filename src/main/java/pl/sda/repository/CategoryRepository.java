@@ -9,9 +9,6 @@ import pl.sda.model.User;
 
 import java.util.List;
 
-/**
- * Created by Michał Gałka on 2017-05-22.
- */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     List<Category> findByUser(User user);

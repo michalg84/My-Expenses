@@ -5,9 +5,6 @@ import java.util.List;
 import org.springframework.validation.FieldError;
 import pl.sda.model.User;
 
-/**
- * Created by Michał Gałka on 2017-04-07.
- */
 public interface UserService {
     User getCurrentUser();
 

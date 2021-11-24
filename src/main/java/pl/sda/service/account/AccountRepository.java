@@ -10,9 +10,6 @@ import org.springframework.stereotype.Repository;
 import pl.sda.model.Account;
 import pl.sda.model.User;
 
-/**
- * Created by Michał Gałka on 2017-05-18.
- */
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 

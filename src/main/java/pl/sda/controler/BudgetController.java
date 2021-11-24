@@ -12,9 +12,6 @@ import java.util.Calendar;
 
 import static java.lang.String.valueOf;
 
-/**
- * Created by Michał Gałka on 2017-05-23.
- */
 @Controller
 @RequestMapping("budget")
 public class BudgetController {

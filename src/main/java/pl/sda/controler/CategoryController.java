@@ -14,9 +14,6 @@ import pl.sda.service.webnotification.MessageService;
 
 import javax.validation.Valid;
 
-/**
- * Created by Michał Gałka on 2017-04-09.
- */
 @Controller
 @RequestMapping("category")
 public class CategoryController {

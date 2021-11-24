@@ -3,9 +3,6 @@ package pl.sda.dto;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Michał Gałka on 2017-05-23.
- */
 public class MonthBudgetDto {
     private List<BudgetDto> list;
     private Date date;

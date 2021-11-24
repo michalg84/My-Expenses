@@ -2,9 +2,6 @@ package pl.sda.service.webnotification;
 
 import java.io.Serializable;
 
-/**
- * Created by Michał Gałka on 2017-05-22.
- */
 final class MessageDto implements Serializable {
     public static final long serialVersionUID = 1L;
     private MessageDtoType type;

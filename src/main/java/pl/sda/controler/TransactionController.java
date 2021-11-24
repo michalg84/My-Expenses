@@ -20,9 +20,6 @@ import pl.sda.service.webnotification.MessageService;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * Created by Michał Gałka on 2017-04-09.
- */
 @Controller
 @RequestMapping("/transaction")
 public class TransactionController {

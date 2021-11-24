@@ -6,9 +6,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import pl.sda.model.User;
 
-/**
- * Created by Michał Gałka on 2017-04-07.
- */
 @Repository
 interface UserRepository extends JpaRepository<User, Integer> {
 

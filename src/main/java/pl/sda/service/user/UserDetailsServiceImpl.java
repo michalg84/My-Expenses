@@ -15,10 +15,6 @@ import pl.sda.model.Role;
 import pl.sda.model.User;
 import pl.sda.service.webnotification.MessageService;
 
-
-/**
- * Created by Michał Gałka on 2017-04-29.
- */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

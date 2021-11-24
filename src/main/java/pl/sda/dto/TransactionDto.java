@@ -8,9 +8,6 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by Michał Gałka on 2017-04-17.
- */
 public class TransactionDto {
     private Integer id;
     @Currency(message = "Invalid amount entry. Please insert correct currency value.")

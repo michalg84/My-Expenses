@@ -6,9 +6,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.NumberFormat;
 import pl.sda.model.AccountType;
 
-/**
- * Created by Michał Gałka on 2017-05-18.
- */
 public class AccountDto {
 
     private Integer id;

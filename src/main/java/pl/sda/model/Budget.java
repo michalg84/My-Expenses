@@ -3,9 +3,6 @@ package pl.sda.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-/**
- * Created by Michał Gałka on 2017-05-23.
- */
 @Entity
 public class Budget {
     @Id

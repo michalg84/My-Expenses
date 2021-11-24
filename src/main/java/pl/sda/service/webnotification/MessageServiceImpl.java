@@ -7,9 +7,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * Created by Michał Gałka on 2017-05-22.
- */
 @Service
 class MessageServiceImpl implements MessageService {
     public static final String NOTIFY_MSG_SESSION_KEY = "notificationMessages";

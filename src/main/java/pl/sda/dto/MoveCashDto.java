@@ -6,9 +6,6 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by Michał Gałka on 2017-05-28.
- */
 public class MoveCashDto {
     @NotNull
     private Integer fromAccountId;

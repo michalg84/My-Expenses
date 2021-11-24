@@ -9,9 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.sda.service.user.UserDetailsServiceImpl;
 
-/**
- * Created by Michał Gałka on 2017-04-29.
- */
 @org.springframework.context.annotation.Configuration
 @EnableWebSecurity
 

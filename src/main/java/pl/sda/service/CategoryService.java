@@ -5,9 +5,6 @@ import pl.sda.dto.CategoryDto;
 import pl.sda.model.Category;
 import pl.sda.model.User;
 
-/**
- * Created by Michał Gałka on 2017-05-22.
- */
 public interface CategoryService {
 
     void add(CategoryDto categoryDto);

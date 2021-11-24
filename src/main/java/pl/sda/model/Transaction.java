@@ -4,9 +4,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by Michał Gałka on 2017-04-17.
- */
 @Entity
 @Table(name = "transactionn")
 public class Transaction {
