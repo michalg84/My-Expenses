@@ -1,7 +1,5 @@
 package pl.sda.controler;
 
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,10 +14,16 @@ import pl.sda.service.user.UserDto;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import static pl.sda.service.user.url.HttpActions.ADD;
+import static pl.sda.service.user.url.UserHttpUrls.ACCOUNT;
+import static pl.sda.service.user.url.UserHttpUrls.USER;
+
 @Controller
-@RequestMapping("user")
+@RequestMapping(USER)
 public class UserController {
-    static final String USER_ACCOUNT = "user/account";
 
     @Autowired
     AccountService accountService;
@@ -28,7 +32,7 @@ public class UserController {
     @Autowired
     MessageService messageService;
 
-    @RequestMapping("account")
+    @RequestMapping(ACCOUNT)
     public ModelAndView userAccount(ModelMap modelMap, HttpSession session) {
         UserDto userDto = userService.getCurrentUserDto();
         session.setAttribute("username", userDto.getUsername());
@@ -38,18 +42,18 @@ public class UserController {
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
         modelMap.addAttribute("accountTypes", accountService.getAccountTypes());
-        return new ModelAndView(USER_ACCOUNT, modelMap);
+        return new ModelAndView(USER + ACCOUNT, modelMap);
     }
 
 
-    @PostMapping("account/add")
+    @PostMapping(ACCOUNT + ADD)
     public String addAccount(@ModelAttribute(name = "newAccount") @Valid AccountDto accountDto,
                              BindingResult result, ModelMap modelMap) {
         if (!result.hasErrors()) {
             accountService.addAccount(accountDto);
-            return "redirect:/" + USER_ACCOUNT;
+            return "redirect:/" + USER + ACCOUNT;
         }
         messageService.addErrorMessage("Error. Cannot add new account !" + result.getAllErrors());
-        return "redirect:/" + USER_ACCOUNT;
+        return "redirect:/" + USER + ACCOUNT;
     }
 }
