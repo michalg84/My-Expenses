@@ -4,6 +4,8 @@ logging:
     '*': DEBUG
   register-shutdown-hook: true
 server:
+  servlet:
+    context-path: /api
   port: 8084
 spring:
   datasource:

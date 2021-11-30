@@ -6,11 +6,12 @@ import pl.sda.model.Transaction;
 import pl.sda.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-    List<Transaction> findById(Integer id);
+    Optional<Transaction> findOne(Integer id);
 
-    List<Transaction> findAllByUser(User user);
+    List<Transaction> findAllByUser(User currentUser);
 }

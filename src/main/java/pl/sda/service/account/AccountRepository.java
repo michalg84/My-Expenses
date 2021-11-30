@@ -15,6 +15,7 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     List<Account> findByUserId(Integer id);
 
+
     @Query("select sum(balance) from Account account where account.user = :user")
     BigDecimal getTotalBalance(@Param("user") User user);
 

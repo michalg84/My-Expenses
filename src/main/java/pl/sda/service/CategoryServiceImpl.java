@@ -32,8 +32,8 @@ public class CategoryServiceImpl implements CategoryService {
         if (exists > 0)
             messageService.addErrorMessage(String.format("Category %s already exists", category.getName()));
         else {
-            messageService.addSuccessMessage(String.format("Category %s successfuly added", category.getName()));
             categoryRepository.save(category);
+            messageService.addSuccessMessage(String.format("Category %s successfuly added", category.getName()));
         }
     }
 
@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public List<Category> getCategoriesList() {
-        List<Category> list = categoryRepository.findAll(userService.getCurrentUser());
+        List<Category> list = categoryRepository.findAllByUser(userService.getCurrentUser());
         list = list.stream()
                 .filter(category -> !category.getName().equals("MOVE BETWEEN ACCOUNTS"))
                 .collect(Collectors.toList());
@@ -94,7 +94,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void save(List<Category> categories) {
-        categoryRepository.save(categories);
+        categoryRepository.saveAll(categories);
     }
 
 

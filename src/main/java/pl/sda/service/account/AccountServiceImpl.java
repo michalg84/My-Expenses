@@ -1,6 +1,6 @@
 package pl.sda.service.account;
 
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.TransactionDto;
@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 class AccountServiceImpl implements AccountService {
-    private static final Logger logger_ = Logger.getLogger(AccountServiceImpl.class);
 
     @Autowired
     private MessageService messageService;
@@ -36,7 +36,7 @@ class AccountServiceImpl implements AccountService {
                     .map(AccountMapper::map)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            logger_.warn(String.format("No accounts fount for user %s", userService.getCurrentUser().getUsername()));
+            log.warn(String.format("No accounts fount for user %s", userService.getCurrentUser().getUsername()));
         }
         return Collections.emptyList();
     }

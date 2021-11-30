@@ -1,11 +1,6 @@
 package pl.sda.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.apache.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.MoveCashDto;
@@ -22,9 +17,15 @@ import pl.sda.service.user.UserDto;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Slf4j
 @Service
 public class TransactionServiceImpl implements TransactionService {
-    private static final Logger logger_ = Logger.getLogger(TransactionServiceImpl.class);
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
@@ -85,7 +86,7 @@ public class TransactionServiceImpl implements TransactionService {
             transactionsDto.add(transactionDto);
         }
         BigDecimal accountsBalance = accountRepository.getTotalBalance(userService.getCurrentUser());
-//        List<BigDecimal> balanceList = getBalanceList(transactions);
+//        TODO review if needed //List<BigDecimal> balanceList = getBalanceList(transactions);
 
         for (int i = 0; i < transactionsDto.size(); i++) {
             BigDecimal balance;
@@ -139,14 +140,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     public void removeById(Integer transId) {
         try {
-            Transaction trn = transactionRepository.findOne(transId);
-            Account account = accountRepository.findOne(trn.getAccount().getId());
+            final Transaction trn = transactionRepository.getById(transId);
+            Account account = accountRepository.getById(trn.getAccount().getId());
             account.setBalance(account.getBalance().subtract(trn.getAmount()));
             accountRepository.save(account);
-            transactionRepository.delete(transId);
-        } catch (Exception e) {
+            transactionRepository.delete(trn);
+        } catch (RuntimeException e) {
             messageService.addErrorMessage("Error removing transaction");
-            logger_.error(e);
+            log.error(e.getMessage(), e);
         }
         messageService.addSuccessMessage("Transactions was successfully removed");
     }
@@ -159,8 +160,8 @@ public class TransactionServiceImpl implements TransactionService {
         User user = userService.getCurrentUser();
         Transaction out = new Transaction();
         Transaction in = new Transaction();
-        Account fromAccount = accountRepository.getOne(moveCashDto.getFromAccountId());
-        Account toAccount = accountRepository.getOne(moveCashDto.getToAccountId());
+        Account fromAccount = accountRepository.getById(moveCashDto.getFromAccountId());
+        Account toAccount = accountRepository.getById(moveCashDto.getToAccountId());
         Category category = categoryRepository.findByUserAndName("MOVE BETWEEN ACCOUNTS", user);
 
         out.setAccount(fromAccount);
