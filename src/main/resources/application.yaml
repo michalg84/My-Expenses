@@ -9,7 +9,7 @@ server:
   port: 8084
 spring:
   datasource:
-    initialization-mode: none
+    initialization-mode: never
     url: jdbc:h2:file:~/my_expenses
     username: sa
     password: ''
@@ -30,7 +30,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     show-sql: false
   thymeleaf:
     cache: false

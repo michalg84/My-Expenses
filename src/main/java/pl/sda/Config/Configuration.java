@@ -17,11 +17,6 @@ public class Configuration extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsServiceImpl;
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -57,9 +52,9 @@ public class Configuration extends WebSecurityConfigurerAdapter {
                 .rememberMe();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsServiceImpl)
-                .passwordEncoder(bCryptPasswordEncoder());
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.userDetailsService(userDetailsServiceImpl)
+//                .passwordEncoder(bCryptPasswordEncoder());
+//    }
 }
