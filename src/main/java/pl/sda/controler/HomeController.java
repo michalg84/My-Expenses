@@ -1,10 +1,7 @@
 package pl.sda.controler;
 
-import java.util.stream.Collectors;
-import javax.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -18,14 +15,18 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.sda.service.user.UserDto;
 import pl.sda.service.user.UserService;
 
+import javax.validation.Valid;
+import java.util.stream.Collectors;
+
+@Slf4j
 @Controller
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class HomeController {
 
     private static final String LOGIN_PAGE = "login";
     private static final String REGISTER_PAGE = "register";
-    private final Logger log = LoggerFactory.getLogger(HomeController.class);
-    private UserService userService;
+    private final UserService userService;
 
     /**
      * Opens login page.
@@ -43,7 +44,6 @@ public class HomeController {
 
         return LOGIN_PAGE;
     }
-
 
 
     @RequestMapping("login/error")

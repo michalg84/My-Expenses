@@ -29,9 +29,10 @@ class AccountServiceImpl implements AccountService {
     private AuthUserProvider authUserProvider;
 
     @Override
-    public List<AccountDto> getAccounts(Integer userId) {
+    public List<AccountDto> getAccounts() {
         try {
-            return accountRepository.findByUserId(userId)
+            final Integer id = authUserProvider.authenticatedUser().getId();
+            return accountRepository.findByUserId(id)
                     .stream()
                     .map(AccountMapper::map)
                     .collect(Collectors.toList());

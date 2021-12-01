@@ -14,7 +14,7 @@ public interface AccountService {
 
     BigDecimal getTotalBalance();
 
-    List<AccountDto> getAccounts(Integer id);
+    List<AccountDto> getAccounts();
 
     List<AccountType> getAccountTypes();
 }

@@ -35,26 +35,22 @@ public class TransactionController {
     @Autowired
     private MessageService messageService;
     @Autowired
-    @Lazy
     private TransactionService transactionService;
     @Autowired
-    @Lazy
     private AccountService accountService;
     @Autowired
     private AuthUserProvider authUserProvider;
     @Autowired
-    @Lazy
     private CategoryService categoryService;
     private String REDIRECT = "redirect:/";
 
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
-        final User user = authUserProvider.authenticatedUser();
-        List<AccountDto> accounts = accountService.getAccounts(user.getId());
+        List<AccountDto> accounts = accountService.getAccounts();
         if (accounts.isEmpty()) {
             messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
         }
-        final UserDto userDto = UserMapper.map(user);
+        final UserDto userDto = UserMapper.map(authUserProvider.authenticatedUser());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
         modelMap.addAttribute("accounts", accounts);
