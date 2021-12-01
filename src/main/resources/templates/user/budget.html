@@ -5,11 +5,11 @@
     <title>Budget list</title>
     <link rel="stylesheet" href="/css/jquery-ui.css"/>
     <link rel="stylesheet" href="/css/bootstrap.css"/>
-    <!--    <link rel="stylesheet" href="/css/jquery-ui-timepicker-addon.css"/>-->
-    <script src="/js/jquery.js"/>
-    <script src="/js/jquery-ui.js"/>
-    <script src="/js/bootstrap.js"/>
-    <!--    <script th:src="@{/js/jquery-ui-timepicker-addon.js}"></script>-->
+    <!--        <link rel="stylesheet" href="/css/jquery-ui-timepicker-addon.css"/>-->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <!--        <script th:src="@{/js/jquery-ui-timepicker-addon.js}"></script>-->
     <style>
         .ui-datepicker-calendar {
             display: none;
@@ -23,7 +23,6 @@
                 changeMonth: true,
                 changeYear: true,
                 showButtonPanel: false,
-                inline:true,
                 onClose: function (dateText, inst) {
                     $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
                     var month = inst.selectedMonth;
@@ -38,11 +37,7 @@
                 e.preventDefault();
                 $(this).tab('show')
             })
-
-
         });
-
-
     </script>
 </head>
 <body>
@@ -57,7 +52,7 @@
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
                     <a href="#showBudget" aria-controls="home" role="tab" data-toggle="tab">
-                        Show Budget</a>
+                        Budget</a>
                 </li>
             </ul>
 
@@ -81,7 +76,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h3>Set budget</h3>
+                        <h3>Budget</h3>
                         <!--budget categories tabel-->
                         <table class="table table-bordered table-striped">
                             <thead>
