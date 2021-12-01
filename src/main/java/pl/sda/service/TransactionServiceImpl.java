@@ -1,7 +1,7 @@
 package pl.sda.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.MoveCashDto;
 import pl.sda.dto.TransactionDto;
@@ -13,8 +13,8 @@ import pl.sda.repository.CategoryRepository;
 import pl.sda.repository.TransactionRepository;
 import pl.sda.service.account.AccountRepository;
 import pl.sda.service.account.AccountService;
+import pl.sda.service.user.AuthUserProvider;
 import pl.sda.service.user.UserDto;
-import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
 import java.math.BigDecimal;
@@ -25,21 +25,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-    @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private AccountRepository accountRepository;
-    @Autowired
-    private AccountService accountService;
-    @Autowired
-    private MessageService messageService;
-    @Autowired
-    private TransactionServiceImpl transactionService;
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
+    private final AccountService accountService;
+    private final AuthUserProvider authUserProvider;
+    private final MessageService messageService;
+    private final CategoryRepository categoryRepository;
 
     /**
      * Gets summary of all Transactions form List.
@@ -58,7 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     public List<BigDecimal> getTransactionsBalanceList(UserDto userDto) {
-        BigDecimal sum = userService.getTotalBalance();
+        BigDecimal sum = accountService.getTotalBalance();
         return userDto.getTransactionList()
                 .stream()
                 .map(t -> t.getAmount().add(sum))
@@ -78,14 +71,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public List<TransactionDto> getTransactionsWithBalance() {
-        List<Transaction> transactions = transactionService.getAllTransactions();
+        List<Transaction> transactions = getAllTransactions();
         List<TransactionDto> transactionsDto = new ArrayList<>();
         transactions.sort((t1, t2) -> t2.getTransDate().compareTo(t1.getTransDate()));
         for (Transaction t : transactions) {
             TransactionDto transactionDto = convertToDto(t);
             transactionsDto.add(transactionDto);
         }
-        BigDecimal accountsBalance = accountRepository.getTotalBalance(userService.getCurrentUser());
+        BigDecimal accountsBalance = accountRepository.getTotalBalance(authUserProvider.authenticatedUser());
 //        TODO review if needed //List<BigDecimal> balanceList = getBalanceList(transactions);
 
         for (int i = 0; i < transactionsDto.size(); i++) {
@@ -103,14 +96,15 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private List<BigDecimal> getBalanceList(List<Transaction> transactions) {
-        BigDecimal sum = userService.getTotalBalance();
+        BigDecimal sum = accountService.getTotalBalance();
         return transactions.stream()
                 .map(t -> t.getAmount().add(sum))
                 .collect(Collectors.toList());
     }
 
     public void addTransaction(TransactionDto transactionDto) {
-        final BigDecimal balanceBefore = accountRepository.getTotalBalance(userService.getCurrentUser());
+        final BigDecimal balanceBefore = accountRepository.getTotalBalance(authUserProvider.authenticatedUser());
+
         final BigDecimal amount = transactionDto.getAmount();
         final BigDecimal total = balanceBefore.add(amount);
         transactionDto.setBalance(total);
@@ -132,7 +126,8 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setId(transactionDto.getId());
         transaction.setComment(transactionDto.getComment());
         transaction.setTransDate(transactionDto.getTransDate());
-        transaction.setUser(userService.getCurrentUser());
+        transaction.setUser(authUserProvider.authenticatedUser());
+
 //        transaction.setBalance(transactionDto.getBalance());
         transaction.setCategory(transactionDto.getCategory());
         return transaction;
@@ -153,11 +148,11 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public List<Transaction> getAllTransactions() {
-        return transactionRepository.findAllByUser(userService.getCurrentUser());
+        return transactionRepository.findAllByUser(authUserProvider.authenticatedUser());
     }
 
     public void moveBetweenAccounts(MoveCashDto moveCashDto) {
-        User user = userService.getCurrentUser();
+        User user = authUserProvider.authenticatedUser();
         Transaction out = new Transaction();
         Transaction in = new Transaction();
         Account fromAccount = accountRepository.getById(moveCashDto.getFromAccountId());

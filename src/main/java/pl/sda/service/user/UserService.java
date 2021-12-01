@@ -6,21 +6,16 @@ import org.springframework.validation.FieldError;
 import pl.sda.model.User;
 
 public interface UserService {
-    User getCurrentUser();
-
-    void save(UserDto userDto);
 
     UserDto getCurrentUserDto();
 
     Integer getCurrentUserId();
 
+    void save(UserDto userDto);
+
     List<UserDto> getAll();
 
-    UserDto findUserDtoByUsername(String username);
-
     BigDecimal getTotalBalance();
-
-    User findUserByUsername(String username);
 
     FieldError checkIfSuchUserExists(UserDto userDto);
 }

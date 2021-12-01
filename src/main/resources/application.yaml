@@ -5,7 +5,7 @@ logging:
   register-shutdown-hook: true
 server:
   servlet:
-    context-path: /api
+#    context-path: /api
   port: 8084
 spring:
   datasource:

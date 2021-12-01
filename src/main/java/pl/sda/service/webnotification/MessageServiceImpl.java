@@ -1,19 +1,20 @@
 package pl.sda.service.webnotification;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
-import javax.servlet.http.HttpSession;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 class MessageServiceImpl implements MessageService {
     public static final String NOTIFY_MSG_SESSION_KEY = "notificationMessages";
-    @Autowired
-    private HttpSession httpSession;
+    private final HttpSession httpSession;
+
 
     public void addInfoMessage(String msg) {
         addNotificationMessage(MessageDto.MessageDtoType.INFO, msg);

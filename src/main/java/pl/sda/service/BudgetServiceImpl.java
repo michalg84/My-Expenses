@@ -1,6 +1,6 @@
 package pl.sda.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.BudgetDto;
 import pl.sda.dto.MonthBudgetDto;
@@ -9,30 +9,27 @@ import pl.sda.model.Category;
 import pl.sda.model.User;
 import pl.sda.repository.BudgetRepository;
 import pl.sda.repository.CategoryRepository;
-import pl.sda.service.user.UserService;
+import pl.sda.service.user.AuthUserProvider;
 import pl.sda.service.webnotification.MessageService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BudgetServiceImpl implements BudgetService {
 
     private final BudgetMapper budgetMapper = new BudgetMapper();
     private final CategoryMapper categoryMapper = new CategoryMapper();
-    @Autowired
-    private BudgetRepository budgetRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private MessageService messageService;
+    private final BudgetRepository budgetRepository;
+    private final AuthUserProvider authUserProvider;
+    private final CategoryRepository categoryRepository;
+    private final MessageService messageService;
 
 
     public List<BudgetDto> getBudgetDtoList(Integer year, Integer month) {
 
-        User user = userService.getCurrentUser();
+        User user = authUserProvider.authenticatedUser();
         List<Budget> budgetList = budgetRepository.findAllBy(user, year, month);
         if (budgetList.isEmpty()) {
             return this.getNewBudgetDtos();
@@ -51,7 +48,7 @@ public class BudgetServiceImpl implements BudgetService {
 
 
     public List<BudgetDto> getNewBudgetDtos() {
-        List<Category> categories = categoryRepository.findByUser(userService.getCurrentUser());
+        List<Category> categories = categoryRepository.findByUser(authUserProvider.authenticatedUser());
         List<BudgetDto> budgetDtoList = new ArrayList<>();
         for (Category c : categories) {
             BudgetDto budgetDto = new BudgetDto();
@@ -77,7 +74,7 @@ public class BudgetServiceImpl implements BudgetService {
 
     private Budget convertToModel(BudgetDto budgetDto) {
         Category category = categoryMapper.convertToModel(budgetDto.getCategoryDto());
-        category.setUser(userService.getCurrentUser());
+        category.setUser(authUserProvider.authenticatedUser());
         Budget budget = budgetMapper.convertBudgetDtoToBudget(budgetDto);
         budget.setCategory(category);
         return budget;

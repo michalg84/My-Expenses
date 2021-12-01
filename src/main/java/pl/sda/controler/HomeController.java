@@ -25,7 +25,6 @@ public class HomeController {
     private static final String LOGIN_PAGE = "login";
     private static final String REGISTER_PAGE = "register";
     private final Logger log = LoggerFactory.getLogger(HomeController.class);
-    @Autowired
     private UserService userService;
 
     /**

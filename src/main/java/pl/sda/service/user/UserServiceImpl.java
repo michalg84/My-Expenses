@@ -3,7 +3,6 @@ package pl.sda.service.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 import pl.sda.model.Category;
@@ -27,6 +26,8 @@ class UserServiceImpl implements UserService {
     @Autowired
     private PasswordService passwordService;
     @Autowired
+    private AuthUserProvider authUserProvider;
+    @Autowired
     private RoleService roleService;
     @Autowired
     private CategoryService categoryService;
@@ -40,36 +41,21 @@ class UserServiceImpl implements UserService {
      *
      * @return UserDto of current logged User.
      */
+    @Override
     public UserDto getCurrentUserDto() {
-        if (this.getCurrentUser() == null)
+        if (authUserProvider.authenticatedUser() == null)
             return null;
-        return UserMapper.map(this.getCurrentUser());
+        return UserMapper.map(authUserProvider.authenticatedUser());
     }
 
+    @Override
     public Integer getCurrentUserId() {
-        if (this.getCurrentUser() == null)
+        if (authUserProvider.authenticatedUser() == null)
             return null;
-        return this.getCurrentUser().getId();
+        return authUserProvider.authenticatedUser().getId();
     }
 
-    /**
-     * Gets authenticated User username and gets his User object form DB.
-     *
-     * @return Authenticated User object.
-     */
-    public User getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken) && authentication != null) {
-            return findUserByUsername(authentication.getName());
-        }
-        return null;
-    }
 
-    /**
-     * Adds UserDto to Database.
-     *
-     * @param userDto User to be saved to database.
-     */
     public void save(UserDto userDto) {
         User user = UserMapper.map(userDto);
         user.setPassword(passwordService.encode(userDto.getPassword()));
@@ -125,10 +111,6 @@ class UserServiceImpl implements UserService {
      */
     public BigDecimal getTotalBalance() {
         return accountService.getTotalBalance();
-    }
-
-    public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
     }
 
     @Override

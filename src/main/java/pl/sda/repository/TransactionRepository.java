@@ -11,7 +11,5 @@ import java.util.Optional;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
-    Optional<Transaction> findOne(Integer id);
-
     List<Transaction> findAllByUser(User currentUser);
 }

@@ -1,6 +1,7 @@
 package pl.sda.controler;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -9,11 +10,14 @@ import org.springframework.web.servlet.ModelAndView;
 import pl.sda.dto.CategoryDto;
 import pl.sda.dto.MoveCashDto;
 import pl.sda.dto.TransactionDto;
+import pl.sda.model.User;
 import pl.sda.service.CategoryService;
 import pl.sda.service.TransactionService;
 import pl.sda.service.account.AccountDto;
 import pl.sda.service.account.AccountService;
+import pl.sda.service.user.AuthUserProvider;
 import pl.sda.service.user.UserDto;
+import pl.sda.service.user.UserMapper;
 import pl.sda.service.user.UserService;
 import pl.sda.service.webnotification.MessageService;
 
@@ -31,22 +35,26 @@ public class TransactionController {
     @Autowired
     private MessageService messageService;
     @Autowired
+    @Lazy
     private TransactionService transactionService;
     @Autowired
-    private UserService userService;
-    @Autowired
+    @Lazy
     private AccountService accountService;
     @Autowired
+    private AuthUserProvider authUserProvider;
+    @Autowired
+    @Lazy
     private CategoryService categoryService;
     private String REDIRECT = "redirect:/";
 
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
-        UserDto userDto = userService.getCurrentUserDto();
-        List<AccountDto> accounts = accountService.getAccounts(userService.getCurrentUserId());
+        final User user = authUserProvider.authenticatedUser();
+        List<AccountDto> accounts = accountService.getAccounts(user.getId());
         if (accounts.isEmpty()) {
             messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
         }
+        final UserDto userDto = UserMapper.map(user);
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
         modelMap.addAttribute("accounts", accounts);

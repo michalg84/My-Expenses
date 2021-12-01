@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import pl.sda.dto.TransactionDto;
 import pl.sda.model.Account;
 import pl.sda.model.AccountType;
-import pl.sda.service.user.UserService;
+import pl.sda.service.user.AuthUserProvider;
 import pl.sda.service.webnotification.MessageService;
 
 import java.math.BigDecimal;
@@ -26,7 +26,7 @@ class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountTypeRepository accountTypeRepository;
     @Autowired
-    private UserService userService;
+    private AuthUserProvider authUserProvider;
 
     @Override
     public List<AccountDto> getAccounts(Integer userId) {
@@ -36,7 +36,7 @@ class AccountServiceImpl implements AccountService {
                     .map(AccountMapper::map)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            log.warn(String.format("No accounts fount for user %s", userService.getCurrentUser().getUsername()));
+            log.warn(String.format("No accounts fount for user %s", authUserProvider.authenticatedUser().getUsername()));
         }
         return Collections.emptyList();
     }
@@ -45,7 +45,7 @@ class AccountServiceImpl implements AccountService {
     public void addAccount(AccountDto accountDto) {
         accountDto.setCreationDate(new Date());
         Account account = AccountMapper.map(accountDto);
-        account.setUser(userService.getCurrentUser());
+        account.setUser(authUserProvider.authenticatedUser());
         try {
             accountRepository.save(account);
             messageService.addSuccessMessage("Account added !");
@@ -62,7 +62,7 @@ class AccountServiceImpl implements AccountService {
 
     @Override
     public BigDecimal getTotalBalance() {
-        return accountRepository.getTotalBalance(userService.getCurrentUser());
+        return accountRepository.getTotalBalance(authUserProvider.authenticatedUser());
     }
 
     public List<AccountType> getAccountTypes() {

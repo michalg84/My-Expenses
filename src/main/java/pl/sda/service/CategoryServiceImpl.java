@@ -4,27 +4,27 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.CategoryDto;
 import pl.sda.model.Category;
 import pl.sda.model.User;
 import pl.sda.repository.CategoryRepository;
-import pl.sda.service.user.UserService;
+import pl.sda.service.user.AuthUserProvider;
 import pl.sda.service.webnotification.MessageService;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper = new CategoryMapper();
-    @Autowired
-    private MessageService messageService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final MessageService messageService;
+    private final AuthUserProvider authUserProvider;
+    private final CategoryRepository categoryRepository;
 
     public void add(CategoryDto categoryDto) {
-        User user = userService.getCurrentUser();
+        User user = authUserProvider.authenticatedUser();
         Category category = new Category();
         category.setUser(user);
         category.setName(categoryDto.getName().toUpperCase());
@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 
     public List<Category> getCategoriesList() {
-        List<Category> list = categoryRepository.findAllByUser(userService.getCurrentUser());
+        List<Category> list = categoryRepository.findAllByUser(authUserProvider.authenticatedUser());
         list = list.stream()
                 .filter(category -> !category.getName().equals("MOVE BETWEEN ACCOUNTS"))
                 .collect(Collectors.toList());
@@ -88,7 +88,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category convertToModel(CategoryDto categoryDto) {
         final Category category = categoryMapper.convertToModel(categoryDto);
-        category.setUser(userService.getCurrentUser());
+        category.setUser(authUserProvider.authenticatedUser());
         return category;
     }
 

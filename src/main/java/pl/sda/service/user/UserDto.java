@@ -2,13 +2,15 @@ package pl.sda.service.user;
 
 import java.util.List;
 import java.util.Set;
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+
 import pl.sda.model.Account;
 import pl.sda.model.Category;
 import pl.sda.model.Role;
 import pl.sda.model.Transaction;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class UserDto {
 
