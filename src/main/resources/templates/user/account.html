@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8"/>
 <head>
     <title>User View</title>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <script src="/js/jquery.js"></script>
     <script>
         $(document).ready(function () {
             $('#add-account').hide();
@@ -31,14 +32,16 @@
                 }
             });
         });
+
+
     </script>
 </head>
 <body>
 <div class="container">
 
-    <h1 layout:fragment="header">User View</h1>
+    <div th:replace="layout :: navbar">User View</div>
 
-    <div layout:fragment="content">
+    <div>
         <dl class="dl-horizontal">
             <dt>Username:</dt>
             <dd th:text="${userDto.username}">Username</dd>

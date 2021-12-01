@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
 >
 <meta charset="UTF-8"/>
 <head>
     <title>Layout</title>
-    <link rel="stylesheet" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}"/>
-    <script src="/js/jquery-1.12.4.js" th:src="@{/js/jquery-1.12.4.js}"></script>
-    <script src="/js/jquery-ui.js" th:src="@{/js/jquery-ui.js}"></script>
-    <script src="/js/bootstrap.js" th:src="@{/js/bootstrap.js}"></script>
-    <!--<script th:src="@{/js/npm.js}"></script>-->
 
 </head>
 <body>
 <div class="container">
-    <nav layout:fragment="navbar" class="navbar navbar-default">
+    <nav th:fragment="navbar" class="navbar navbar-default">
 
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -65,11 +60,11 @@
               th:text="${session.notificationMessages.clear()}"></span>
     </div>
 
-    <h1 layout:fragment="header">Layout</h1>
+    <h1 th:fragment="header">Layout</h1>
 
-    <div layout:fragment="content">content goes here</div>
+    <div th:fragment="content">content goes here</div>
 
-    <div layout:fragment="footer">
+    <div th:fragment="footer">
         @author Michał Gałka
     </div>
 

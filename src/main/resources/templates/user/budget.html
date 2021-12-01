@@ -1,27 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8"/>
 <head>
     <title>Budget list</title>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
-
-    <!--TIMEPICKER http://trentrichardson.com/examples/timepicker/-->
-    <link rel="stylesheet" href="/css/jquery-ui-timepicker-addon.css"/>
-    <script src="/js/jquery-ui-timepicker-addon.js"></script>
+    <link rel="stylesheet" href="/css/jquery-ui.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <!--    <link rel="stylesheet" href="/css/jquery-ui-timepicker-addon.css"/>-->
+    <script src="/js/jquery.js"/>
+    <script src="/js/jquery-ui.js"/>
+    <script src="/js/bootstrap.js"/>
+    <!--    <script th:src="@{/js/jquery-ui-timepicker-addon.js}"></script>-->
     <style>
         .ui-datepicker-calendar {
             display: none;
         }
+
+
     </style>
     <script>
         $(document).ready(function () {
             $("#year-month").datepicker({
                 changeMonth: true,
                 changeYear: true,
-                showButtonPanel: true,
-//                dateFormat: 'dd/M/yy',
+                showButtonPanel: false,
+                inline:true,
                 onClose: function (dateText, inst) {
                     $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
                     var month = inst.selectedMonth;
@@ -40,14 +42,15 @@
 
         });
 
+
     </script>
 </head>
 <body>
 <div class="container">
 
-    <h1 layout:fragment="header">Budget</h1>
+    <div th:replace="layout :: navbar"/>
 
-    <div layout:fragment="content">
+    <div>
 
         <div>
             <!-- Nav tabs -->

@@ -1,19 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorator="layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8"/>
 <head>
     <title>Transaction list</title>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 
     <!--TIMEPICKER http://trentrichardson.com/examples/timepicker/-->
+    <link rel="stylesheet" href="/css/jquery-ui.css"/>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
     <link rel="stylesheet" href="/css/jquery-ui-timepicker-addon.css"/>
+
+    <!--    <link  src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"/>-->
+    <script src="/js/jquery.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/bootstrap.js"></script>
     <script src="/js/jquery-ui-timepicker-addon.js"></script>
 
     <script>
         $(document).ready(function () {
-            $("#datetimepicker, #datetimepicker2").datetimepicker();
+            $('#datetimepicker, #datetimepicker2').datetimepicker()
 
             $('#myTabs a').click(function (e) {
                 e.preventDefault()
@@ -31,14 +36,16 @@
             });
         });
 
+
+
     </script>
 </head>
 <body>
 <div class="container">
 
-    <h1 layout:fragment="header">Transactions </h1>
+    <div th:replace="layout :: navbar">User View</div>
 
-    <div layout:fragment="content">
+    <div>
 
 
         <div>
@@ -103,14 +110,16 @@
                                     </div>
                                 </td>
                                 <td class="col-md-2">
-                                    <input class="form-control" id="datetimepicker" type="datetime"
+                                    <input class="form-control" id="datetimepicker" type="text"
                                            placeholder="Choose date and time"
                                            th:field="*{transDate}" required="true"/>
+
                                     <div class="error-msg" th:if="${#fields.hasErrors('transDate')}"
                                          th:errors="*{transDate}">
                                         transDate
                                     </div>
                                 </td>
+
                                 <td class="col-md-2">
                                     <select class="form-control" th:field="*{category}" required="true">
                                         <option th:each="category : ${categories}"
@@ -208,7 +217,7 @@
                                     </div>
                                 </td>
                                 <td class="col-md-2">
-                                    <input class="form-control" id="datetimepicker2" type="datetime"
+                                    <input class="form-control" id="datetimepicker2" type="text"
                                            placeholder="Choose date and time"
                                            th:field="*{date}" required="true"/>
                                     <div class="error-msg" th:if="${#fields.hasErrors('date')}"
@@ -218,7 +227,7 @@
                                 </td>
                                 <td class="col-md-3">
                                     <input class="form-control" type="text" placeholder="Comment"
-                                           th:field="*{comment}" />
+                                           th:field="*{comment}"/>
                                     <div class="error-msg" th:if="${#fields.hasErrors('amount')}"
                                          th:errors="*{comment}">
                                         comment
@@ -277,18 +286,18 @@
                 <!--todo: if category name is MOVE BETWEEN ACCOUNTS mark it up-->
 
                 <td th:id="${transaction.id}" class="dropdown">
-                        <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            More
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dLabel">
-                            <li>
-                                <form th:action="@{'/transaction/remove/' + ${transaction.id}}" th:method="post">
-                                    <button type="submit" class="form-control">Delete</button>
-                                </form>
-                            </li>
+                    <button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        More
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dLabel">
+                        <li>
+                            <form th:action="@{'/transaction/remove/' + ${transaction.id}}" th:method="post">
+                                <button type="submit" class="form-control">Delete</button>
+                            </form>
+                        </li>
 
-                        </ul>
+                    </ul>
 
                 </td>
             </tr>
