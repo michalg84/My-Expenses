@@ -45,10 +45,6 @@ public class BudgetController {
         return buildRedirectPath("budget", "list");
     }
 
-    /*
-     * Appends "redirect:/" with list of string split by '/'.
-     * Returns web address.
-     */
     protected String buildRedirectPath(String... strings) {
         StringBuilder builder = new StringBuilder("redirect:");
         for (String string : strings) {

@@ -28,12 +28,7 @@ public class HomeController {
     private static final String REGISTER_PAGE = "register";
     private final UserService userService;
 
-    /**
-     * Opens login page.
-     *
-     * @param modelMap model map
-     * @return to login page
-     */
+
     @GetMapping("login")
     public String loginPage(ModelMap modelMap) {
         return LOGIN_PAGE;
@@ -51,11 +46,6 @@ public class HomeController {
         return new ModelAndView("/login", modelMap);
     }
 
-    /**
-     * Opens register page.
-     *
-     * @return register page with userDto object.
-     */
     @GetMapping("register")
     public ModelAndView registerPage(ModelMap modelMap) {
         modelMap.addAttribute("userDto", new UserDto());

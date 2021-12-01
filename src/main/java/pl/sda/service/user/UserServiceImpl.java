@@ -1,8 +1,6 @@
 package pl.sda.service.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 import pl.sda.model.Category;
@@ -36,11 +34,6 @@ class UserServiceImpl implements UserService {
     @Autowired
     private AccountService accountService;
 
-    /**
-     * Converts authenticated User to UserDto.
-     *
-     * @return UserDto of current logged User.
-     */
     @Override
     public UserDto getCurrentUserDto() {
         if (authUserProvider.authenticatedUser() == null)
@@ -71,12 +64,6 @@ class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
-
-    /**
-     * Gets All UsersDto.
-     *
-     * @return List of all UserDto.
-     */
     public List<UserDto> getAll() {
         List<UserDto> usersDto = new ArrayList<>();
 
@@ -93,22 +80,11 @@ class UserServiceImpl implements UserService {
         return usersDto;
     }
 
-    /**
-     * Finds UserDto using username
-     *
-     * @param username Authenticated Users username.
-     * @return UserDto.
-     */
     public UserDto findUserDtoByUsername(String username) {
         User user = userRepository.findByUsername(username);
         return UserMapper.map(user);
     }
 
-    /**
-     * Gets acctual total acount balance for acctual user.
-     *
-     * @return Users account balance from all Accounts.
-     */
     public BigDecimal getTotalBalance() {
         return accountService.getTotalBalance();
     }

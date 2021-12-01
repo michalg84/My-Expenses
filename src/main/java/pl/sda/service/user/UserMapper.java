@@ -17,13 +17,6 @@ public final class UserMapper {
         return user;
     }
 
-    /**
-     * Converts User object to UserDto object.
-     *
-     * @param user class Object.
-     * @return UserDto object. Note that UsedDto confirmPassword
-     * is returned as null cause it's requiered only for registration.
-     */
     public static UserDto map(User user) {
         if (user == null)
             return null;

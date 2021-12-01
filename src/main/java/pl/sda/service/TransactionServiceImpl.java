@@ -34,12 +34,6 @@ public class TransactionServiceImpl implements TransactionService {
     private final MessageService messageService;
     private final CategoryRepository categoryRepository;
 
-    /**
-     * Gets summary of all Transactions form List.
-     *
-     * @param transactionList List of transactions do be added.
-     * @return Sum of all transactions.
-     */
     public BigDecimal getTransactionSum(List<Transaction> transactionList) {
         Iterator<Transaction> iter = transactionList.iterator();
         BigDecimal sum = new BigDecimal(0);

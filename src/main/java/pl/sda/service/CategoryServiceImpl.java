@@ -1,12 +1,6 @@
 package pl.sda.service;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.sda.dto.CategoryDto;
 import pl.sda.model.Category;
@@ -14,6 +8,11 @@ import pl.sda.model.User;
 import pl.sda.repository.CategoryRepository;
 import pl.sda.service.user.AuthUserProvider;
 import pl.sda.service.webnotification.MessageService;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
     }
 
-    /**
-     * Creates base group of categories.
-     *
-     * @return List of User's categories.
-     */
+
     public List<Category> initialCategories(User user) {
         List<Category> categories = new ArrayList<>();
 
@@ -59,12 +54,6 @@ public class CategoryServiceImpl implements CategoryService {
         return sort(categories);
     }
 
-    /**
-     * Sort list of categories by name.
-     *
-     * @param categories to be sorted.
-     * @return sorted categories.
-     */
     private List<Category> sort(List<Category> categories) {
         return categories.stream()
                 .sorted(Comparator.comparing(Category::getName))
