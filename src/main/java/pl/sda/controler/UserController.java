@@ -51,9 +51,9 @@ public class UserController {
                              BindingResult result, ModelMap modelMap) {
         if (!result.hasErrors()) {
             accountService.addAccount(accountDto);
-            return "redirect:/" + USER + ACCOUNT;
+            return "redirect:" + USER + ACCOUNT;
         }
         messageService.addErrorMessage("Error. Cannot add new account !" + result.getAllErrors());
-        return "redirect:/" + USER + ACCOUNT;
+        return "redirect:" + USER + ACCOUNT;
     }
 }
