@@ -1,11 +1,11 @@
 package dev.galka.service.user.url;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@PropertySource("classpath:application.properties")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ApiUrl {
-    @Value("server.servlet.context-path")
-    String API;
+
+    public static final String API = "/api";
 
 }

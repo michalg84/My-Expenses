@@ -1,4 +1,4 @@
-package dev.galka.Config;
+package dev.galka.config;
 
 import dev.galka.service.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;

@@ -39,7 +39,7 @@ public class TransactionController {
     private AuthUserProvider authUserProvider;
     @Autowired
     private CategoryService categoryService;
-    private String REDIRECT = "redirect:/";
+    private static final String REDIRECT = "redirect:/";
 
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {

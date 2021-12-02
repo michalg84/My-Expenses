@@ -1,4 +1,4 @@
-package dev.galka.Config;
+package dev.galka.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

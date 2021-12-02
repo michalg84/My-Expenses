@@ -56,7 +56,7 @@ class AccountServiceImpl implements AccountService {
     }
 
     public void updateAccountBalance(TransactionDto transactionDto) {
-        Account account = accountRepository.getOne(transactionDto.getAccount().getId());
+        Account account = accountRepository.getById(transactionDto.getAccount().getId());
         account.setBalance(account.getBalance().add(transactionDto.getAmount()));
         accountRepository.save(account);
     }

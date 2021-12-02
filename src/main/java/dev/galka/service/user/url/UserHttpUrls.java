@@ -1,8 +1,11 @@
 package dev.galka.service.user.url;
 
-public interface UserHttpUrls {
-    String USER = "/user";
-    String ACCOUNT = "/account";
-    String USER_ACCOUNT = USER + "/" + ACCOUNT;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class UserHttpUrls {
+    public static final String USER = "/user";
+    public static final String ACCOUNT = "/account";
 
 }

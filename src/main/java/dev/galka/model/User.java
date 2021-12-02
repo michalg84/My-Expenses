@@ -28,9 +28,6 @@ public class User {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Account.class)
     private List<Account> accounts;
 
-    public User() {
-    }
-
     public Integer getId() {
         return id;
     }
@@ -46,9 +43,6 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-
-
-
 
 
     public String getLogin() {
@@ -75,14 +69,6 @@ public class User {
         this.password = password;
     }
 
-//    public List<Transaction> getTransactionList() {
-//        return transactionList;
-//    }
-//
-//    public void setTransactionList(List<Transaction> transactionList) {
-//        this.transactionList = transactionList;
-//    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -98,14 +84,6 @@ public class User {
     public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
-//
-//    public List<Category> getCategoriesList() {
-//        return categories;
-//    }
-//
-//    public void setCategories(List<Category> categories) {
-//        this.categories = categories;
-//    }
 }
 
 
