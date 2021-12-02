@@ -1,9 +1,12 @@
 package dev.galka.model;
 
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "account_types")
+@NoArgsConstructor
 public class AccountType {
 
     @Id
@@ -12,19 +15,4 @@ public class AccountType {
     @Column
     private String type;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

@@ -1,10 +1,19 @@
 package dev.galka.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "roles")
 public class Role {
     @Id
@@ -15,42 +24,7 @@ public class Role {
     @NotNull
     private String name;
 
-    //opcjonalne
+    //TODO optional - to be considered
     @ManyToMany(mappedBy = "roles")
     private Set<User> users;
-
-    public Role() {
-    }
-
-    public Role(Integer id, String name, Set<User> users) {
-        this.id = id;
-        this.name = name;
-        this.users = users;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-
 }

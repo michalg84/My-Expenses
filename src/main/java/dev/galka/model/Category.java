@@ -1,51 +1,28 @@
 package dev.galka.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column
+    @NotNull
+    @lombok.NonNull
     private String name;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Category() {
-    }
-
-    public Category(String name, User user) {
-        this.name = name;
-        this.user = user;
-    }
-
-    public Category(String name) {
-        this.name = name;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
