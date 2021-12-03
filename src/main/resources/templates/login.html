@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MyExpenses login</title>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/signin.css"/>
+
+    <script>
+    $(document).ready(function () {
+        $('#username').set("");                <!-- clear-->
+        $('#password').set("");
+    });
+    $(document).ready(function () {
+        $('#message').fadeOut(8000);
+    });
+     $(document).ready(function () {
+        $('#notifications').fadeOut(8000);
+    });
+</script>
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row" id="notifications"
+         th:with="notifyMessages=${session[T(dev.galka.service.webnotification.MessageServiceImpl).NOTIFY_MSG_SESSION_KEY]}">
+        <div th:align="center" th:class="${msg.type}" role="alert"
+             th:each="msg : ${notifyMessages}" th:text="${msg.text}">
+        </div>
+        <span th:if="${notifyMessages != null}" th:remove="all"
+              th:text="${session.notificationMessages.clear()}"></span>
+    </div>
+
+    <form class="form-signin"  th:object="${userDto}" th:action="@{login}"  th:method="post">
+
+        <h2 class="form-signin-heading">Please sign in</h2>
+
+        <div id="message" th:if="${message}" th:text="${message.msg}" class="alert alert-warning">message</div>
+
+        <label for="username" class="sr-only">Email address</label>
+        <input type="text" name="username"
+
+               id="username" class="form-control"
+               placeholder="username"  required="true" autofocus="true" />
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <input type="password" name="password"
+
+               id="inputPassword" class="form-control"   placeholder="Password"
+               required="true"/>
+
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+
+        <a th:href="@{register}" class=" btn btn-lg btn-info btn-block">Regiser</a>
+    </form>
+
+
+</div> <!--end of container-->
+
+</body>
+</html>
