@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8"/>
+<head>
+    <title>User View</title>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <script src="/js/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#add-account').hide();
+//            $('#toogle-add-account').click(function () {
+//                $('#add-account').slideToggle("slow");
+//            });
+            var gli = 0;
+            $('#toogle-add-account').click(function () {
+                $('#add-account').slideToggle("slow");
+                if (gli % 2 == 1) {
+                    $("#toggle-glyphicon").addClass("glyphicon-chevron-down").removeClass("glyphicon-chevron-up");
+                } else {
+                    $("#toggle-glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-up");
+                }
+                gli += 1;
+            });
+
+
+            $('#accountType').on('change', function () {
+                if ($(this).val() == 1) {
+                    $('#accountNumber').prop('disabled', true);
+                } else {
+                    $('#accountNumber').prop('disabled', false);
+                }
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+<div class="container">
+
+    <div th:replace="layout :: navbar">User View</div>
+
+    <div>
+        <dl class="dl-horizontal">
+            <dt>Username:</dt>
+            <dd th:text="${userDto.username}">Username</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>E-mail:</dt>
+            <dd th:text="${userDto.mail}">e-mail</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>Total ballance:</dt>
+            <dd th:text="${sum} + ' PLN'">Ballance</dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>List of accounts:</dt>
+            <dd>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Balance</td>
+                        <td>Creation date</td>
+                        <td>Account number</td>
+                        <td>Account type</td>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="account : ${accounts}">
+                        <td class="col-md-2" th:text="${account.name}"></td>
+                        <td class="col-md-2" th:text="${account.balance} + ' PLN'"></td>
+                        <td class="col-md-2" th:text="${account.creationDate}"></td>
+                        <td class="col-md-2" th:text="${account.accountNumber}"></td>
+                        <td class="col-md-2" th:text="${account.accountType.type}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </dd>
+        </dl>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="btn btn-small btn-info btn-block " id="toogle-add-account">
+                    <span>Add new account</span>
+                    <span id="toggle-glyphicon" class="glyphicon glyphicon-chevron-down"></span>
+                </div>
+            </div>
+
+        </div>
+        <div id="add-account">
+            <h3>Add new account</h3>
+            <form class="form-signin" th:object="${newAccount}" action="/user/account/add" th:method="post">
+                <dl class="dl-horizontal">
+                    <dt>Account name:</dt>
+                    <dd>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Account name"
+                                   th:field="*{name}" required="true"/>
+                            <div class="error-msg" th:if="${#fields.hasErrors('name')}"
+                                 th:errors="*{name}">Wrong account name
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Account Type:</dt>
+                    <dd>
+                        <div class="col-md-3">
+                            <select class="form-control" th:field="*{accountType}" id="accountType" required="true">
+                                <option th:each="type : ${accountTypes}" th:value="${type.id}" th:text="${type.type}">
+                                    Account
+                                    Types
+                                </option>
+                            </select>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Account number:</dt>
+                    <dd>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Account number"
+                                   th:field="*{accountNumber}" id="accountNumber" disabled="true"/>
+                            <div class="error-msg" th:if="${#fields.hasErrors('accountNumber')}"
+                                 th:errors="*{accountNumber}">Account Number
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Initial ballance:</dt>
+                    <dd>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Initial balance"
+                                   th:field="*{balance}" required="true"/>
+                            <div class="error-msg" th:if="${#fields.hasErrors('balance')}"
+                                 th:errors="*{balance}">Initial balance
+                            </div>
+                        </div>
+                    </dd>
+                </dl>
+
+                <dl class="dl-horizontal">
+                    <dt></dt>
+                    <dd>
+                        <div class="col-md-3">
+                            <button class=" btn btn-lg btn-primary" type="submit">Add account</button>
+                        </div>
+                    </dd>
+                </dl>
+
+
+            </form>
+
+        </div>
+    </div> <!--end of content-->
+
+</div> <!--end of container-->
+</body>
+</html>

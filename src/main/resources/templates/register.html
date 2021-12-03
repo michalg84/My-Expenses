@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MyExpenses register</title>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.css"/>
+    <link rel="stylesheet" href="/css/signin.css"/>
+
+
+</head>
+<body>
+
+<div class="container">
+    <form class="form-signin" th:object="${userDto}" th:action="@{register}" th:method="post">
+        <h2 class="form-signin-heading ">Please insert your data</h2>
+
+
+        <label for="username">Username *</label>
+        <input type="text" class="form-control" placeholder="Username" th:field="*{username}"
+               id="username" required="true"/>
+        <div class="error-msg" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Wrong username</div>
+
+
+        <!--<label for="acocunt-no">Account number</label>-->
+        <!--<input type="text" class="form-control" placeholder="Account number" th:field="*{accounts}"-->
+        <!--id="acocunt-no" required="true"/>-->
+
+        <!--<label for="login">Login</label>-->
+        <!--<input type="text" class="form-control" placeholder="Login" th:field="*{login}" id="login"-->
+        <!--required="true"/>-->
+
+        <label for="email">E-mail</label>
+        <input type="email" class="form-control" placeholder="E-mail" th:field="*{mail}" id="email"
+               required="true"/>
+        <div class="error-msg" th:if="${#fields.hasErrors('mail')}" th:errors="*{mail}">Wrong mail</div>
+
+        <label for="password1">Password *</label>
+        <input type="password" class="form-control" placeholder="Password" th:field="*{password}" id="password1"
+               required="true"/>
+        <div class="error-msg" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Wrong mail</div>
+
+        <label for="password2">Confirm password *</label>
+        <input type="password" class="form-control" placeholder="Confirm password" th:field="*{confirmPassword}"
+               id="password2" required="true"/>
+        <div class="error-msg" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Wrong
+            mail
+        </div>
+
+        <div>
+            <small>* 5-25 signs</small>
+
+        </div>
+
+        <button class=" btn btn-lg btn-primary btn-block" type="submit">Register</button>
+        <a class=" btn btn-lg btn-info btn-block" th:href="@{/login}">Back to login page</a>
+
+    </form>
+
+
+</div> <!-- container-->
+
+
+</body>
+</html>
