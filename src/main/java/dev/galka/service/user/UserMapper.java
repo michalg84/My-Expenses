@@ -1,6 +1,6 @@
 package dev.galka.service.user;
 
-import dev.galka.model.User;
+import dev.galka.account.domain.model.User;
 
 public final class UserMapper {
     private UserMapper() {

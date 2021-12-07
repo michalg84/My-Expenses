@@ -1,7 +1,7 @@
 package dev.galka.service.account;
 
+import dev.galka.account.domain.model.AccountType;
 import dev.galka.dto.TransactionDto;
-import dev.galka.model.AccountType;
 
 import java.math.BigDecimal;
 import java.util.List;

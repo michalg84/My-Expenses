@@ -1,8 +1,8 @@
 package dev.galka.service.account;
 
+import dev.galka.account.domain.model.Account;
+import dev.galka.account.domain.model.AccountType;
 import dev.galka.dto.TransactionDto;
-import dev.galka.model.Account;
-import dev.galka.model.AccountType;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.webnotification.MessageService;
 import lombok.extern.slf4j.Slf4j;

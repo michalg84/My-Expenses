@@ -1,8 +1,8 @@
 package dev.galka.service;
 
+import dev.galka.account.domain.model.User;
 import dev.galka.dto.CategoryDto;
 import dev.galka.model.Category;
-import dev.galka.model.User;
 
 import java.util.List;
 

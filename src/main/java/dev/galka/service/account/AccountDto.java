@@ -1,6 +1,6 @@
 package dev.galka.service.account;
 
-import dev.galka.model.AccountType;
+import dev.galka.account.domain.model.AccountType;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.validation.constraints.NotNull;

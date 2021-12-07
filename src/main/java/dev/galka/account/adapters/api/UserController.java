@@ -1,4 +1,4 @@
-package dev.galka.controler;
+package dev.galka.account.adapters.api;
 
 import dev.galka.service.account.AccountDto;
 import dev.galka.service.account.AccountService;
@@ -21,7 +21,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(UserHttpUrls.USER)
-public class UserController {
+class UserController {
 
     @Autowired
     AccountService accountService;

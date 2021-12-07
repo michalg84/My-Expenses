@@ -1,8 +1,8 @@
 package dev.galka.service.user;
 
-import dev.galka.model.Account;
+import dev.galka.account.domain.model.Account;
+import dev.galka.account.domain.model.Role;
 import dev.galka.model.Category;
-import dev.galka.model.Role;
 import dev.galka.model.Transaction;
 
 import javax.validation.constraints.Email;

@@ -1,6 +1,6 @@
 package dev.galka.dto;
 
-import dev.galka.model.Account;
+import dev.galka.account.domain.model.Account;
 import dev.galka.model.Category;
 import dev.galka.validators.Currency;
 

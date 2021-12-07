@@ -1,8 +1,8 @@
 package dev.galka.service.user;
 
+import dev.galka.account.domain.model.Role;
+import dev.galka.account.domain.model.User;
 import dev.galka.model.Category;
-import dev.galka.model.Role;
-import dev.galka.model.User;
 import dev.galka.service.CategoryService;
 import dev.galka.service.account.AccountService;
 import dev.galka.service.crypto.PasswordService;

@@ -1,5 +1,6 @@
 package dev.galka.model;
 
+import dev.galka.account.domain.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;

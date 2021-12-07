@@ -1,6 +1,6 @@
 package dev.galka.service.user;
 
-import dev.galka.model.User;
+import dev.galka.account.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,11 +1,11 @@
 package dev.galka.service;
 
+import dev.galka.account.domain.model.Account;
+import dev.galka.account.domain.model.User;
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
-import dev.galka.model.Account;
 import dev.galka.model.Category;
 import dev.galka.model.Transaction;
-import dev.galka.model.User;
 import dev.galka.repository.CategoryRepository;
 import dev.galka.repository.TransactionRepository;
 import dev.galka.service.account.AccountRepository;

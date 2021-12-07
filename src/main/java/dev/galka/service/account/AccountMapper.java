@@ -1,6 +1,6 @@
 package dev.galka.service.account;
 
-import dev.galka.model.Account;
+import dev.galka.account.domain.model.Account;
 
 final class AccountMapper {
 
