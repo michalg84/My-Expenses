@@ -1,5 +1,7 @@
 package dev.galka.service.account;
 
+import dev.galka.account.adapters.AccountMapper;
+import dev.galka.account.adapters.out.AccountRepository;
 import dev.galka.account.domain.model.Account;
 import dev.galka.account.domain.model.AccountType;
 import dev.galka.dto.TransactionDto;
@@ -11,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,25 +35,12 @@ class AccountServiceImpl implements AccountService {
             final Integer id = authUserProvider.authenticatedUser().getId();
             return accountRepository.findByUserId(id)
                     .stream()
-                    .map(AccountMapper::map)
+                    .map(AccountMapper::map)//TODO change access to default AccountMapper::map
                     .collect(Collectors.toList());
         } catch (Exception e) {
             log.warn(String.format("No accounts fount for user %s", authUserProvider.authenticatedUser().getUsername()));
         }
         return Collections.emptyList();
-    }
-
-
-    public void addAccount(AccountDto accountDto) {
-        accountDto.setCreationDate(new Date());
-        Account account = AccountMapper.map(accountDto);
-        account.setUser(authUserProvider.authenticatedUser());
-        try {
-            accountRepository.save(account);
-            messageService.addSuccessMessage("Account added !");
-        } catch (Exception e) {
-            messageService.addErrorMessage(String.format("Failed to add account %s", accountDto.getName()));
-        }
     }
 
     public void updateAccountBalance(TransactionDto transactionDto) {

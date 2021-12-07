@@ -1,4 +1,4 @@
-package dev.galka.service.account;
+package dev.galka.account.adapters.out;
 
 import dev.galka.account.domain.model.Account;
 import dev.galka.account.domain.model.User;

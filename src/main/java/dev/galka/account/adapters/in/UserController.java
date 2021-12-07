@@ -1,5 +1,6 @@
-package dev.galka.account.adapters.api;
+package dev.galka.account.adapters.in;
 
+import dev.galka.account.adapters.AccountApi;
 import dev.galka.service.account.AccountDto;
 import dev.galka.service.account.AccountService;
 import dev.galka.service.user.UserDto;
@@ -29,6 +30,8 @@ class UserController {
     UserService userService;
     @Autowired
     MessageService messageService;
+    @Autowired
+    AccountApi accountApi;
 
     @RequestMapping(UserHttpUrls.ACCOUNT)
     public ModelAndView userAccount(ModelMap modelMap, HttpSession session) {
@@ -48,7 +51,7 @@ class UserController {
     public String addAccount(@ModelAttribute(name = "newAccount") @Valid AccountDto accountDto,
                              BindingResult result, ModelMap modelMap) {
         if (!result.hasErrors()) {
-            accountService.addAccount(accountDto);
+            accountApi.createAccount(accountDto);
             return "redirect:" + UserHttpUrls.USER + UserHttpUrls.ACCOUNT;
         }
         messageService.addErrorMessage("Error. Cannot add new account !" + result.getAllErrors());
