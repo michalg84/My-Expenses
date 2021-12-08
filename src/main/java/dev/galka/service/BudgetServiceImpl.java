@@ -1,6 +1,6 @@
 package dev.galka.service;
 
-import dev.galka.account.domain.model.User;
+import dev.galka.account.domain.User;
 import dev.galka.dto.BudgetDto;
 import dev.galka.dto.MonthBudgetDto;
 import dev.galka.model.Budget;
