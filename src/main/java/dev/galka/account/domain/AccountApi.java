@@ -1,4 +1,4 @@
-package dev.galka.account.adapters;
+package dev.galka.account.domain;
 
 import dev.galka.service.account.AccountDto;
 

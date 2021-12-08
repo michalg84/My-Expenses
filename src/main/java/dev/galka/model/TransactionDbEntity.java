@@ -1,7 +1,7 @@
 package dev.galka.model;
 
-import dev.galka.account.domain.model.Account;
-import dev.galka.account.domain.model.User;
+import dev.galka.account.adapters.out.AccountDbEntity;
+import dev.galka.account.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +13,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "transactionn")
-public class Transaction {
+public class TransactionDbEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class Transaction {
     private BigDecimal amount;
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "account_id")
-    private Account account;
+    private AccountDbEntity account;
     @Column
     private String comment;
     @Column

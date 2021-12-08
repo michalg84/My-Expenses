@@ -1,6 +1,6 @@
 package dev.galka.repository;
 
-import dev.galka.account.domain.model.User;
+import dev.galka.account.domain.User;
 import dev.galka.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

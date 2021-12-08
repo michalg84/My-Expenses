@@ -1,18 +1,22 @@
 package dev.galka.dto;
 
-import dev.galka.account.domain.model.Account;
+import dev.galka.account.adapters.out.AccountDbEntity;
 import dev.galka.model.Category;
 import dev.galka.validators.Currency;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Getter
+@Setter
 public class TransactionDto {
     private Integer id;
     @Currency(message = "Invalid amount entry. Please insert correct currency value.")
     private BigDecimal amount;
-    private Account account; //TODO use Account DTO or ID
+    private AccountDbEntity account; //TODO use Account DTO or ID
     //TODO use separate Dto for each operaton SaveTransDto, ShowtransDto, etc...
     @Valid
     private String comment;
@@ -32,62 +36,5 @@ public class TransactionDto {
                 ", balance=" + balance +
                 ", category=" + category +
                 '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Date getTransDate() {
-        return transDate;
-    }
-
-    public void setTransDate(Date transDate) {
-        this.transDate = transDate;
-    }
-
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
     }
 }

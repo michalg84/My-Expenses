@@ -1,12 +1,12 @@
 package dev.galka.service;
 
+import dev.galka.account.adapters.out.AccountDbEntity;
 import dev.galka.account.adapters.out.AccountRepository;
-import dev.galka.account.domain.model.Account;
-import dev.galka.account.domain.model.User;
+import dev.galka.account.domain.User;
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.model.Category;
-import dev.galka.model.Transaction;
+import dev.galka.model.TransactionDbEntity;
 import dev.galka.repository.CategoryRepository;
 import dev.galka.repository.TransactionRepository;
 import dev.galka.service.account.AccountService;
@@ -34,8 +34,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final MessageService messageService;
     private final CategoryRepository categoryRepository;
 
-    public BigDecimal getTransactionSum(List<Transaction> transactionList) {
-        Iterator<Transaction> iter = transactionList.iterator();
+    public BigDecimal getTransactionSum(List<TransactionDbEntity> transactionList) {
+        Iterator<TransactionDbEntity> iter = transactionList.iterator();
         BigDecimal sum = new BigDecimal(0);
         while (iter.hasNext()) {
             sum = sum.add(iter.next().getAmount());
@@ -52,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .collect(Collectors.toList());
     }
 
-    private TransactionDto convertToDto(Transaction t) {
+    private TransactionDto convertToDto(TransactionDbEntity t) {
         TransactionDto transactionDto = new TransactionDto();
         transactionDto.setAmount(t.getAmount());
         transactionDto.setAccount(t.getAccount());
@@ -65,14 +65,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public List<TransactionDto> getTransactionsWithBalance() {
-        List<Transaction> transactions = getAllTransactions();
+        List<TransactionDbEntity> transactions = getAllTransactions();
         List<TransactionDto> transactionsDto = new ArrayList<>();
         transactions.sort((t1, t2) -> t2.getTransDate().compareTo(t1.getTransDate()));
-        for (Transaction t : transactions) {
+        for (TransactionDbEntity t : transactions) {
             TransactionDto transactionDto = convertToDto(t);
             transactionsDto.add(transactionDto);
         }
-        BigDecimal accountsBalance = accountRepository.getTotalBalance(authUserProvider.authenticatedUser());
+        BigDecimal accountsBalance = accountService.getTotalBalance();
 //        TODO review if needed //List<BigDecimal> balanceList = getBalanceList(transactions);
 
         for (int i = 0; i < transactionsDto.size(); i++) {
@@ -89,7 +89,7 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionsDto;
     }
 
-    private List<BigDecimal> getBalanceList(List<Transaction> transactions) {
+    private List<BigDecimal> getBalanceList(List<TransactionDbEntity> transactions) {
         BigDecimal sum = accountService.getTotalBalance();
         return transactions.stream()
                 .map(t -> t.getAmount().add(sum))
@@ -97,7 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public void addTransaction(TransactionDto transactionDto) {
-        final BigDecimal balanceBefore = accountRepository.getTotalBalance(authUserProvider.authenticatedUser());
+        final BigDecimal balanceBefore = accountService.getTotalBalance();
 
         final BigDecimal amount = transactionDto.getAmount();
         final BigDecimal total = balanceBefore.add(amount);
@@ -113,8 +113,8 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
-    private Transaction convertToModel(TransactionDto transactionDto) {
-        Transaction transaction = new Transaction();
+    private TransactionDbEntity convertToModel(TransactionDto transactionDto) {
+        TransactionDbEntity transaction = new TransactionDbEntity();
         transaction.setAmount(transactionDto.getAmount());
         transaction.setAccount(transactionDto.getAccount());
         transaction.setId(transactionDto.getId());
@@ -129,8 +129,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     public void removeById(Integer transId) {
         try {
-            final Transaction trn = transactionRepository.getById(transId);
-            Account account = accountRepository.getById(trn.getAccount().getId());
+            final TransactionDbEntity trn = transactionRepository.getById(transId);
+            AccountDbEntity account = accountRepository.getById(trn.getAccount().getId());
             account.setBalance(account.getBalance().subtract(trn.getAmount()));
             accountRepository.save(account);
             transactionRepository.delete(trn);
@@ -141,16 +141,16 @@ public class TransactionServiceImpl implements TransactionService {
         messageService.addSuccessMessage("Transactions was successfully removed");
     }
 
-    public List<Transaction> getAllTransactions() {
+    public List<TransactionDbEntity> getAllTransactions() {
         return transactionRepository.findAllByUser(authUserProvider.authenticatedUser());
     }
 
     public void moveBetweenAccounts(MoveCashDto moveCashDto) {
         User user = authUserProvider.authenticatedUser();
-        Transaction out = new Transaction();
-        Transaction in = new Transaction();
-        Account fromAccount = accountRepository.getById(moveCashDto.getFromAccountId());
-        Account toAccount = accountRepository.getById(moveCashDto.getToAccountId());
+        TransactionDbEntity out = new TransactionDbEntity();
+        TransactionDbEntity in = new TransactionDbEntity();
+        AccountDbEntity fromAccount = accountRepository.getById(moveCashDto.getFromAccountId());
+        AccountDbEntity toAccount = accountRepository.getById(moveCashDto.getToAccountId());
         Category category = categoryRepository.findByUserAndName("MOVE BETWEEN ACCOUNTS", user);
 
         out.setAccount(fromAccount);

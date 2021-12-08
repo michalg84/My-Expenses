@@ -1,5 +1,6 @@
-package dev.galka.account.domain.model;
+package dev.galka.account.domain;
 
+import dev.galka.account.adapters.out.AccountDbEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,8 +31,8 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Account.class)
-    private List<Account> accounts;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = AccountDbEntity.class)
+    private List<AccountDbEntity> accounts;
 }
 
 

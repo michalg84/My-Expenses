@@ -1,7 +1,6 @@
 package dev.galka.account.adapters.out;
 
-import dev.galka.account.domain.model.Account;
-import dev.galka.account.domain.model.User;
+import dev.galka.account.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,12 +10,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Integer> {
+public interface AccountRepository extends JpaRepository<AccountDbEntity, Integer> {
 
-    List<Account> findByUserId(Integer id);
+    List<AccountDbEntity> findByUserId(Integer id);
 
-
-    @Query("select sum(balance) from Account account where account.user = :user")
+    @Query("select sum(balance) from AccountDbEntity account where account.user = :user")
     BigDecimal getTotalBalance(@Param("user") User user);
 
 }

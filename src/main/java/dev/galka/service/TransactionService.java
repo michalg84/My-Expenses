@@ -2,14 +2,14 @@ package dev.galka.service;
 
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
-import dev.galka.model.Transaction;
+import dev.galka.model.TransactionDbEntity;
 import dev.galka.service.user.UserDto;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface TransactionService {
-    BigDecimal getTransactionSum(List<Transaction> transactionList);
+    BigDecimal getTransactionSum(List<TransactionDbEntity> transactionList);
 
     List<BigDecimal> getTransactionsBalanceList(UserDto userDto);
 
@@ -19,7 +19,7 @@ public interface TransactionService {
 
     void removeById(Integer transId);
 
-    List<Transaction> getAllTransactions();
+    List<TransactionDbEntity> getAllTransactions();
 
     void moveBetweenAccounts(MoveCashDto moveCashDto);
 

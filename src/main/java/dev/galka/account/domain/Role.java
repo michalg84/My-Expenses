@@ -1,4 +1,4 @@
-package dev.galka.account.domain.model;
+package dev.galka.account.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
