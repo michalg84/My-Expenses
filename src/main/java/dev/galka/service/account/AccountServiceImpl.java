@@ -1,9 +1,9 @@
 package dev.galka.service.account;
 
-import dev.galka.account.adapters.AccountMapper;
+import dev.galka.account.adapters.out.AccountDbEntity;
 import dev.galka.account.adapters.out.AccountRepository;
-import dev.galka.account.domain.model.Account;
-import dev.galka.account.domain.model.AccountType;
+import dev.galka.account.domain.AccountMapper;
+import dev.galka.account.domain.AccountType;
 import dev.galka.dto.TransactionDto;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.webnotification.MessageService;
@@ -44,7 +44,7 @@ class AccountServiceImpl implements AccountService {
     }
 
     public void updateAccountBalance(TransactionDto transactionDto) {
-        Account account = accountRepository.getById(transactionDto.getAccount().getId());
+        AccountDbEntity account = accountRepository.getById(transactionDto.getAccount().getId());
         account.setBalance(account.getBalance().add(transactionDto.getAmount()));
         accountRepository.save(account);
     }

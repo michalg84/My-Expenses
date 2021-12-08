@@ -1,6 +1,6 @@
-package dev.galka.account.adapters;
+package dev.galka.account.domain;
 
-import dev.galka.account.domain.model.Account;
+import dev.galka.account.adapters.out.AccountDbEntity;
 import dev.galka.service.account.AccountDto;
 
 public final class AccountMapper {
@@ -8,8 +8,8 @@ public final class AccountMapper {
     private AccountMapper() {
     }
 
-    public static Account map(AccountDto newAccount) {
-        Account account = new Account();
+    public static AccountDbEntity map(AccountDto newAccount) {
+        AccountDbEntity account = new AccountDbEntity();
         account.setAccountNumber(newAccount.getAccountNumber());
         account.setAccountType(newAccount.getAccountType());
         account.setBalance(newAccount.getBalance());
@@ -18,7 +18,7 @@ public final class AccountMapper {
         return account;
     }
 
-    public static AccountDto map(Account account) {
+    public static AccountDto map(AccountDbEntity account) {
         AccountDto accountDto = new AccountDto();
         accountDto.setId(account.getId());
         accountDto.setName(account.getName());
