@@ -1,6 +1,6 @@
 package dev.galka.service.user;
 
-import dev.galka.model.Role;
+import dev.galka.account.domain.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,12 +1,16 @@
-package dev.galka.model;
+package dev.galka.account.domain.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "account_types")
 @NoArgsConstructor
+@Getter
+@Setter
 public class AccountType {
 
     @Id
@@ -16,3 +20,5 @@ public class AccountType {
     private String type;
 
 }
+
+

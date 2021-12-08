@@ -1,7 +1,7 @@
 package dev.galka.service.user;
 
-import dev.galka.model.Role;
-import dev.galka.model.User;
+import dev.galka.account.domain.model.Role;
+import dev.galka.account.domain.model.User;
 import dev.galka.service.webnotification.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,7 +1,7 @@
 # README #
 
-Aplikacja wydatków domowych - projekt własny za zakończenie kursu.
-Autor: Michał Gałka.
+Aplikacja wydatków domowych - projekt własny za zakończenie kursu (2017). 
+Obecnie (od 10.2021) przebudowywana i rozwijana ramach własnego rozwoju, szlifowania umiejętności i hobby
 
 Funkcjonalności:
 - logowanie,
@@ -11,7 +11,9 @@ Funkcjonalności:
 - dodawanie i usuwanie transakcji,
 - lista transakcji
 - dodawanie kategori transakcji
-W trakcie rozwoju:
 - przesuwanie pieniędzy między kontami
+W trakcie rozwoju:
+- zmiana architektury
+- grubszy refaktoring
 - tworzenie i wyświetlanie miesięcznego budżetu
 

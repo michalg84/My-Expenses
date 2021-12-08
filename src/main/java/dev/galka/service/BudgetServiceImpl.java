@@ -1,10 +1,10 @@
 package dev.galka.service;
 
+import dev.galka.account.domain.model.User;
 import dev.galka.dto.BudgetDto;
 import dev.galka.dto.MonthBudgetDto;
 import dev.galka.model.Budget;
 import dev.galka.model.Category;
-import dev.galka.model.User;
 import dev.galka.repository.BudgetRepository;
 import dev.galka.repository.CategoryRepository;
 import dev.galka.service.user.AuthUserProvider;

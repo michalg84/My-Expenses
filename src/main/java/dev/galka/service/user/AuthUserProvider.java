@@ -1,6 +1,6 @@
 package dev.galka.service.user;
 
-import dev.galka.model.User;
+import dev.galka.account.domain.model.User;
 import org.springframework.security.core.Authentication;
 
 public interface AuthUserProvider {

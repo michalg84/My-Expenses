@@ -1,8 +1,9 @@
-package dev.galka.service.account;
+package dev.galka.account.adapters;
 
-import dev.galka.model.Account;
+import dev.galka.account.domain.model.Account;
+import dev.galka.service.account.AccountDto;
 
-final class AccountMapper {
+public final class AccountMapper {
 
     private AccountMapper() {
     }
