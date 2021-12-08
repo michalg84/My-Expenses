@@ -1,4 +1,4 @@
-package dev.galka.account.adapters;
+package dev.galka.account.domain;
 
 import dev.galka.account.adapters.out.AccountRepository;
 import dev.galka.service.user.AuthUserProvider;
@@ -20,12 +20,25 @@ public class AccountConfig {
     MessageService messageService;
 
     @Bean
-    AuthUserProvider getAuthUserProvider() {
+    AccountSavePort accountSavePort() {
+        return new AccountSavePort(accountRepository);
+
+    }
+
+    @Bean
+    AccountFindPort accountfindPort() {
+        return new AccountFindPort(accountRepository);
+
+    }
+
+
+    @Bean
+    AuthUserProvider authUserProvider() {
         return new AuthUserProviderImpl(userRepository);
     }
 
     @Bean
-    AccountApi getAccountApi() {
-        return new AccountApi(new UserCreator(getAuthUserProvider(), accountRepository, messageService));
+    AccountApi accountApi() {
+        return new AccountApi(new UserCreator(authUserProvider(), accountSavePort(), messageService));
     }
 }

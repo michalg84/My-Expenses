@@ -1,5 +1,7 @@
-package dev.galka.account.domain.model;
+package dev.galka.account.adapters.out;
 
+import dev.galka.account.domain.AccountType;
+import dev.galka.account.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +15,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Account {
+public class AccountDbEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
