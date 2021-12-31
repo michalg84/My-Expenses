@@ -10,25 +10,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class AccountConfig {
+class AccountConfig {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    MessageService messageService;
+    private MessageService messageService;
 
     @Bean
     AccountSavePort accountSavePort() {
         return new AccountSavePort(accountRepository);
-
     }
 
     @Bean
     AccountFindPort accountfindPort() {
         return new AccountFindPort(accountRepository);
-
     }
 
 
