@@ -28,6 +28,7 @@ class AccountServiceImpl implements AccountService {
     private AccountTypeRepository accountTypeRepository;
     @Autowired
     private AuthUserProvider authUserProvider;
+    private final AccountMapper mapper = new AccountMapper();
 
     @Override
     public List<AccountDto> getAccounts() {
@@ -35,7 +36,7 @@ class AccountServiceImpl implements AccountService {
             final Integer id = authUserProvider.authenticatedUser().getId();
             return accountRepository.findByUserId(id)
                     .stream()
-                    .map(AccountMapper::map)//TODO change access to default AccountMapper::map
+                    .map(mapper::map)
                     .collect(Collectors.toList());
         } catch (Exception e) {
             log.warn(String.format("No accounts fount for user %s", authUserProvider.authenticatedUser().getUsername()));

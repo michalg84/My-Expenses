@@ -5,10 +5,10 @@ import dev.galka.service.account.AccountDto;
 
 public final class AccountMapper {
 
-    private AccountMapper() {
+    public AccountMapper() {
     }
 
-    public static AccountDbEntity map(AccountDto newAccount) {
+    public AccountDbEntity map(AccountDto newAccount) {
         AccountDbEntity account = new AccountDbEntity();
         account.setAccountNumber(newAccount.getAccountNumber());
         account.setAccountType(newAccount.getAccountType());
@@ -18,7 +18,7 @@ public final class AccountMapper {
         return account;
     }
 
-    public static AccountDto map(AccountDbEntity account) {
+    public AccountDto map(AccountDbEntity account) {
         AccountDto accountDto = new AccountDto();
         accountDto.setId(account.getId());
         accountDto.setName(account.getName());
