@@ -7,14 +7,15 @@ import dev.galka.service.webnotification.MessageService;
 
 import java.util.Date;
 
-final class UserCreator {
+final class AccountCreator {
 
     private final AuthUserProvider authUserProvider;
     private final AccountSavePort accountSavePort;
     private final MessageService messageService;
+    private AccountMapper mapper = new AccountMapper();
 
 
-    UserCreator(AuthUserProvider authUserProvider, AccountSavePort accountSavePort, MessageService messageService) {
+    AccountCreator(AuthUserProvider authUserProvider, AccountSavePort accountSavePort, MessageService messageService) {
         this.authUserProvider = authUserProvider;
         this.accountSavePort = accountSavePort;
         this.messageService = messageService;
@@ -23,7 +24,7 @@ final class UserCreator {
 
     public void create(AccountDto dto) {
         dto.setCreationDate(new Date());
-        AccountDbEntity account = AccountMapper.map(dto);
+        AccountDbEntity account = mapper.map(dto);
         account.setUser(authUserProvider.authenticatedUser());
         try {
             accountSavePort.save(account);

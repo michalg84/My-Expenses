@@ -37,6 +37,8 @@ class AccountConfig {
 
     @Bean
     AccountApi accountApi() {
-        return new AccountApi(new UserCreator(authUserProvider(), accountSavePort(), messageService));
+        final AccountCreator creator = new AccountCreator(authUserProvider(), accountSavePort(), messageService);
+        final AccountProvider provider = new AccountProvider(authUserProvider(), accountfindPort());
+        return new AccountApi(authUserProvider(), creator, provider);
     }
 }

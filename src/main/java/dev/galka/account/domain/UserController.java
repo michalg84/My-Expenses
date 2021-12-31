@@ -38,7 +38,7 @@ class UserController {
         session.setAttribute("username", userDto.getUsername());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("accounts",
-                accountService.getAccounts());
+                accountApi.find());
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
         modelMap.addAttribute("accountTypes", accountService.getAccountTypes());
