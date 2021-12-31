@@ -1,11 +1,13 @@
 package dev.galka.controler;
 
+import dev.galka.account.domain.AccountApi;
 import dev.galka.dto.CategoryDto;
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.service.CategoryService;
 import dev.galka.service.TransactionService;
 import dev.galka.service.account.AccountDto;
+import dev.galka.service.account.AccountIdNameDtoView;
 import dev.galka.service.account.AccountService;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.user.UserDto;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/transaction")
@@ -36,6 +39,8 @@ public class TransactionController {
     @Autowired
     private AccountService accountService;
     @Autowired
+    private AccountApi accountApi;
+    @Autowired
     private AuthUserProvider authUserProvider;
     @Autowired
     private CategoryService categoryService;
@@ -43,14 +48,15 @@ public class TransactionController {
 
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
-        List<AccountDto> accounts = accountService.getAccounts();
+        List<AccountDto> accounts = accountApi.find();
+        final List<AccountIdNameDtoView> accountIdNameDtoViews = accounts.stream().map(dto -> dto.createIdNameDto()).collect(Collectors.toList());
         if (accounts.isEmpty()) {
             messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
         }
         final UserDto userDto = UserMapper.map(authUserProvider.authenticatedUser());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
-        modelMap.addAttribute("accounts", accounts);
+        modelMap.addAttribute("accounts", accountIdNameDtoViews); //todo - check what values are used in FrontEnd -> id and names
         modelMap.addAttribute("categories", categoryService.getCategoriesList());
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
         modelMap.addAttribute("transactionList", transactions);
