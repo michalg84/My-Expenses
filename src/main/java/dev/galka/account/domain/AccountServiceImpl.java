@@ -1,9 +1,9 @@
-package dev.galka.service.account;
+package dev.galka.account.domain;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
-import dev.galka.account.adapters.out.AccountRepository;
-import dev.galka.account.domain.AccountMapper;
-import dev.galka.account.domain.AccountType;
+import dev.galka.account.dto.AccountDto;
+import dev.galka.account.inout.AccountDbEntity;
+import dev.galka.account.inout.AccountRepository;
+import dev.galka.account.inout.AccountService;
 import dev.galka.dto.TransactionDto;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.webnotification.MessageService;

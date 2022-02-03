@@ -2,9 +2,9 @@ package dev.galka.service.user;
 
 import dev.galka.account.domain.Role;
 import dev.galka.account.domain.User;
+import dev.galka.account.inout.AccountService;
 import dev.galka.model.Category;
 import dev.galka.service.CategoryService;
-import dev.galka.service.account.AccountService;
 import dev.galka.service.crypto.PasswordService;
 import dev.galka.service.webnotification.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;

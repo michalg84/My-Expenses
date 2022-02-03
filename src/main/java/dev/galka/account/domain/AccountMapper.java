@@ -1,7 +1,7 @@
 package dev.galka.account.domain;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
-import dev.galka.service.account.AccountDto;
+import dev.galka.account.dto.AccountDto;
+import dev.galka.account.inout.AccountDbEntity;
 
 public final class AccountMapper {
 

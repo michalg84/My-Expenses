@@ -1,7 +1,7 @@
 package dev.galka.service.user;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
 import dev.galka.account.domain.Role;
+import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.model.Category;
 import dev.galka.model.TransactionDbEntity;
 import lombok.AllArgsConstructor;

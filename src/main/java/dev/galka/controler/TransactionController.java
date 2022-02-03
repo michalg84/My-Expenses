@@ -1,14 +1,12 @@
 package dev.galka.controler;
 
 import dev.galka.account.domain.AccountApi;
+import dev.galka.account.inout.AccountService;
 import dev.galka.dto.CategoryDto;
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.service.CategoryService;
 import dev.galka.service.TransactionService;
-import dev.galka.service.account.AccountDto;
-import dev.galka.service.account.AccountIdNameDtoView;
-import dev.galka.service.account.AccountService;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.user.UserDto;
 import dev.galka.service.user.UserMapper;
@@ -22,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/transaction")
@@ -48,19 +45,17 @@ public class TransactionController {
 
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
-        List<AccountDto> accounts = accountApi.find();
-        final List<AccountIdNameDtoView> accountIdNameDtoViews = accounts.stream().map(dto -> dto.createIdNameDto()).collect(Collectors.toList());
-        if (accounts.isEmpty()) {
+        final TransactionDto trn = accountApi.buildTransactionView();
+        if (trn.getAccountsIdAndNameList().isEmpty()) {
             messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
         }
         final UserDto userDto = UserMapper.map(authUserProvider.authenticatedUser());
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
-        modelMap.addAttribute("accounts", accountIdNameDtoViews); //todo - check what values are used in FrontEnd -> id and names
         modelMap.addAttribute("categories", categoryService.getCategoriesList());
         List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
         modelMap.addAttribute("transactionList", transactions);
-        modelMap.addAttribute("transactionDto", new TransactionDto());
+        modelMap.addAttribute("trn", trn);
         modelMap.addAttribute("moveCash", new MoveCashDto());
 
         return new ModelAndView(USER_TRANSACTION_LIST_VIEW, USER_TRANSACTIONS, modelMap);

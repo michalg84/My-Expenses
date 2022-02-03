@@ -69,7 +69,7 @@
             <div class="tab-content" style="margin-top: 5px">
                 <!--Add new transaction-->
                 <div role="tabpanel" class="tab-pane fade in active" id="addTransaction">
-                    <form th:object="${transactionDto}" action="/transaction/add" method="post">
+                    <form th:object="${trn}" action="/transaction/add" method="post">
                         <table class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -91,7 +91,8 @@
                                 </td>
                                 <td class="col-md-2">
                                     <select class="form-control" th:field="*{account}" required="true">
-                                        <option th:each="userAccount : ${accounts}" th:value="${userAccount.id}"
+                                        <option th:each="userAccount : ${trn.accountsIdAndNameList}"
+                                                th:value="${userAccount.id}"
                                                 th:text="${userAccount.name}">
                                             User accounts
                                         </option>
@@ -185,7 +186,8 @@
                                 <td class="col-md-2">
                                     <select class="form-control moveCashSelect" th:field="*{fromAccountId}"
                                             id="fromAccountSelect" required="true">
-                                        <option th:each="userAccount : ${accounts}" th:value="${userAccount.id}"
+                                        <option th:each="userAccount : ${trn.accountsIdAndNameList}"
+                                                th:value="${userAccount.id}"
                                                 th:text="${userAccount.name}">
                                             fromAccountId
                                         </option>
@@ -198,7 +200,8 @@
                                 <td class="col-md-2">
                                     <select class="form-control moveCashSelect" th:field="*{toAccountId}"
                                             id="toAccountSelect" required="true">
-                                        <option th:each="userAccount : ${accounts}" th:value="${userAccount.id}"
+                                        <option th:each="userAccount : ${trn.accountsIdAndNameList}"
+                                                th:value="${userAccount.id}"
                                                 th:text="${userAccount.name}">
                                             toAccountId
                                         </option>

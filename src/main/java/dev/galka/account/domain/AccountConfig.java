@@ -1,6 +1,7 @@
 package dev.galka.account.domain;
 
-import dev.galka.account.adapters.out.AccountRepository;
+import dev.galka.account.inout.AccountFindPort;
+import dev.galka.account.inout.AccountRepository;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.user.AuthUserProviderImpl;
 import dev.galka.service.user.UserRepository;
@@ -39,6 +40,6 @@ class AccountConfig {
     AccountApi accountApi() {
         final AccountCreator creator = new AccountCreator(authUserProvider(), accountSavePort(), messageService);
         final AccountProvider provider = new AccountProvider(authUserProvider(), accountfindPort());
-        return new AccountApi(authUserProvider(), creator, provider);
+        return new AccountApi(creator, provider);
     }
 }

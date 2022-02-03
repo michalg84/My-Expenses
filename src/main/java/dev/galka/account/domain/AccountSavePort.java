@@ -1,7 +1,7 @@
 package dev.galka.account.domain;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
-import dev.galka.account.adapters.out.AccountRepository;
+import dev.galka.account.inout.AccountDbEntity;
+import dev.galka.account.inout.AccountRepository;
 
 final class AccountSavePort {
 

@@ -1,17 +1,21 @@
 package dev.galka.dto;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
+import dev.galka.account.dto.AccountIdNameDtoView;
+import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.model.Category;
 import dev.galka.validators.Currency;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransactionDto {
     private Integer id;
     @Currency(message = "Invalid amount entry. Please insert correct currency value.")
@@ -24,17 +28,18 @@ public class TransactionDto {
     private Date transDate;
     private BigDecimal balance;
     private Category category; //TODO use CategoryDto
+    private List<AccountIdNameDtoView> accountsIdAndNameList;
 
     @Override
     public String toString() {
         return "TransactionDto{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", account=" + account +
-                ", comment='" + comment + '\'' +
-                ", transDate=" + transDate +
-                ", balance=" + balance +
-                ", category=" + category +
-                '}';
+               "id=" + id +
+               ", amount=" + amount +
+               ", account=" + account +
+               ", comment='" + comment + '\'' +
+               ", transDate=" + transDate +
+               ", balance=" + balance +
+               ", category=" + category +
+               '}';
     }
 }

@@ -1,7 +1,8 @@
 package dev.galka.account.domain;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
-import dev.galka.service.account.AccountDto;
+import dev.galka.account.dto.AccountDto;
+import dev.galka.account.inout.AccountDbEntity;
+import dev.galka.account.inout.AccountFindPort;
 import dev.galka.service.user.AuthUserProvider;
 
 import java.util.List;
@@ -19,7 +20,7 @@ final class AccountProvider {
     }
 
 
-    List<AccountDto> find() {
+    List<AccountDto> findAll() {
         final Integer id = authUserProvider.authenticatedUser().getId();
         final List<AccountDbEntity> accountDbEntities = accountFindPort.findByUserId(id);
         return accountDbEntities.stream()

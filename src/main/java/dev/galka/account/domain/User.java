@@ -1,6 +1,6 @@
 package dev.galka.account.domain;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
+import dev.galka.account.inout.AccountDbEntity;
 import lombok.Getter;
 import lombok.Setter;
 
