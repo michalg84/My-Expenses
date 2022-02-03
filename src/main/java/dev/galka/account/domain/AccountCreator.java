@@ -1,7 +1,7 @@
 package dev.galka.account.domain;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
-import dev.galka.service.account.AccountDto;
+import dev.galka.account.dto.AccountDto;
+import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.webnotification.MessageService;
 

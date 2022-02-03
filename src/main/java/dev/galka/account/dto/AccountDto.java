@@ -1,4 +1,4 @@
-package dev.galka.service.account;
+package dev.galka.account.dto;
 
 import dev.galka.account.domain.AccountType;
 import lombok.Getter;

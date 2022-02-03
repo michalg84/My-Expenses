@@ -1,7 +1,7 @@
 package dev.galka.model;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
 import dev.galka.account.domain.User;
+import dev.galka.account.inout.AccountDbEntity;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,9 +1,11 @@
 package dev.galka.account.domain;
 
-import dev.galka.service.account.AccountDto;
-import dev.galka.service.user.AuthUserProvider;
+import dev.galka.account.dto.AccountDto;
+import dev.galka.account.dto.AccountIdNameDtoView;
+import dev.galka.dto.TransactionDto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public final class AccountApi {
 
@@ -11,7 +13,7 @@ public final class AccountApi {
     private final AccountProvider provider;
 
 
-    public AccountApi(AuthUserProvider authUserProvider, AccountCreator creator, AccountProvider provider) {
+    public AccountApi(AccountCreator creator, AccountProvider provider) {
         this.creator = creator;
         this.provider = provider;
     }
@@ -20,10 +22,15 @@ public final class AccountApi {
         creator.create(dto);
     }
 
-    public List<AccountDto> find() {
-        return provider.find();
+    public TransactionDto buildTransactionView() {
+        final List<AccountDto> accounts = provider.findAll();
+        final List<AccountIdNameDtoView> accountIdNameDtoViews = accounts.stream().map(AccountDto::createIdNameDto).collect(Collectors.toList());
+        return TransactionDto.builder()
+                .accountsIdAndNameList(accountIdNameDtoViews)
+                .build();
     }
 
-    ;
-
+    public List<AccountDto> findAllAccounts() {
+        return provider.findAll();
+    }
 }
