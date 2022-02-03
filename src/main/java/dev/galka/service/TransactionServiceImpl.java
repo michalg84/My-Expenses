@@ -1,15 +1,15 @@
 package dev.galka.service;
 
-import dev.galka.account.adapters.out.AccountDbEntity;
-import dev.galka.account.adapters.out.AccountRepository;
 import dev.galka.account.domain.User;
+import dev.galka.account.inout.AccountDbEntity;
+import dev.galka.account.inout.AccountRepository;
+import dev.galka.account.inout.AccountService;
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.model.Category;
 import dev.galka.model.TransactionDbEntity;
 import dev.galka.repository.CategoryRepository;
 import dev.galka.repository.TransactionRepository;
-import dev.galka.service.account.AccountService;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.user.UserDto;
 import dev.galka.service.webnotification.MessageService;

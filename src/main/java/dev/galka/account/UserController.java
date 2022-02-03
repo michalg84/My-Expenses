@@ -1,7 +1,8 @@
-package dev.galka.account.domain;
+package dev.galka.account;
 
-import dev.galka.service.account.AccountDto;
-import dev.galka.service.account.AccountService;
+import dev.galka.account.domain.AccountApi;
+import dev.galka.account.dto.AccountDto;
+import dev.galka.account.inout.AccountService;
 import dev.galka.service.user.UserDto;
 import dev.galka.service.user.UserService;
 import dev.galka.service.user.url.HttpActions;
@@ -37,8 +38,7 @@ class UserController {
         UserDto userDto = userService.getCurrentUserDto();
         session.setAttribute("username", userDto.getUsername());
         modelMap.addAttribute("userDto", userDto);
-        modelMap.addAttribute("accounts",
-                accountApi.find());
+        modelMap.addAttribute("accounts", accountApi.findAllAccounts());
         modelMap.addAttribute("sum", userService.getTotalBalance());
         modelMap.addAttribute("newAccount", new AccountDto());
         modelMap.addAttribute("accountTypes", accountService.getAccountTypes());
