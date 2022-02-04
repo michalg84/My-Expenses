@@ -56,7 +56,7 @@ public class TransactionServiceImpl implements TransactionService {
     private TransactionDetailsDto convertToDto(TransactionDbEntity t) {
         return TransactionDetailsDto.builder()
                 .category(t.getCategory())
-                .account(t.getAccount())
+                .accountName(t.getAccount().getName())
                 .amount(t.getAmount())
                 .transDate(t.getTransDate())
                 .comment(t.getComment())

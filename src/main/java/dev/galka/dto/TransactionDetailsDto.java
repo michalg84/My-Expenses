@@ -1,6 +1,5 @@
 package dev.galka.dto;
 
-import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.model.Category;
 import dev.galka.validators.Currency;
 import lombok.Builder;
@@ -17,8 +16,7 @@ public class TransactionDetailsDto {
     private Integer id;
     @Currency(message = "Invalid amount entry. Please insert correct currency value.")
     private BigDecimal amount;
-    private AccountDbEntity account; //TODO use Account DTO or ID
-    //TODO use separate Dto for each operaton SaveTransDto, ShowtransDto, etc...
+    private String accountName;
     @Valid
     private String comment;
     @Valid
@@ -32,7 +30,7 @@ public class TransactionDetailsDto {
         return "TransactionDto{" +
                "id=" + id +
                ", amount=" + amount +
-               ", account=" + account +
+               ", account=" + accountName +
                ", comment='" + comment + '\'' +
                ", transDate=" + transDate +
                ", balance=" + balance +
