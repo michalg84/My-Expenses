@@ -1,11 +1,11 @@
 package dev.galka.controler;
 
 import dev.galka.account.domain.AccountApi;
-import dev.galka.account.inout.AccountService;
 import dev.galka.dto.CategoryDto;
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.service.CategoryService;
+import dev.galka.service.TransactionApi;
 import dev.galka.service.TransactionService;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.user.UserDto;
@@ -32,9 +32,9 @@ public class TransactionController {
     @Autowired
     private MessageService messageService;
     @Autowired
-    private TransactionService transactionService;
+    private TransactionService transactionService;//todo replace with TransactionsApi
     @Autowired
-    private AccountService accountService;
+    private TransactionApi transactionApi;
     @Autowired
     private AccountApi accountApi;
     @Autowired
@@ -45,7 +45,7 @@ public class TransactionController {
 
     @GetMapping("list")
     public ModelAndView transactionList(ModelMap modelMap) {
-        final TransactionDto trn = accountApi.buildTransactionView();
+        final TransactionDto trn = transactionApi.getTransactionView();
         if (trn.getAccountsIdAndNameList().isEmpty()) {
             messageService.addWarnMessage(CREATE_ACCOUNT_FIRST);
         }
@@ -53,7 +53,7 @@ public class TransactionController {
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
         modelMap.addAttribute("categories", categoryService.getCategoriesList());
-        List<TransactionDto> transactions = transactionService.getTransactionsWithBalance();
+        List<TransactionDto> transactions = transactionApi.getTransactions();
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("trn", trn);
         modelMap.addAttribute("moveCash", new MoveCashDto());

@@ -9,10 +9,6 @@ public class CategoryDto {
     @Size(min = 1, max = 25, message = "Category name has to be 3-25 signs")
     private String name;
 
-    public CategoryDto(String name) {
-        this.name = name;
-    }
-
     public CategoryDto() {
     }
 

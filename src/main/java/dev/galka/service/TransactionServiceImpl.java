@@ -1,9 +1,9 @@
 package dev.galka.service;
 
+import dev.galka.account.domain.AccountApi;
 import dev.galka.account.domain.User;
 import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.account.inout.AccountRepository;
-import dev.galka.account.inout.AccountService;
 import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.model.Category;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
-    private final AccountService accountService;
+    private final AccountApi accountApi;
     private final AuthUserProvider authUserProvider;
     private final MessageService messageService;
     private final CategoryRepository categoryRepository;
@@ -45,7 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     public List<BigDecimal> getTransactionsBalanceList(UserDto userDto) {
-        BigDecimal sum = accountService.getTotalBalance();
+        BigDecimal sum = accountApi.getTotalBalance();
         return userDto.getTransactionList()
                 .stream()
                 .map(t -> t.getAmount().add(sum))
@@ -72,7 +72,7 @@ public class TransactionServiceImpl implements TransactionService {
             TransactionDto transactionDto = convertToDto(t);
             transactionsDto.add(transactionDto);
         }
-        BigDecimal accountsBalance = accountService.getTotalBalance();
+        BigDecimal accountsBalance = accountApi.getTotalBalance();
 //        TODO review if needed //List<BigDecimal> balanceList = getBalanceList(transactions);
 
         for (int i = 0; i < transactionsDto.size(); i++) {
@@ -90,14 +90,14 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private List<BigDecimal> getBalanceList(List<TransactionDbEntity> transactions) {
-        BigDecimal sum = accountService.getTotalBalance();
+        BigDecimal sum = accountApi.getTotalBalance();
         return transactions.stream()
                 .map(t -> t.getAmount().add(sum))
                 .collect(Collectors.toList());
     }
 
     public void addTransaction(TransactionDto transactionDto) {
-        final BigDecimal balanceBefore = accountService.getTotalBalance();
+        final BigDecimal balanceBefore = accountApi.getTotalBalance();
 
         final BigDecimal amount = transactionDto.getAmount();
         final BigDecimal total = balanceBefore.add(amount);
@@ -107,7 +107,7 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (Exception e) {
             messageService.addErrorMessage(String.format("Error saving transaction '%s' to database", transactionDto));
         }
-        accountService.updateAccountBalance(transactionDto);
+        accountApi.updateAccountBalance(transactionDto);
         messageService.addSuccessMessage("Transaction added !");
 
     }
@@ -158,8 +158,8 @@ public class TransactionServiceImpl implements TransactionService {
         out.setUser(user);
         out.setTransDate(moveCashDto.getDate());
         out.setComment(fromAccount.getName()
-                + " -> " + toAccount.getName()
-                + " (" + moveCashDto.getComment() + ")");
+                       + " -> " + toAccount.getName()
+                       + " (" + moveCashDto.getComment() + ")");
         out.setCategory(category);
         transactionRepository.save(out);
         fromAccount.setBalance(fromAccount.getBalance().add(out.getAmount()));
@@ -171,8 +171,8 @@ public class TransactionServiceImpl implements TransactionService {
         in.setUser(user);
         in.setTransDate(moveCashDto.getDate());
         in.setComment(toAccount.getName()
-                + " -> " + fromAccount.getName()
-                + " (" + moveCashDto.getComment() + ")");
+                      + " -> " + fromAccount.getName()
+                      + " (" + moveCashDto.getComment() + ")");
         in.setCategory(category);
         transactionRepository.save(in);
         toAccount.setBalance(toAccount.getBalance().add(in.getAmount()));
@@ -180,9 +180,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 
         messageService.addSuccessMessage(moveCashDto.getAmount()
-                + " PLN moved between accounts "
-                + fromAccount.getName() + " -> "
-                + toAccount.getName());
+                                         + " PLN moved between accounts "
+                                         + fromAccount.getName() + " -> "
+                                         + toAccount.getName());
 
     }
 }

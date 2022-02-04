@@ -5,6 +5,7 @@ import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.account.inout.AccountFindPort;
 import dev.galka.service.user.AuthUserProvider;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,4 +28,11 @@ final class AccountProvider {
                 .map(mapper::map)
                 .collect(Collectors.toList());
     }
+
+    public BigDecimal getTotalBalance() {
+        final User user = authUserProvider.authenticatedUser();
+        return accountFindPort.getTotalBalance(user);
+    }
 }
+
+

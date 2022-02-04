@@ -1,10 +1,8 @@
 package dev.galka.account.domain;
 
 import dev.galka.account.dto.AccountDto;
-import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.account.inout.AccountRepository;
 import dev.galka.account.inout.AccountService;
-import dev.galka.dto.TransactionDto;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.webnotification.MessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,11 +42,6 @@ class AccountServiceImpl implements AccountService {
         return Collections.emptyList();
     }
 
-    public void updateAccountBalance(TransactionDto transactionDto) {
-        AccountDbEntity account = accountRepository.getById(transactionDto.getAccount().getId());
-        account.setBalance(account.getBalance().add(transactionDto.getAmount()));
-        accountRepository.save(account);
-    }
 
     @Override
     public BigDecimal getTotalBalance() {

@@ -3,8 +3,6 @@ package dev.galka.account.domain;
 import dev.galka.account.inout.AccountFindPort;
 import dev.galka.account.inout.AccountRepository;
 import dev.galka.service.user.AuthUserProvider;
-import dev.galka.service.user.AuthUserProviderImpl;
-import dev.galka.service.user.UserRepository;
 import dev.galka.service.webnotification.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +14,10 @@ class AccountConfig {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
-    private UserRepository userRepository;
-    @Autowired
     private MessageService messageService;
+    @Autowired
+    private AuthUserProvider authUserProvider;
+
 
     @Bean
     AccountSavePort accountSavePort() {
@@ -26,20 +25,19 @@ class AccountConfig {
     }
 
     @Bean
-    AccountFindPort accountfindPort() {
+    AccountFindPort accountFindPort() {
         return new AccountFindPort(accountRepository);
     }
 
 
     @Bean
-    AuthUserProvider authUserProvider() {
-        return new AuthUserProviderImpl(userRepository);
-    }
-
-    @Bean
     AccountApi accountApi() {
-        final AccountCreator creator = new AccountCreator(authUserProvider(), accountSavePort(), messageService);
-        final AccountProvider provider = new AccountProvider(authUserProvider(), accountfindPort());
-        return new AccountApi(creator, provider);
+        final AccountCreator creator = new AccountCreator(authUserProvider, accountSavePort(), messageService);
+        final AccountProvider provider = new AccountProvider(authUserProvider, accountFindPort());
+        final AccountUpdater updater = new AccountUpdater(authUserProvider,
+                accountSavePort(),
+                accountFindPort(),
+                messageService);
+        return new AccountApi(creator, provider, updater);
     }
 }
