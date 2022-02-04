@@ -3,6 +3,7 @@ package dev.galka.controler;
 import dev.galka.account.domain.AccountApi;
 import dev.galka.dto.CategoryDto;
 import dev.galka.dto.MoveCashDto;
+import dev.galka.dto.TransactionDetailsDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.service.CategoryService;
 import dev.galka.service.TransactionApi;
@@ -53,7 +54,7 @@ public class TransactionController {
         modelMap.addAttribute("userDto", userDto);
         modelMap.addAttribute("newCategory", new CategoryDto());
         modelMap.addAttribute("categories", categoryService.getCategoriesList());
-        List<TransactionDto> transactions = transactionApi.getTransactions();
+        List<TransactionDetailsDto> transactions = transactionApi.getTransactions();
         modelMap.addAttribute("transactionList", transactions);
         modelMap.addAttribute("trn", trn);
         modelMap.addAttribute("moveCash", new MoveCashDto());

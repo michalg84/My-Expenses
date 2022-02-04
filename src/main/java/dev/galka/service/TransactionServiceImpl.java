@@ -5,6 +5,7 @@ import dev.galka.account.domain.User;
 import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.account.inout.AccountRepository;
 import dev.galka.dto.MoveCashDto;
+import dev.galka.dto.TransactionDetailsDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.model.Category;
 import dev.galka.model.TransactionDbEntity;
@@ -52,41 +53,42 @@ public class TransactionServiceImpl implements TransactionService {
                 .collect(Collectors.toList());
     }
 
-    private TransactionDto convertToDto(TransactionDbEntity t) {
-        TransactionDto transactionDto = new TransactionDto();
-        transactionDto.setAmount(t.getAmount());
-        transactionDto.setAccount(t.getAccount());
-        transactionDto.setId(t.getId());
-        transactionDto.setComment(t.getComment());
-        transactionDto.setTransDate(t.getTransDate());
-        transactionDto.setCategory(t.getCategory());
-        return transactionDto;
+    private TransactionDetailsDto convertToDto(TransactionDbEntity t) {
+        return TransactionDetailsDto.builder()
+                .category(t.getCategory())
+                .account(t.getAccount())
+                .amount(t.getAmount())
+                .transDate(t.getTransDate())
+                .comment(t.getComment())
+                .id(t.getId())
+                .build();
+
 
     }
 
-    public List<TransactionDto> getTransactionsWithBalance() {
+    public List<TransactionDetailsDto> getTransactionsWithBalance() {
         List<TransactionDbEntity> transactions = getAllTransactions();
-        List<TransactionDto> transactionsDto = new ArrayList<>();
+        List<TransactionDetailsDto> trnDtosList = new ArrayList<>();
         transactions.sort((t1, t2) -> t2.getTransDate().compareTo(t1.getTransDate()));
-        for (TransactionDbEntity t : transactions) {
-            TransactionDto transactionDto = convertToDto(t);
-            transactionsDto.add(transactionDto);
+        for (TransactionDbEntity entity : transactions) {
+            TransactionDetailsDto transactionDto = convertToDto(entity);
+            trnDtosList.add(transactionDto);
         }
         BigDecimal accountsBalance = accountApi.getTotalBalance();
 //        TODO review if needed //List<BigDecimal> balanceList = getBalanceList(transactions);
 
-        for (int i = 0; i < transactionsDto.size(); i++) {
+        for (int i = 0; i < trnDtosList.size(); i++) {
             BigDecimal balance;
             if (i == 0) {
                 balance = accountsBalance;
             } else {
-                balance = transactionsDto.get(i - 1).getBalance()
-                        .subtract(transactionsDto.get(i - 1).getAmount());
+                balance = trnDtosList.get(i - 1).getBalance()
+                        .subtract(trnDtosList.get(i - 1).getAmount());
             }
-            transactionsDto.get(i).setBalance(balance);
+            trnDtosList.get(i).setBalance(balance);
         }
 
-        return transactionsDto;
+        return trnDtosList;
     }
 
     private List<BigDecimal> getBalanceList(List<TransactionDbEntity> transactions) {

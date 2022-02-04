@@ -2,6 +2,7 @@ package dev.galka.service;
 
 import dev.galka.account.domain.AccountApi;
 import dev.galka.account.dto.AccountIdNameDtoView;
+import dev.galka.dto.TransactionDetailsDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.service.user.AuthUserProvider;
 
@@ -28,7 +29,7 @@ public final class TransactionApi {
                 .build();
     }
 
-    public List<TransactionDto> getTransactions() {
+    public List<TransactionDetailsDto> getTransactions() {
         return transactionService.getTransactionsWithBalance();
     }
 }
