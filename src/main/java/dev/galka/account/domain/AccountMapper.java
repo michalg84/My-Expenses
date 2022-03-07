@@ -2,13 +2,15 @@ package dev.galka.account.domain;
 
 import dev.galka.account.dto.AccountDto;
 import dev.galka.account.inout.AccountDbEntity;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-public final class AccountMapper {
+@Mapper
+public interface AccountMapper {
 
-    public AccountMapper() {
-    }
+    AccountMapper INSTANCE = Mappers.getMapper(AccountMapper.class);
 
-    public AccountDbEntity map(AccountDto newAccount) {
+    AccountDbEntity map(AccountDto newAccount); /*{
         AccountDbEntity account = new AccountDbEntity();
         account.setAccountNumber(newAccount.getAccountNumber());
         account.setAccountType(newAccount.getAccountType());
@@ -16,9 +18,9 @@ public final class AccountMapper {
         account.setCreationDate(newAccount.getCreationDate());
         account.setName(newAccount.getName());
         return account;
-    }
+    }*/
 
-    public AccountDto map(AccountDbEntity account) {
+    AccountDto map(AccountDbEntity account);/* {
         AccountDto accountDto = new AccountDto();
         accountDto.setId(account.getId());
         accountDto.setName(account.getName());
@@ -27,5 +29,5 @@ public final class AccountMapper {
         accountDto.setBalance(account.getBalance());
         accountDto.setCreationDate(account.getCreationDate());
         return accountDto;
-    }
+    }*/
 }

@@ -26,7 +26,7 @@ class AccountServiceImpl implements AccountService {
     private AccountTypeRepository accountTypeRepository;
     @Autowired
     private AuthUserProvider authUserProvider;
-    private final AccountMapper mapper = new AccountMapper();
+    private final AccountMapper mapper = AccountMapper.INSTANCE;
 
     @Override
     public List<AccountDto> getAccounts() {

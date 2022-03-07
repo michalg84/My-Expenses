@@ -13,7 +13,7 @@ final class AccountProvider {
 
     private final AuthUserProvider authUserProvider;
     private final AccountFindPort accountFindPort;
-    private final AccountMapper mapper = new AccountMapper();
+    private final AccountMapper mapper = AccountMapper.INSTANCE;
 
     AccountProvider(AuthUserProvider authUserProvider, AccountFindPort accountFindPort) {
         this.authUserProvider = authUserProvider;

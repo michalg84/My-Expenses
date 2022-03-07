@@ -12,7 +12,7 @@ public class AccountUpdater {
     private final AccountSavePort accountSavePort;
     private final AccountFindPort accountFindPort;
     private final MessageService messageService;
-    private AccountMapper mapper = new AccountMapper();
+    private AccountMapper mapper = AccountMapper.INSTANCE;
 
 
     AccountUpdater(AuthUserProvider authUserProvider,
