@@ -10,7 +10,7 @@ server:
 spring:
   datasource:
     initialization-mode: never
-    url: jdbc:h2:file:~/my_expenses
+    url: jdbc:h2:file:~/my_expenses;AUTO_SERVER=TRUE
     username: sa
     password: ''
     driverClassName: org.h2.Driver

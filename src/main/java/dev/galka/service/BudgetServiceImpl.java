@@ -5,6 +5,7 @@ import dev.galka.dto.BudgetDto;
 import dev.galka.dto.MonthBudgetDto;
 import dev.galka.model.Budget;
 import dev.galka.model.Category;
+import dev.galka.model.CategoryMapper;
 import dev.galka.repository.BudgetRepository;
 import dev.galka.repository.CategoryRepository;
 import dev.galka.service.user.AuthUserProvider;
@@ -20,11 +21,11 @@ import java.util.List;
 public class BudgetServiceImpl implements BudgetService {
 
     private final BudgetMapper budgetMapper = new BudgetMapper();
-    private final CategoryMapper categoryMapper = new CategoryMapper();
     private final BudgetRepository budgetRepository;
     private final AuthUserProvider authUserProvider;
     private final CategoryRepository categoryRepository;
     private final MessageService messageService;
+    private CategoryMapper categoryMapper;
 
 
     public List<BudgetDto> getBudgetDtoList(Integer year, Integer month) {
@@ -38,7 +39,12 @@ public class BudgetServiceImpl implements BudgetService {
         for (Budget b : budgetList) {
 
             final BudgetDto budgetDto = budgetMapper.convertBudgetToBudgetDto(b);
-            budgetDto.setCategoryDto(categoryMapper.convertToDto(b.getCategory()));
+            //        CategoryDto categoryDto = new CategoryDto();
+//        categoryDto.setId(category.getId());
+//        categoryDto.setName(category.getName());
+//        return categoryDto;
+            categoryMapper = CategoryMapper.INSTANCE;
+            budgetDto.setCategoryDto(categoryMapper.map(b.getCategory()));
 
             budgetDtoList.add(budgetDto);
         }
@@ -52,7 +58,11 @@ public class BudgetServiceImpl implements BudgetService {
         List<BudgetDto> budgetDtoList = new ArrayList<>();
         for (Category c : categories) {
             BudgetDto budgetDto = new BudgetDto();
-            budgetDto.setCategoryDto(categoryMapper.convertToDto(c));
+            //        CategoryDto categoryDto = new CategoryDto();
+//        categoryDto.setId(category.getId());
+//        categoryDto.setName(category.getName());
+//        return categoryDto;
+            budgetDto.setCategoryDto(categoryMapper.map(c));
             budgetDtoList.add(budgetDto);
         }
         return budgetDtoList;
@@ -73,7 +83,7 @@ public class BudgetServiceImpl implements BudgetService {
     }
 
     private Budget convertToModel(BudgetDto budgetDto) {
-        Category category = categoryMapper.convertToModel(budgetDto.getCategoryDto());
+        Category category = categoryMapper.map(budgetDto.getCategoryDto());
         category.setUser(authUserProvider.authenticatedUser());
         Budget budget = budgetMapper.convertBudgetDtoToBudget(budgetDto);
         budget.setCategory(category);

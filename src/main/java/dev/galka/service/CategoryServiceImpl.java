@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryMapper categoryMapper = new CategoryMapper();
     private final MessageService messageService;
     private final AuthUserProvider authUserProvider;
     private final CategoryRepository categoryRepository;
@@ -67,18 +66,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .filter(category -> !category.getName().equals("MOVE BETWEEN ACCOUNTS"))
                 .collect(Collectors.toList());
         return this.sort(list);
-    }
-
-    @Override
-    public CategoryDto convertToDto(Category category) {
-        return categoryMapper.convertToDto(category);
-    }
-
-    @Override
-    public Category convertToModel(CategoryDto categoryDto) {
-        final Category category = categoryMapper.convertToModel(categoryDto);
-        category.setUser(authUserProvider.authenticatedUser());
-        return category;
     }
 
     @Override

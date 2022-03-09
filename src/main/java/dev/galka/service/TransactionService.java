@@ -1,6 +1,7 @@
 package dev.galka.service;
 
 import dev.galka.dto.MoveCashDto;
+import dev.galka.dto.TransactionDetailsDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.model.TransactionDbEntity;
 import dev.galka.service.user.UserDto;
@@ -13,7 +14,7 @@ public interface TransactionService {
 
     List<BigDecimal> getTransactionsBalanceList(UserDto userDto);
 
-    List<TransactionDto> getTransactionsWithBalance();
+    List<TransactionDetailsDto> getTransactionsWithBalance();
 
     void addTransaction(TransactionDto transactionDto);
 

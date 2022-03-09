@@ -12,7 +12,7 @@ final class AccountCreator {
     private final AuthUserProvider authUserProvider;
     private final AccountSavePort accountSavePort;
     private final MessageService messageService;
-    private AccountMapper mapper = new AccountMapper();
+    private AccountMapper mapper = AccountMapper.INSTANCE;
 
 
     AccountCreator(AuthUserProvider authUserProvider, AccountSavePort accountSavePort, MessageService messageService) {
