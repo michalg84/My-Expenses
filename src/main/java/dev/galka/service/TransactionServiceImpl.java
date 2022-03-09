@@ -8,6 +8,7 @@ import dev.galka.dto.MoveCashDto;
 import dev.galka.dto.TransactionDetailsDto;
 import dev.galka.dto.TransactionDto;
 import dev.galka.model.Category;
+import dev.galka.model.CategoryMapper;
 import dev.galka.model.TransactionDbEntity;
 import dev.galka.repository.CategoryRepository;
 import dev.galka.repository.TransactionRepository;
@@ -34,6 +35,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final AuthUserProvider authUserProvider;
     private final MessageService messageService;
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
     public BigDecimal getTransactionSum(List<TransactionDbEntity> transactionList) {
         Iterator<TransactionDbEntity> iter = transactionList.iterator();
@@ -55,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     private TransactionDetailsDto convertToDto(TransactionDbEntity t) {
         return TransactionDetailsDto.builder()
-                .category(t.getCategory())
+                .category(categoryMapper.map(t.getCategory()))
                 .accountName(t.getAccount().getName())
                 .amount(t.getAmount())
                 .transDate(t.getTransDate())

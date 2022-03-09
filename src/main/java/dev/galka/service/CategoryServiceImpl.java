@@ -3,6 +3,7 @@ package dev.galka.service;
 import dev.galka.account.domain.User;
 import dev.galka.dto.CategoryDto;
 import dev.galka.model.Category;
+import dev.galka.model.CategoryMapper;
 import dev.galka.repository.CategoryRepository;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.webnotification.MessageService;
@@ -17,10 +18,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryMapper categoryMapper = new CategoryMapper();
     private final MessageService messageService;
     private final AuthUserProvider authUserProvider;
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
     public void add(CategoryDto categoryDto) {
         User user = authUserProvider.authenticatedUser();
@@ -67,18 +68,6 @@ public class CategoryServiceImpl implements CategoryService {
                 .filter(category -> !category.getName().equals("MOVE BETWEEN ACCOUNTS"))
                 .collect(Collectors.toList());
         return this.sort(list);
-    }
-
-    @Override
-    public CategoryDto convertToDto(Category category) {
-        return categoryMapper.convertToDto(category);
-    }
-
-    @Override
-    public Category convertToModel(CategoryDto categoryDto) {
-        final Category category = categoryMapper.convertToModel(categoryDto);
-        category.setUser(authUserProvider.authenticatedUser());
-        return category;
     }
 
     @Override

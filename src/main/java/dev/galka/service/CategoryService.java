@@ -14,9 +14,5 @@ public interface CategoryService {
 
     List<Category> getCategoriesList();
 
-    CategoryDto convertToDto(Category category);
-
-    Category convertToModel(CategoryDto categoryDto);
-
     void save(List<Category> categories);
 }

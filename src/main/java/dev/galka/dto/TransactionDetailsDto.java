@@ -1,6 +1,5 @@
 package dev.galka.dto;
 
-import dev.galka.model.Category;
 import dev.galka.validators.Currency;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +22,7 @@ public class TransactionDetailsDto {
     private Date transDate;
     @Setter
     private BigDecimal balance;
-    private Category category; //TODO use CategoryDto
+    private CategoryDto category; //TODO use CategoryDto
 
     @Override
     public String toString() {
