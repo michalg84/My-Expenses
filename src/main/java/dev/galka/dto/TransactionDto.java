@@ -2,7 +2,6 @@ package dev.galka.dto;
 
 import dev.galka.account.dto.AccountIdNameDtoView;
 import dev.galka.account.inout.AccountDbEntity;
-import dev.galka.model.Category;
 import dev.galka.validators.Currency;
 import lombok.*;
 
@@ -27,7 +26,7 @@ public class TransactionDto {
     @Valid
     private Date transDate;
     private BigDecimal balance;
-    private Category category; //TODO use CategoryDto
+    private CategoryDto category;
     private List<AccountIdNameDtoView> accountsIdAndNameList;
 
     @Override

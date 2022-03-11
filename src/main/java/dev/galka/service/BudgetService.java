@@ -9,8 +9,6 @@ public interface BudgetService {
 
     List<BudgetDto> getBudgetDtoList(Integer year, Integer month);
 
-    List<BudgetDto> getNewBudgetDtos();
-
     void add(MonthBudgetDto monthBudgetDto);
 
 }

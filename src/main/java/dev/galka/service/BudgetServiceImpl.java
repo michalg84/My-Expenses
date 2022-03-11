@@ -2,6 +2,7 @@ package dev.galka.service;
 
 import dev.galka.account.domain.User;
 import dev.galka.dto.BudgetDto;
+import dev.galka.dto.CategoryDto;
 import dev.galka.dto.MonthBudgetDto;
 import dev.galka.model.Budget;
 import dev.galka.model.Category;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +28,7 @@ public class BudgetServiceImpl implements BudgetService {
     private final AuthUserProvider authUserProvider;
     private final CategoryRepository categoryRepository;
     private final MessageService messageService;
-    private CategoryMapper categoryMapper;
+    private final CategoryMapper categoryMapper = CategoryMapper.INSTANCE;
 
 
     public List<BudgetDto> getBudgetDtoList(Integer year, Integer month) {
@@ -33,17 +36,12 @@ public class BudgetServiceImpl implements BudgetService {
         User user = authUserProvider.authenticatedUser();
         List<Budget> budgetList = budgetRepository.findAllBy(user, year, month);
         if (budgetList.isEmpty()) {
-            return this.getNewBudgetDtos();
+            return this.createBudgetsForAllCategories(fetchUserCategories());
         }
         List<BudgetDto> budgetDtoList = new ArrayList<>();
         for (Budget b : budgetList) {
 
             final BudgetDto budgetDto = budgetMapper.convertBudgetToBudgetDto(b);
-            //        CategoryDto categoryDto = new CategoryDto();
-//        categoryDto.setId(category.getId());
-//        categoryDto.setName(category.getName());
-//        return categoryDto;
-            categoryMapper = CategoryMapper.INSTANCE;
             budgetDto.setCategoryDto(categoryMapper.map(b.getCategory()));
 
             budgetDtoList.add(budgetDto);
@@ -52,20 +50,26 @@ public class BudgetServiceImpl implements BudgetService {
         return budgetDtoList;
     }
 
+    private List<CategoryDto> fetchUserCategories() {
+        final List<Category> categories = categoryRepository.findByUser(authUserProvider.authenticatedUser());
+        return categories
+                .stream()
+                .map(categoryMapper::map)
+                .collect(Collectors.toList());
+    }
 
-    public List<BudgetDto> getNewBudgetDtos() {
-        List<Category> categories = categoryRepository.findByUser(authUserProvider.authenticatedUser());
-        List<BudgetDto> budgetDtoList = new ArrayList<>();
-        for (Category c : categories) {
+    private List<BudgetDto> createBudgetsForAllCategories(List<CategoryDto> categories) {
+        return categories.stream()
+                .map(createBudgetFor())
+                .collect(Collectors.toList());
+    }
+
+    private Function<CategoryDto, BudgetDto> createBudgetFor() {
+        return c -> {
             BudgetDto budgetDto = new BudgetDto();
-            //        CategoryDto categoryDto = new CategoryDto();
-//        categoryDto.setId(category.getId());
-//        categoryDto.setName(category.getName());
-//        return categoryDto;
-            budgetDto.setCategoryDto(categoryMapper.map(c));
-            budgetDtoList.add(budgetDto);
-        }
-        return budgetDtoList;
+            budgetDto.setCategoryDto(c);
+            return budgetDto;
+        };
     }
 
     public void add(MonthBudgetDto monthBudgetDto) {

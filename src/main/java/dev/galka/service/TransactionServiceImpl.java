@@ -127,7 +127,7 @@ public class TransactionServiceImpl implements TransactionService {
         transaction.setUser(authUserProvider.authenticatedUser());
 
 //        transaction.setBalance(transactionDto.getBalance());
-        transaction.setCategory(transactionDto.getCategory());
+        transaction.setCategory(categoryMapper.map(transactionDto.getCategory()));
         return transaction;
     }
 

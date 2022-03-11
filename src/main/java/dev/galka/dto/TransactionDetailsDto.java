@@ -22,7 +22,7 @@ public class TransactionDetailsDto {
     private Date transDate;
     @Setter
     private BigDecimal balance;
-    private CategoryDto category; //TODO use CategoryDto
+    private CategoryDto category;
 
     @Override
     public String toString() {
