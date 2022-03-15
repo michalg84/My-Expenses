@@ -30,7 +30,7 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     generate-ddl: true
     hibernate:
-#      ddl-auto: update
+      ddl-auto: update
     show-sql: false
   thymeleaf:
     cache: false

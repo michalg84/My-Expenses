@@ -5,8 +5,6 @@ import dev.galka.account.inout.AccountDbEntity;
 import dev.galka.service.user.AuthUserProvider;
 import dev.galka.service.webnotification.MessageService;
 
-import java.util.Date;
-
 final class AccountCreator {
 
     private final AuthUserProvider authUserProvider;
@@ -23,7 +21,7 @@ final class AccountCreator {
 
 
     public void create(AccountDto dto) {
-        dto.setCreationDate(new Date());
+
         AccountDbEntity account = mapper.map(dto);
         account.setUser(authUserProvider.authenticatedUser());
         try {

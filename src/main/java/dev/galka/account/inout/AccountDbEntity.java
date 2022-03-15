@@ -26,7 +26,7 @@ public class AccountDbEntity {
     @Column
     private String name;
     @Column
-    private Integer accountNumber;
+    private String accountNumber;
     @ManyToOne
     @JoinColumn(name = "account_type")
     private AccountType accountType;
